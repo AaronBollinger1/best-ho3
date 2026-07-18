@@ -1,0 +1,10 @@
+{
+  "name": "BestHO3 — California Homeowners Insurance",
+  "short_name": "BestHO3",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "theme_color": "#07110c",
+  "background_color": "#07110c",
+  "display": "standalone"
+}

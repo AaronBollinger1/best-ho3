@@ -1,0 +1,42 @@
+# BestHO3 — California Homeowners (HO-3) Insurance
+
+> BestHO3.com is an independent-broker homeowners insurance resource operated by WJB Services, Inc. dba Bollinsure Insurance Services (California Department of Insurance License #6013787), licensed in all 50 states. It provides a comprehensive guide to homeowners insurance with a California focus, and a fast HO-3 pricing indication that a licensed broker turns into bindable coverage.
+
+## What this site is
+- A comprehensive, plain-English guide to homeowners insurance, written for California homeowners but generally applicable nationwide.
+- A pricing-indication wizard that produces a preliminary annual premium range and, when the applicant is ready, generates and e-signs a completed ACORD 80 Homeowner Application for broker submission.
+- An independent brokerage: we shop admitted carriers, the California FAIR Plan, and surplus-lines (E&S) markets — we do not work for one carrier.
+
+## Policy forms covered
+- HO-3 (special form) — the standard owner-occupied homeowners policy; open-perils on the dwelling, named-perils on contents. This site's primary focus.
+- HO-5 (comprehensive form) — broader open-perils coverage on both dwelling and contents; higher cost, better value for higher-value or well-maintained homes. See https://www.bestho5.com.
+- DP-3 (dwelling fire, special form) — for landlords and non-owner-occupied / investment properties. See /landlord-dp3.
+
+## Key pages
+- / — homepage + HO-3 pricing indication wizard
+- /california-homeowners-insurance — the comprehensive guide
+- /ho3-vs-ho5 — HO-3 vs HO-5 comparison
+- /landlord-dp3 — landlords & investment property (DP-3)
+- /cost — what drives a California homeowners premium
+- /coverage — what an HO-3 policy covers (Coverages A–F)
+- /california-fair-plan — the FAIR Plan and wildfire-risk market of last resort
+- /carriers — carrier and market access
+- /faq — common questions, answered by a licensed broker
+- /glossary — 60 homeowners insurance terms in plain English
+
+## Guide library (63 pages, all linked from /)
+- Coverage deep dives: /coverage-a-dwelling, /coverage-b-other-structures, /coverage-c-personal-property, /coverage-d-loss-of-use, /personal-liability-coverage-e, /medical-payments-coverage-f
+- Concepts: /deductibles, /replacement-cost-vs-actual-cash-value, /extended-replacement-cost, /what-is-an-ho3-policy, /open-perils-vs-named-perils, /scheduled-personal-property, /umbrella-insurance, /ho3-vs-ho6-condo, /ho3-vs-dp3
+- Wildfire & the CA market: /california-wildfire-insurance, /safer-from-wildfires-discounts, /fair-plan-plus-dic, /california-insurance-crisis, /wildfire-mitigation-checklist, /california-home-hardening
+- Excluded perils: /earthquake-insurance-california, /flood-insurance-california
+- Underwriting factors: /roof-types-and-insurance, /roof-age, /knob-and-tube-wiring, /aluminum-wiring, /electrical-panels-insurance, /galvanized-and-polybutylene-plumbing, /swimming-pool-insurance, /dog-breeds-and-liability, /home-security-discounts, /older-homes-insurance
+- Situations: /first-time-home-buyer, /switching-home-insurance, /non-renewal-what-to-do, /vacant-home-insurance, /seasonal-second-home, /short-term-rental-airbnb, /home-business-insurance, /new-construction-insurance
+- Process: /how-to-file-a-claim, /home-insurance-inspection, /how-much-dwelling-coverage, /lower-your-premium, /escrow-and-lenders
+- California regions: /los-angeles, /orange-county, /san-diego, /san-francisco-bay-area, /sacramento, /inland-empire, /central-valley, /central-coast
+
+## Contact
+- Brokerage: quotes@bollinsure.com / 310-804-5017
+- Firm: WJB Services, Inc. dba Bollinsure Insurance Services, CA DOI License #6013787
+
+## Important
+All pricing indications are preliminary estimates subject to underwriting, carrier eligibility, market appetite, and policy terms. They are not a quote, binder, or guarantee of coverage or final premium. This site does not provide legal advice.
