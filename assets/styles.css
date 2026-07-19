@@ -1523,6 +1523,11 @@ h1,h2,h3,h4 {
   .quote-sidebar { position: static; }
 }
 
+/* --- Markets-we-shop grid (homepage) --- */
+.markets-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 920px; margin: 0 auto 32px; text-align: left; }
+@media (max-width: 860px) { .markets-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .markets-grid { grid-template-columns: 1fr; } }
+
 /* --- Resource library grid (homepage) --- */
 .resource-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 @media (max-width: 900px) { .resource-grid { grid-template-columns: 1fr 1fr; } }

@@ -109,7 +109,12 @@
     const style = document.createElement('style');
     style.id = 'ho-wiz-styles';
     style.textContent = `
-      #ho-wizard-mount * { box-sizing: border-box; margin: 0; padding: 0; }
+      /* box-sizing only — the global reset already zeroes default margin/padding
+         at (0,0,0) specificity, so component .wz-* padding/margins win. Adding
+         margin:0/padding:0 here at ID specificity would silently override every
+         component's spacing (the old "crammed fields" bug). */
+      #ho-wizard-mount { box-sizing: border-box; }
+      #ho-wizard-mount *, #ho-wizard-mount *::before, #ho-wizard-mount *::after { box-sizing: border-box; }
       #ho-wizard-mount { font-family: var(--font-sans); color: var(--text); }
 
       .wz-card { background: #fff; color: #262b23; border-radius: 10px; padding: 48px 52px; box-shadow: 0 6px 28px rgba(59,50,32,0.14); max-width: 860px; margin: 0 auto; }
@@ -552,11 +557,19 @@
     }
     return nav;
   }
+  let wzFirstRender = true;
   function swapCard(mount, card) {
-    mount.querySelectorAll('.wz-card').forEach(c => c.remove());
+    // Remove any prior wizard card AND the initial static loading skeleton
+    // (a plain <div> that is not .wz-card, so it must be cleared explicitly).
+    [].slice.call(mount.children).forEach(c => {
+      if (c.id !== 'ho-top-est') c.remove();
+    });
     mount.appendChild(card);
     renderTopEst();
-    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Don't yank the viewport on the initial (idle-fallback) mount; only
+    // scroll to the card on genuine step transitions the user drove.
+    if (!wzFirstRender) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    wzFirstRender = false;
   }
 
   // ─── Opening — routing (owner / landlord→DP-3 / renter) ──────────────────
