@@ -6,7 +6,7 @@
   <title>Home Insurance for First-Time Buyers: Offer to Close | BestHO3</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400..800&family=Inter:wght@400..700&family=JetBrains+Mono:wght@400..700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&family=Public+Sans:wght@400..700&display=swap">
   <link rel="stylesheet" href="/assets/styles.css">
   <meta name="description" content="The timeline from accepted offer to close: when to shop, what escrow and lenders require, what the application asks, binding before closing, and budgeting.">
   <link rel="canonical" href="https://www.bestho3.com/first-time-home-buyer">
@@ -15,14 +15,21 @@
   <meta property="og:description" content="Insurance is the closing task nobody warns you about. The week-by-week timeline, in the order escrow actually needs things.">
   <meta property="og:url" content="https://www.bestho3.com/first-time-home-buyer">
   <meta property="og:type" content="article">
+  <meta name="theme-color" content="#f6f2e9">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://www.bestho3.com/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <!-- NAV -->
 <nav class="nav" id="main-nav">
   <div class="nav-inner">
     <a href="/" class="nav-brand">Best<span>HO3</span></a>
-    <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="nav-links">
@@ -54,7 +61,7 @@
 </header>
 
 <!-- ARTICLE BODY -->
-<article class="section" style="padding-top:24px">
+<article class="section" id="main" style="padding-top:24px">
   <div class="container-narrow prose">
 
     <h2 style="font-family:var(--font-display);font-size:1.5rem;margin:34px 0 14px;color:var(--text)">Week zero: the moment your offer is accepted</h2>
@@ -71,7 +78,7 @@
     <p>Three things, in lender-speak. <strong>Evidence of insurance</strong> (a binder or declarations) before funding, showing <strong>dwelling coverage</strong> the lender finds adequate — replacement cost is the standard to insure to regardless of what minimum they'd accept (<a href="/how-much-dwelling-coverage">set it from rebuild cost</a>). <strong>A mortgagee clause</strong> naming the lender exactly as instructed. In mapped flood zones, <a href="/flood-insurance-california">flood insurance</a> joins the list — and it carries a waiting period, so it can't be a final-week discovery. If premiums will be escrowed, the first year is typically paid at closing through the impound account. <a href="/escrow-and-lenders">The full escrow mechanics →</a></p>
 
     <!-- MID-ARTICLE CTA -->
-    <div style="margin:38px 0;padding:28px 30px;background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(45,212,191,0.05));border:1px solid rgba(16,185,129,0.3);border-radius:16px;">
+    <div style="margin:38px 0;padding:28px 30px;background:var(--wash);border:1px solid var(--accent-border);border-radius:16px;">
       <p style="font-family:var(--font-mono);font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px">In escrow now?</p>
       <p style="font-size:1.05rem;color:var(--text);font-weight:600;margin-bottom:6px;font-family:var(--font-display)">Four minutes today beats a scramble the week of closing.</p>
       <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:16px">Live indication, then a broker who works your closing timeline — binder and mortgagee clause delivered where escrow needs them. No fee.</p>
@@ -93,11 +100,11 @@
     <div style="margin-top:44px;padding:22px 26px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;">
       <span style="font-family:var(--font-mono);font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);display:block;margin-bottom:12px;">Keep reading</span>
       <div style="display:flex;flex-wrap:wrap;gap:8px 18px;font-size:0.88rem;line-height:2;">
-        <a href="/escrow-and-lenders" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">Escrow &amp; lenders</a>
-        <a href="/how-much-dwelling-coverage" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">How much Coverage A</a>
-        <a href="/home-insurance-inspection" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">The inspection</a>
-        <a href="/older-homes-insurance" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">Older homes</a>
-        <a href="/new-construction-insurance" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">New construction</a>
+        <a href="/escrow-and-lenders" class="soft-link">Escrow &amp; lenders</a>
+        <a href="/how-much-dwelling-coverage" class="soft-link">How much Coverage A</a>
+        <a href="/home-insurance-inspection" class="soft-link">The inspection</a>
+        <a href="/older-homes-insurance" class="soft-link">Older homes</a>
+        <a href="/new-construction-insurance" class="soft-link">New construction</a>
       </div>
     </div>
 

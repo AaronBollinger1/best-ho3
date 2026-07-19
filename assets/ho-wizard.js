@@ -112,17 +112,17 @@
       #ho-wizard-mount * { box-sizing: border-box; margin: 0; padding: 0; }
       #ho-wizard-mount { font-family: var(--font-sans); color: var(--text); }
 
-      .wz-card { background: #fff; color: #0a0a0a; border-radius: 16px; padding: 48px 52px; box-shadow: 0 8px 40px rgba(0,0,0,0.5); max-width: 860px; margin: 0 auto; }
+      .wz-card { background: #fff; color: #0a0a0a; border-radius: 16px; padding: 48px 52px; box-shadow: 0 6px 28px rgba(59,50,32,0.14); max-width: 860px; margin: 0 auto; }
       @media (max-width: 640px) { .wz-card { padding: 28px 20px; } }
       .wz-card h2 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; color: #0a0a0a; margin-bottom: 4px; }
       .wz-card h2 + p { font-size: 0.875rem; color: #555; margin-bottom: 24px; line-height: 1.5; }
 
-      .wz-step-context { font-size: 0.84rem; color: #666; margin-bottom: 24px; line-height: 1.7; border-left: 2px solid rgba(16,185,129,0.4); padding-left: 12px; }
+      .wz-step-context { font-size: 0.84rem; color: #666; margin-bottom: 24px; line-height: 1.7; border-left: 2px solid rgba(29,87,65,0.4); padding-left: 12px; }
 
       .wz-field { display: flex; flex-direction: column; }
       .wz-field label { font-size: 0.78rem; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: block; }
       .wz-input, .wz-select, .wz-textarea { background: #f4f5f6; border: 1.5px solid #d1d5db; color: #0a0a0a; border-radius: 8px; padding: 11px 14px; font-size: 0.95rem; width: 100%; min-height: 44px; font-family: var(--font-sans); transition: border-color 0.15s; }
-      .wz-input:focus, .wz-select:focus, .wz-textarea:focus { border-color: #10b981 !important; box-shadow: 0 0 0 3px rgba(16,185,129,0.12) !important; outline: none; background: #f0fdf7; }
+      .wz-input:focus, .wz-select:focus, .wz-textarea:focus { border-color: #1d5741 !important; box-shadow: 0 0 0 3px rgba(29,87,65,0.12) !important; outline: none; background: #f0fdf7; }
       .wz-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23555' d='M1 1l5 5 5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
       .wz-textarea { resize: vertical; min-height: 90px; }
       .wz-input.invalid, .wz-select.invalid, .wz-textarea.invalid { border-color: #ef4444; }
@@ -136,40 +136,40 @@
 
       .wz-yn-row { display: flex; gap: 12px; margin-bottom: 18px; }
       .wz-yn-btn { flex: 1; min-height: 42px; border: 1.5px solid #d1d5db; border-radius: 8px; background: transparent; color: #666; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: all 0.15s; font-family: var(--font-sans); }
-      .wz-yn-btn:hover { border-color: #10b981; color: #0a0a0a; }
-      .wz-yn-btn.selected { background: #10b981; border-color: #10b981; color: #04120c; font-weight: 700; }
+      .wz-yn-btn:hover { border-color: #1d5741; color: #0a0a0a; }
+      .wz-yn-btn.selected { background: #1d5741; border-color: #1d5741; color: #f6f2e9; font-weight: 700; }
 
       .wz-seg { display: flex; gap: 8px; flex-wrap: wrap; }
       .wz-seg-btn { flex: 1 1 auto; min-height: 42px; padding: 8px 14px; border: 1.5px solid #d1d5db; border-radius: 8px; background: #fff; color: #555; font-weight: 600; font-size: 0.84rem; cursor: pointer; transition: all 0.15s; font-family: var(--font-sans); white-space: nowrap; }
-      .wz-seg-btn:hover { border-color: #10b981; color: #0a0a0a; }
-      .wz-seg-btn.selected { background: #ecfdf5; border-color: #10b981; color: #047857; font-weight: 700; }
+      .wz-seg-btn:hover { border-color: #1d5741; color: #0a0a0a; }
+      .wz-seg-btn.selected { background: #edf3ec; border-color: #1d5741; color: #1d5741; font-weight: 700; }
 
-      .wz-indication-box { background: #f0fdf7; border: 1px solid rgba(16,185,129,0.35); border-radius: 12px; padding: 28px 32px; margin: 20px 0; }
-      .wz-indication-kicker { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #065f46; margin-bottom: 6px; }
-      .wz-indication-amount { font-family: var(--font-display); font-size: 2rem; font-weight: 800; color: #047857; line-height: 1.1; margin-bottom: 12px; }
+      .wz-indication-box { background: #f0fdf7; border: 1px solid rgba(29,87,65,0.35); border-radius: 12px; padding: 28px 32px; margin: 20px 0; }
+      .wz-indication-kicker { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #17493a; margin-bottom: 6px; }
+      .wz-indication-amount { font-family: var(--font-display); font-size: 2rem; font-weight: 800; color: #1d5741; line-height: 1.1; margin-bottom: 12px; }
       .wz-indication-detail { font-size: 0.82rem; color: #666; line-height: 1.9; }
       .wz-indication-detail strong { color: #333; }
-      .wz-indication-warning { font-size: 0.78rem; color: #065f46; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(16,185,129,0.2); line-height: 1.5; }
+      .wz-indication-warning { font-size: 0.78rem; color: #17493a; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(29,87,65,0.2); line-height: 1.5; }
 
       .wz-nav { display: flex; justify-content: flex-end; gap: 12px; margin-top: 36px; padding-top: 24px; border-top: 1px solid #e5e7eb; }
       .wz-btn-back { background: transparent; border: 1.5px solid #d1d5db; color: #555; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; font-family: var(--font-sans); transition: all 0.15s; }
       .wz-btn-back:hover { border-color: #999; color: #222; }
-      .wz-btn-next { background: #10b981; color: #04120c; font-weight: 700; border: none; padding: 12px 28px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-family: var(--font-sans); transition: all 0.15s; }
-      .wz-btn-next:hover:not(:disabled) { background: #34d399; }
+      .wz-btn-next { background: #1d5741; color: #f6f2e9; font-weight: 700; border: none; padding: 12px 28px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-family: var(--font-sans); transition: all 0.15s; }
+      .wz-btn-next:hover:not(:disabled) { background: #2e7d5b; }
       .wz-btn-next:disabled { opacity: 0.4; cursor: not-allowed; }
       .wz-btn-full { width: 100%; padding: 14px; font-size: 1rem; border-radius: 10px; margin-top: 16px; }
       .wz-btn-submitting { animation: wz-ripple 1.5s linear infinite !important; cursor: wait !important; }
-      @keyframes wz-ripple { 0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0.4)} 50%{box-shadow:0 0 0 10px rgba(16,185,129,0)} }
+      @keyframes wz-ripple { 0%,100%{box-shadow:0 0 0 0 rgba(29,87,65,0.4)} 50%{box-shadow:0 0 0 10px rgba(29,87,65,0)} }
 
       .wz-stepper { display: flex; flex-direction: column; gap: 0; margin-bottom: 36px; }
       .wz-stepper-segs { display: flex; gap: 6px; }
       .wz-step-seg { flex: 1; height: 4px; border-radius: 2px; background: #e5e7eb; transition: background 0.2s; }
-      .wz-step-seg.done, .wz-step-seg.active { background: #10b981; }
+      .wz-step-seg.done, .wz-step-seg.active { background: #1d5741; }
       .wz-step-seg.active { animation: wz-pulse 2.2s ease-in-out infinite; }
       @keyframes wz-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.65; } }
       .wz-stepper-labels { display: flex; gap: 6px; margin-top: 6px; }
       .wz-stepper-label { flex: 1; font-size: 0.68rem; text-align: center; color: #888; }
-      .wz-stepper-label.active { color: #047857; font-weight: 600; }
+      .wz-stepper-label.active { color: #1d5741; font-weight: 600; }
       @media (max-width: 560px) { .wz-stepper-label { display: none; } .wz-stepper-label.active { display: block; } }
 
       .wz-error { color: #ef4444; font-size: 0.82rem; margin-top: 5px; display: none; }
@@ -180,7 +180,7 @@
       .wz-callout-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 20px 0; }
       @media (max-width: 640px) { .wz-callout-grid { grid-template-columns: 1fr; } }
       .wz-callout { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 24px; }
-      .wz-callout h4 { font-size: 0.9rem; font-weight: 700; color: #065f46; margin-bottom: 10px; }
+      .wz-callout h4 { font-size: 0.9rem; font-weight: 700; color: #17493a; margin-bottom: 10px; }
       .wz-callout ul { padding-left: 16px; }
       .wz-callout li { font-size: 0.82rem; color: #555; line-height: 1.7; }
 
@@ -188,7 +188,7 @@
       .wz-success-icon { font-size: 3rem; margin-bottom: 16px; }
       .wz-success h2 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: #0a0a0a; margin-bottom: 12px; }
       .wz-success p { font-size: 0.9rem; color: #555; line-height: 1.6; margin-bottom: 8px; }
-      .wz-success a { color: #047857; font-weight: 600; text-decoration: none; }
+      .wz-success a { color: #1d5741; font-weight: 600; text-decoration: none; }
       .wz-success a:hover { text-decoration: underline; }
       .wz-success-back { display: inline-block; margin-top: 20px; padding: 10px 20px; border: 1.5px solid #d1d5db; border-radius: 8px; font-size: 0.88rem; font-weight: 600; color: #555; text-decoration: none; transition: all 0.15s; }
       .wz-success-back:hover { border-color: #999; color: #222; }
@@ -196,14 +196,14 @@
       .wz-route-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 8px; }
       @media (max-width: 720px) { .wz-route-cards { grid-template-columns: 1fr; } }
       .wz-route-card { border: 1.5px solid #d1d5db; border-radius: 16px; padding: 32px 24px; text-align: center; background: #fff; transition: all 0.15s; cursor: pointer; font-family: var(--font-sans); }
-      .wz-route-card:hover { border-color: #10b981; box-shadow: 0 4px 20px rgba(16,185,129,0.15); transform: translateY(-2px); }
+      .wz-route-card:hover { border-color: #1d5741; box-shadow: 0 4px 20px rgba(29,87,65,0.15); transform: translateY(-2px); }
       .wz-route-card h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: #0a0a0a; margin-bottom: 8px; }
       .wz-route-card p { font-size: 0.84rem; color: #666; line-height: 1.6; margin-bottom: 0; }
       .wz-route-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
 
       .wz-check-label { display: flex; gap: 10px; align-items: flex-start; font-size: 0.88rem; color: #555; line-height: 1.6; cursor: pointer; margin-bottom: 12px; }
-      .wz-check-label input[type=checkbox] { width: 18px; height: 18px; flex-shrink: 0; accent-color: #10b981; margin-top: 2px; }
-      .wz-note-accent { background: #f0fdf7; border: 1px solid rgba(16,185,129,0.35); border-radius: 8px; padding: 12px 16px; font-size: 0.82rem; color: #065f46; line-height: 1.6; margin: 12px 0; }
+      .wz-check-label input[type=checkbox] { width: 18px; height: 18px; flex-shrink: 0; accent-color: #1d5741; margin-top: 2px; }
+      .wz-note-accent { background: #f0fdf7; border: 1px solid rgba(29,87,65,0.35); border-radius: 8px; padding: 12px 16px; font-size: 0.82rem; color: #17493a; line-height: 1.6; margin: 12px 0; }
       .wz-note-warn { background: #fffbeb; border: 1px solid rgba(217,119,6,0.35); border-radius: 8px; padding: 12px 16px; font-size: 0.82rem; color: #92400e; line-height: 1.6; margin: 12px 0; }
       .wz-note-green { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px 16px; font-size: 0.88rem; color: #15803d; line-height: 1.6; margin: 12px 0; font-weight: 600; }
       .wz-section-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #888; margin: 20px 0 12px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
@@ -215,8 +215,8 @@
 
       .wz-claims-btns { display: flex; gap: 14px; margin: 20px 0; }
       .wz-claims-btn { flex: 1; padding: 18px; border: 2px solid #d1d5db; border-radius: 12px; background: #fff; cursor: pointer; font-size: 0.95rem; font-weight: 600; color: #333; font-family: var(--font-sans); transition: all 0.15s; text-align: center; }
-      .wz-claims-btn:hover { border-color: #10b981; }
-      .wz-claims-btn.selected-no { border-color: #22c55e; background: #f0fdf4; color: #15803d; }
+      .wz-claims-btn:hover { border-color: #1d5741; }
+      .wz-claims-btn.selected-no { border-color: #2e6b3f; background: #f0fdf4; color: #15803d; }
       .wz-claims-btn.selected-yes { border-color: #d97706; background: #fffbeb; color: #92400e; }
       @media (max-width: 540px) { .wz-claims-btns { flex-direction: column; } }
 
@@ -224,9 +224,9 @@
       .wz-loss-table th { background: #f3f4f6; color: #666; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 12px; text-align: left; border-bottom: 2px solid #e5e7eb; }
       .wz-loss-table td { padding: 8px 12px; border-bottom: 1px solid #e5e7eb; }
       .wz-loss-table td input, .wz-loss-table td select { background: #fff; border: 1.5px solid #d1d5db; border-radius: 6px; padding: 7px 10px; font-size: 0.85rem; font-family: var(--font-sans); width: 100%; color: #0a0a0a; }
-      .wz-loss-table td input:focus, .wz-loss-table td select:focus { border-color: #10b981; outline: none; }
+      .wz-loss-table td input:focus, .wz-loss-table td select:focus { border-color: #1d5741; outline: none; }
       .wz-add-row-btn { background: none; border: 1.5px dashed #d1d5db; color: #888; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.88rem; font-weight: 600; font-family: var(--font-sans); transition: all 0.15s; width: 100%; margin-top: 12px; }
-      .wz-add-row-btn:hover { border-color: #10b981; color: #047857; }
+      .wz-add-row-btn:hover { border-color: #1d5741; color: #1d5741; }
       .wz-row-remove { background: none; border: none; color: #dc2626; cursor: pointer; font-size: 0.82rem; font-weight: 600; padding: 2px 6px; border-radius: 4px; font-family: var(--font-sans); }
 
       .wz-qq { border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
@@ -236,9 +236,9 @@
       .wz-qq-num { font-family: var(--font-mono); font-size: 0.72rem; color: #999; margin-right: 8px; }
       .wz-qq-btns { display: flex; gap: 8px; flex-shrink: 0; }
       .wz-qq-btn { min-width: 58px; min-height: 38px; border: 1.5px solid #d1d5db; border-radius: 8px; background: #fff; color: #555; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: all 0.13s; font-family: var(--font-sans); }
-      .wz-qq-btn:hover { border-color: #10b981; }
+      .wz-qq-btn:hover { border-color: #1d5741; }
       .wz-qq-btn.sel-yes { background: #fffbeb; border-color: #d97706; color: #92400e; }
-      .wz-qq-btn.sel-no { background: #ecfdf5; border-color: #10b981; color: #047857; }
+      .wz-qq-btn.sel-no { background: #edf3ec; border-color: #1d5741; color: #1d5741; }
       @media (max-width: 560px) { .wz-qq-row { flex-direction: column; align-items: stretch; } .wz-qq-btns { justify-content: stretch; } .wz-qq-btn { flex: 1; } }
 
       .wz-upd-grid { display: grid; grid-template-columns: 110px 1fr 120px; gap: 10px 14px; align-items: center; }
@@ -248,18 +248,18 @@
       .wz-form-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 8px 0 4px; }
       @media (max-width: 640px) { .wz-form-cards { grid-template-columns: 1fr; } }
       .wz-form-card { border: 1.5px solid #d1d5db; border-radius: 12px; padding: 20px; background: #fff; cursor: pointer; text-align: left; transition: all 0.15s; font-family: var(--font-sans); }
-      .wz-form-card:hover { border-color: #10b981; }
-      .wz-form-card.selected { border-color: #10b981; background: #ecfdf5; }
+      .wz-form-card:hover { border-color: #1d5741; }
+      .wz-form-card.selected { border-color: #1d5741; background: #edf3ec; }
       .wz-form-card h4 { font-size: 0.95rem; font-weight: 700; color: #0a0a0a; margin-bottom: 6px; }
       .wz-form-card p { font-size: 0.8rem; color: #666; line-height: 1.55; }
-      .wz-form-card .wz-form-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: #047857; background: rgba(16,185,129,0.1); border-radius: 20px; padding: 2px 10px; margin-bottom: 8px; }
+      .wz-form-card .wz-form-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: #1d5741; background: rgba(29,87,65,0.1); border-radius: 20px; padding: 2px 10px; margin-bottom: 8px; }
 
       /* Top estimate card — the cyber cw-top-est pattern, HO edition */
-      .ho-top-est { max-width: 860px; margin: 0 auto 18px; display: flex; align-items: center; justify-content: space-between; gap: 18px; background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(45,212,191,0.06)); border: 1px solid rgba(16,185,129,0.35); border-radius: 14px; padding: 18px 24px; }
-      .ho-top-est-label { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #34d399; }
+      .ho-top-est { max-width: 860px; margin: 0 auto 18px; display: flex; align-items: center; justify-content: space-between; gap: 18px; background: linear-gradient(135deg, rgba(29,87,65,0.12), rgba(45,212,191,0.06)); border: 1px solid rgba(29,87,65,0.35); border-radius: 14px; padding: 18px 24px; }
+      .ho-top-est-label { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2e7d5b; }
       .ho-top-est-value { font-family: var(--font-display); font-size: clamp(1.3rem, 3vw, 1.9rem); font-weight: 800; color: #fff; line-height: 1.15; margin-top: 2px; }
       .ho-top-est-copy { font-size: 0.78rem; color: var(--muted, #8a9490); margin-top: 4px; line-height: 1.5; max-width: 520px; }
-      .ho-top-est-chip { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600; color: #34d399; border: 1px solid rgba(16,185,129,0.4); border-radius: 20px; padding: 6px 12px; white-space: nowrap; }
+      .ho-top-est-chip { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600; color: #2e7d5b; border: 1px solid rgba(29,87,65,0.4); border-radius: 20px; padding: 6px 12px; white-space: nowrap; }
       @media (max-width: 640px) { .ho-top-est { flex-direction: column; align-items: flex-start; } .ho-top-est-chip { display: none; } }
 
       .wz-sticky-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg2, #0e0f11); border-top: 1px solid var(--border, #1e2328); padding: 12px 20px; align-items: center; justify-content: space-between; gap: 12px; z-index: 100; font-size: 0.82rem; }
@@ -346,7 +346,7 @@
   function mountStickyBar(mount) {
     if (document.getElementById('wz-sticky')) return;
     const bar = mk('div', { class: 'wz-sticky-bar', id: 'wz-sticky' });
-    const phone = mk('a', { href: 'tel:+13108045017', style: 'color:#34d399;font-weight:600;text-decoration:none;' });
+    const phone = mk('a', { href: 'tel:+13108045017', style: 'color:#2e7d5b;font-weight:600;text-decoration:none;' });
     phone.textContent = '📞 310-804-5017';
     const stepLabel = mk('span', { id: 'wz-sticky-step', style: 'color:var(--muted, #888);' });
     stepLabel.textContent = 'Get your indication';
@@ -472,7 +472,7 @@
     let copy = ind.formLabel + ' · Coverage A ' + fmtMoney(ind.dwelling) + ' · $' + parseDollar(state.deductible).toLocaleString() + ' deductible';
     if (ind.wildfire) copy += ' · brush-zone pricing';
     card.innerHTML = '<div><span class="ho-top-est-label">Estimated annual premium</span>' +
-      '<div class="ho-top-est-value">' + fmtMoney(ind.low) + ' – ' + fmtMoney(ind.high) + ' <span style="font-size:0.6em;font-weight:600;color:#34d399;">/ year</span></div>' +
+      '<div class="ho-top-est-value">' + fmtMoney(ind.low) + ' – ' + fmtMoney(ind.high) + ' <span style="font-size:0.6em;font-weight:600;color:#2e7d5b;">/ year</span></div>' +
       '<p class="ho-top-est-copy">' + copy + '. Preliminary indication — not a quote.</p></div>' +
       '<div class="ho-top-est-chip">Updates as you answer</div>';
   }
@@ -510,13 +510,13 @@
       box.appendChild(ul);
     }
     if (ind.highValue) {
-      const hv = mk('div', { style: 'margin-top:12px;padding:13px 15px;border:1px solid rgba(16,185,129,0.4);background:rgba(16,185,129,0.08);border-radius:10px;font-size:0.82rem;line-height:1.6;color:#1a3a2a;' });
-      hv.innerHTML = '<strong style="color:#065f46;">Private Client home.</strong> At ' + fmtMoney(HIGH_VALUE_THRESHOLD) + '+ of dwelling coverage you qualify for the high-value homeowners market — Chubb, PURE, AIG Private Client, Cincinnati, Nationwide Private Client — with cash-settlement options, extended replacement cost, and dedicated claim handling. We shop those markets for you; treat the range above as directional only.';
+      const hv = mk('div', { style: 'margin-top:12px;padding:13px 15px;border:1px solid rgba(29,87,65,0.4);background:rgba(29,87,65,0.08);border-radius:10px;font-size:0.82rem;line-height:1.6;color:#1a3a2a;' });
+      hv.innerHTML = '<strong style="color:#17493a;">Private Client home.</strong> At ' + fmtMoney(HIGH_VALUE_THRESHOLD) + '+ of dwelling coverage you qualify for the high-value homeowners market — Chubb, PURE, AIG Private Client, Cincinnati, Nationwide Private Client — with cash-settlement options, extended replacement cost, and dedicated claim handling. We shop those markets for you; treat the range above as directional only.';
       box.appendChild(hv);
     }
     if (state.policy_form === 'HO5' && state.pathway !== 'landlord') {
-      const h5 = mk('div', { style: 'margin-top:12px;padding:13px 15px;border:1px solid rgba(16,185,129,0.4);background:rgba(16,185,129,0.06);border-radius:10px;font-size:0.82rem;line-height:1.6;color:#1a3a2a;' });
-      h5.innerHTML = '<strong style="color:#065f46;">You chose HO-5 — good instinct for better value.</strong> Open-perils coverage on your contents, usually 10–20% more premium. Our sister site <a href="https://www.bestho5.com" target="_blank" rel="noopener" style="color:#047857;font-weight:700;">BestHO5.com</a> specializes in comprehensive-form placements; this application works for both — we quote HO-5 first and show you the HO-3 delta.';
+      const h5 = mk('div', { style: 'margin-top:12px;padding:13px 15px;border:1px solid rgba(29,87,65,0.4);background:rgba(29,87,65,0.06);border-radius:10px;font-size:0.82rem;line-height:1.6;color:#1a3a2a;' });
+      h5.innerHTML = '<strong style="color:#17493a;">You chose HO-5 — good instinct for better value.</strong> Open-perils coverage on your contents, usually 10–20% more premium. Our sister site <a href="https://www.bestho5.com" target="_blank" rel="noopener" style="color:#1d5741;font-weight:700;">BestHO5.com</a> specializes in comprehensive-form placements; this application works for both — we quote HO-5 first and show you the HO-3 delta.';
       box.appendChild(h5);
     }
     return box;
@@ -592,7 +592,7 @@
     const h2 = mk('h2'); h2.textContent = 'Rental property → DP-3 dwelling policy'; card.appendChild(h2);
     const sub = mk('p'); sub.textContent = 'Right form, same 5-minute application.'; card.appendChild(sub);
     const note = mk('div', { class: 'wz-note-accent' });
-    note.innerHTML = 'Non-owner-occupied homes are written on the <strong>DP-3 (dwelling fire, special form)</strong> — open-perils dwelling coverage, fair-rental-value income protection, and premises liability. An HO-3 would misrepresent the occupancy and can void claims. We prepare your application on a DP-3 basis automatically. <a href="/landlord-dp3" target="_blank" rel="noopener" style="color:#047857;font-weight:700;">Read the landlord DP-3 guide →</a>';
+    note.innerHTML = 'Non-owner-occupied homes are written on the <strong>DP-3 (dwelling fire, special form)</strong> — open-perils dwelling coverage, fair-rental-value income protection, and premises liability. An HO-3 would misrepresent the occupancy and can void claims. We prepare your application on a DP-3 basis automatically. <a href="/landlord-dp3" target="_blank" rel="noopener" style="color:#1d5741;font-weight:700;">Read the landlord DP-3 guide →</a>';
     card.appendChild(note);
     const tenant = mk('div', { style: 'margin-top:18px;' });
     tenant.appendChild(mk('div', { class: 'wz-section-title' }, 'Current occupancy of the rental'));
@@ -657,7 +657,7 @@
       if (el) el.style.display = (v === 'condominium' || v === 'cooperative') ? '' : 'none';
     }));
     const condoNote = mk('div', { class: 'wz-note-accent', id: 'wz-restype-note', style: (state.residence_type === 'condominium' || state.residence_type === 'cooperative') ? '' : 'display:none' });
-    condoNote.innerHTML = 'Condos and co-ops are usually written on an <strong>HO-6</strong> (walls-in) policy coordinated with your HOA master policy. Keep going — the same application works, and your broker will quote the right form. See <a href="/ho3-vs-ho6-condo" target="_blank" rel="noopener" style="color:#047857;font-weight:700;">HO-3 vs HO-6</a>.';
+    condoNote.innerHTML = 'Condos and co-ops are usually written on an <strong>HO-6</strong> (walls-in) policy coordinated with your HOA master policy. Keep going — the same application works, and your broker will quote the right form. See <a href="/ho3-vs-ho6-condo" target="_blank" rel="noopener" style="color:#1d5741;font-weight:700;">HO-3 vs HO-6</a>.';
     card.appendChild(condoNote);
     card.appendChild(mk('span', { class: 'wz-error', id: 'err-s1-restype' }));
 
@@ -966,7 +966,7 @@
       });
       card.appendChild(fc);
       const ho5note = mk('div', { class: 'wz-note-accent', id: 'wz-ho5-note', style: state.policy_form === 'HO5' ? '' : 'display:none' });
-      ho5note.innerHTML = 'Comprehensive-form shoppers: our sister site <a href="https://www.bestho5.com" target="_blank" rel="noopener" style="color:#047857;font-weight:700;">BestHO5.com</a> is dedicated to HO-5 placements. This application covers both — we\'ll quote HO-5 and show the HO-3 delta so you can judge the value. <a href="/ho3-vs-ho5" target="_blank" rel="noopener" style="color:#047857;font-weight:700;">Compare the forms →</a>';
+      ho5note.innerHTML = 'Comprehensive-form shoppers: our sister site <a href="https://www.bestho5.com" target="_blank" rel="noopener" style="color:#1d5741;font-weight:700;">BestHO5.com</a> is dedicated to HO-5 placements. This application covers both — we\'ll quote HO-5 and show the HO-3 delta so you can judge the value. <a href="/ho3-vs-ho5" target="_blank" rel="noopener" style="color:#1d5741;font-weight:700;">Compare the forms →</a>';
       card.appendChild(ho5note);
     } else {
       const dpNote = mk('div', { class: 'wz-note-accent' });
@@ -1196,7 +1196,7 @@
       'Aaron Bollinger · CA DOI Lic. #6013787'
     ].forEach((t, i) => {
       const li = mk('li');
-      if (i === 4) { li.style.color = '#047857'; li.style.fontWeight = '600'; }
+      if (i === 4) { li.style.color = '#1d5741'; li.style.fontWeight = '600'; }
       li.textContent = t;
       bul.appendChild(li);
     });
@@ -1221,7 +1221,7 @@
 
     // ── Signed ACORD 80 flow (ho-review-signing.js) ─────────────────────────
     const signMount = mk('div', { id: 'ho-sign-mount' });
-    const gateNote = mk('p', { id: 'wz-sign-gate', class: 'wz-rate-note', style: 'margin-top:16px;color:#065f46;' });
+    const gateNote = mk('p', { id: 'wz-sign-gate', class: 'wz-rate-note', style: 'margin-top:16px;color:#17493a;' });
     gateNote.textContent = 'Answer all 16 questions and check both boxes above to generate and sign your application.';
     card.appendChild(gateNote);
     card.appendChild(signMount);
@@ -1339,7 +1339,7 @@
       onSigned(data) {
         card.innerHTML = successHTML(true);
         const ref = document.createElement('p');
-        ref.style.cssText = 'font-family:var(--font-mono,monospace);font-size:0.8rem;color:#065f46;background:#f0fdf7;border:1px solid rgba(16,185,129,0.35);border-radius:8px;padding:10px 14px;display:inline-block;margin-bottom:16px;';
+        ref.style.cssText = 'font-family:var(--font-mono,monospace);font-size:0.8rem;color:#17493a;background:#f0fdf7;border:1px solid rgba(29,87,65,0.35);border-radius:8px;padding:10px 14px;display:inline-block;margin-bottom:16px;';
         ref.textContent = 'Signed application submitted · Reference ' + (data.auditId || '—');
         const icon = card.querySelector('.wz-success-icon');
         if (icon && icon.parentNode) icon.parentNode.insertBefore(ref, icon.nextSibling);
@@ -1348,7 +1348,7 @@
           a.href = 'data:application/pdf;base64,' + data.pdfBase64;
           a.download = data.filename || 'homeowner-application.pdf';
           a.textContent = 'Download your signed application (PDF)';
-          a.style.cssText = 'display:block;margin:0 0 16px;color:#047857;font-size:0.85rem;';
+          a.style.cssText = 'display:block;margin:0 0 16px;color:#1d5741;font-size:0.85rem;';
           if (ref.parentNode) ref.parentNode.insertBefore(a, ref.nextSibling);
         }
       },

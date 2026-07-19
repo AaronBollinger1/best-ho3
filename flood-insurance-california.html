@@ -6,7 +6,7 @@
   <title>Flood Insurance in California: The Other Excluded Peril | BestHO3</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400..800&family=Inter:wght@400..700&family=JetBrains+Mono:wght@400..700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&family=Public+Sans:wght@400..700&display=swap">
   <link rel="stylesheet" href="/assets/styles.css">
   <meta name="description" content="Rising water and mudflow are excluded from every HO-3. How NFIP and private flood policies work, post-wildfire debris flows, and lender flood-zone rules.">
   <link rel="canonical" href="https://www.bestho3.com/flood-insurance-california">
@@ -15,14 +15,21 @@
   <meta property="og:description" content="Flood is never covered by homeowners insurance — and post-fire debris flows make it a real California risk. NFIP vs private flood, explained.">
   <meta property="og:url" content="https://www.bestho3.com/flood-insurance-california">
   <meta property="og:type" content="article">
+  <meta name="theme-color" content="#f6f2e9">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://www.bestho3.com/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <!-- NAV -->
 <nav class="nav" id="main-nav">
   <div class="nav-inner">
     <a href="/" class="nav-brand">Best<span>HO3</span></a>
-    <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="nav-links">
@@ -54,7 +61,7 @@
 </header>
 
 <!-- ARTICLE BODY -->
-<article class="section" style="padding-top:24px">
+<article class="section" id="main" style="padding-top:24px">
   <div class="container-narrow prose">
 
     <h2 style="font-family:var(--font-display);font-size:1.5rem;margin:34px 0 14px;color:var(--text)">Where the line sits</h2>
@@ -83,7 +90,7 @@
     <p>If your home sits in a mapped special flood hazard area and carries a federally related mortgage, the lender must require flood insurance — it will appear in your closing checklist next to the <a href="/escrow-and-lenders">evidence of homeowners insurance</a>. Outside mapped zones it's optional, which is where judgment matters: drainage patterns, that creek two lots over, the burn scar upslope. A meaningful share of flood losses happen outside high-risk zones, where coverage is also at its cheapest.</p>
 
     <!-- MID-ARTICLE CTA -->
-    <div style="margin:38px 0;padding:28px 30px;background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(45,212,191,0.05));border:1px solid rgba(16,185,129,0.3);border-radius:16px;">
+    <div style="margin:38px 0;padding:28px 30px;background:var(--wash);border:1px solid var(--accent-border);border-radius:16px;">
       <p style="font-family:var(--font-mono);font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px">One broker, every gap</p>
       <p style="font-size:1.05rem;color:var(--text);font-weight:600;margin-bottom:6px;font-family:var(--font-display)">Homeowners, earthquake, and flood — priced together, so nothing falls between.</p>
       <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:16px">Start with the four-minute HO-3 indication; your broker layers the excluded-peril quotes on top. No fee, no obligation.</p>
@@ -105,11 +112,11 @@
     <div style="margin-top:44px;padding:22px 26px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;">
       <span style="font-family:var(--font-mono);font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);display:block;margin-bottom:12px;">Keep reading</span>
       <div style="display:flex;flex-wrap:wrap;gap:8px 18px;font-size:0.88rem;line-height:2;">
-        <a href="/earthquake-insurance-california" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">Earthquake insurance</a>
-        <a href="/california-wildfire-insurance" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">Wildfire insurance</a>
-        <a href="/sacramento" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">Sacramento region guide</a>
-        <a href="/escrow-and-lenders" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">Escrow &amp; lenders</a>
-        <a href="/coverage" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">What HO-3 covers</a>
+        <a href="/earthquake-insurance-california" class="soft-link">Earthquake insurance</a>
+        <a href="/california-wildfire-insurance" class="soft-link">Wildfire insurance</a>
+        <a href="/sacramento" class="soft-link">Sacramento region guide</a>
+        <a href="/escrow-and-lenders" class="soft-link">Escrow &amp; lenders</a>
+        <a href="/coverage" class="soft-link">What HO-3 covers</a>
       </div>
     </div>
 
