@@ -1412,6 +1412,17 @@
   function init() {
     const mount = document.getElementById('ho-wizard-mount');
     if (!mount) return;
+    // Prefill from the public Coverage-A estimator (sqft handed off via
+    // sessionStorage, never a URL, so no PII in query strings). The applicant
+    // still confirms every field before the ACORD 80 is signed.
+    try {
+      const pf = sessionStorage.getItem('bestho3_prefill');
+      if (pf) {
+        const d = JSON.parse(pf);
+        if (d && d.total_living_area) state.total_living_area = String(d.total_living_area);
+        sessionStorage.removeItem('bestho3_prefill');
+      }
+    } catch (e) {}
     injectStyles();
     mountStickyBar(mount);
     renderTopEst();

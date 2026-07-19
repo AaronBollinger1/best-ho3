@@ -23,6 +23,7 @@
 - /carriers — carrier and market access
 - /faq — common questions, answered by a licensed broker
 - /glossary — 60 homeowners insurance terms in plain English
+- /replacement-cost-estimator — interactive Coverage A (rebuild cost) estimator; a broker-verified starting point that hands off into the bindable ACORD 80 application
 
 ## Guide library (63 pages, all linked from /)
 - Coverage deep dives: /coverage-a-dwelling, /coverage-b-other-structures, /coverage-c-personal-property, /coverage-d-loss-of-use, /personal-liability-coverage-e, /medical-payments-coverage-f

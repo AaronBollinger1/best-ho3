@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Replacement-Cost (Coverage A) Estimator | BestHO3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&family=Public+Sans:wght@400..700&display=swap">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <meta name="description" content="Estimate your home's rebuild cost (Coverage A) from square footage — a broker-verified starting point, then carry it straight into a bindable HO-3 application.">
+  <link rel="canonical" href="https://www.bestho3.com/replacement-cost-estimator">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Home Replacement-Cost (Coverage A) Estimator">
+  <meta property="og:description" content="Rebuild cost isn't market value. Estimate your Coverage A starting point, then hand it to a licensed broker who verifies and binds real coverage.">
+  <meta property="og:url" content="https://www.bestho3.com/replacement-cost-estimator">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#f6f2e9">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://www.bestho3.com/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bestho3.com/"},
+      {"@type": "ListItem", "position": 2, "name": "California Guide", "item": "https://www.bestho3.com/california-homeowners-insurance"},
+      {"@type": "ListItem", "position": 3, "name": "Replacement-Cost Estimator", "item": "https://www.bestho3.com/replacement-cost-estimator"}
+    ]
+  }
+  </script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- NAV -->
+<nav class="nav" id="main-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">Best<span>HO3</span></a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/california-homeowners-insurance">CA Guide</a></li>
+      <li><a href="/coverage">Coverage</a></li>
+      <li><a href="/cost">Cost</a></li>
+      <li><a href="/ho3-vs-ho5">HO-3 vs HO-5</a></li>
+      <li><a href="/california-fair-plan">FAIR Plan</a></li>
+      <li><a href="/landlord-dp3">Landlords</a></li>
+      <li><a href="/carriers">Carriers</a></li>
+      <li><a href="/faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="tel:3108045017" class="btn btn-ghost" style="font-size:0.85rem;padding:8px 16px">310-804-5017</a>
+      <a href="/#quote" class="btn btn-accent nav-cta">Get Indication</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ARTICLE HEADER -->
+<header class="section" style="padding-bottom:24px">
+  <div class="container-narrow">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/california-homeowners-insurance">California Guide</a> <span>/</span> <span>Replacement-Cost Estimator</span></nav>
+    <span class="kicker">Replacement-Cost Tool</span>
+    <h1 class="section-title" style="font-size:clamp(1.9rem,4vw,2.8rem)">What would it cost to rebuild your home?</h1>
+    <p class="lead">Coverage A insures the cost to <em>rebuild</em> your house — not its market value and not what you paid. Enter your square footage for a starting rebuild-cost figure, then carry it straight into a bindable application a licensed broker takes to market.</p>
+    <p style="margin-top:14px;font-size:0.8rem;color:var(--muted2);font-family:var(--font-mono)">Updated July 2026 · Reviewed by a licensed broker, CA DOI Lic. #6013787</p>
+  </div>
+</header>
+
+<!-- TOOL -->
+<article class="section" id="main" style="padding-top:8px">
+  <div class="container-narrow prose">
+
+    <div class="info-box accent" style="padding:26px 28px">
+      <div class="wz-field" style="display:flex;flex-direction:column;gap:8px;margin-bottom:6px">
+        <label for="rc-sqft" style="font-family:var(--font-sans);font-size:0.8rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted)">Total living area (square feet)</label>
+        <input id="rc-sqft" type="text" inputmode="numeric" autocomplete="off" placeholder="e.g. 1,850"
+          style="background:var(--bg);border:1.5px solid var(--border2);color:var(--text);border-radius:6px;padding:13px 15px;font-size:1.05rem;width:100%;max-width:280px;font-family:var(--font-sans)">
+        <span style="font-size:0.8rem;color:var(--muted2)">Finished, heated living space. Exclude the garage, unfinished attic, and lot size.</span>
+      </div>
+    </div>
+
+    <div id="rc-result" style="margin:22px 0;display:none">
+      <div style="background:var(--wash);border:1px solid var(--accent-border);border-radius:10px;padding:26px 30px">
+        <span style="font-family:var(--font-sans);font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent)">Estimated Coverage A — rebuild cost</span>
+        <div id="rc-amount" style="font-family:var(--font-display);font-size:clamp(2rem,5vw,2.8rem);font-weight:500;color:var(--accent);line-height:1.1;margin:6px 0 4px">—</div>
+        <p id="rc-basis" style="font-size:0.86rem;color:var(--muted);margin:0;line-height:1.6"></p>
+      </div>
+      <div class="info-box" style="margin-top:14px">
+        <p style="margin:0"><strong>This is a starting point, not a quote or binder.</strong> It uses a California rebuild figure of about $350 per square foot. Your licensed broker verifies the real number with a full replacement-cost valuation — adjusting for construction quality, stories, roof, slope, and finishes — <em>before any coverage is bound</em>. Most California placements then add <strong>extended replacement cost</strong> (typically a 25–50% cushion) so a total loss still rebuilds when construction costs surge.</p>
+      </div>
+      <div style="margin-top:18px">
+        <button id="rc-continue" class="btn btn-accent btn-lg" type="button">Continue to your application →</button>
+        <p style="font-size:0.8rem;color:var(--muted2);margin-top:10px">We carry this square footage into your application — you confirm every detail, e-sign the official ACORD 80, and a broker shops it across the California market. No fee, no obligation.</p>
+      </div>
+    </div>
+
+    <h2 style="font-family:var(--font-display);font-size:1.5rem;margin:34px 0 14px;color:var(--text)">Rebuild cost is its own number</h2>
+    <p>Four numbers orbit your house and only one belongs on the policy. <strong>Market value</strong> includes the land — which survives every fire. <strong>Purchase price</strong> is history. <strong>Assessed value</strong> is a tax figure. <strong>Rebuild cost</strong> — labor, materials, debris removal, and design fees to reconstruct the same home on the same lot — is what <a href="/coverage-a-dwelling">Coverage A</a> insures. In much of coastal California rebuild cost sits well below market value; setting the limit from a Zillow estimate is how homes end up under- or over-insured.</p>
+
+    <h2 style="font-family:var(--font-display);font-size:1.5rem;margin:34px 0 14px;color:var(--text)">Why this is a starting point your broker verifies</h2>
+    <p>A per-square-foot figure is the honest first pass, not the last word. The real rebuild cost moves with construction quality (tract vs custom), number of stories, roof type, hillside access, and finish level — the adjustments a full replacement-cost valuation makes. That's why the number above is explicitly a <strong>broker-verified starting point</strong>: it gets you a credible target in seconds, and a licensed broker confirms it before your coverage is bound. See <a href="/how-much-dwelling-coverage">how much dwelling coverage you need</a> and why an <a href="/extended-replacement-cost">extended replacement cost</a> cushion matters after California wildfires.</p>
+
+    <!-- MID-ARTICLE CTA -->
+    <div style="margin:38px 0;padding:28px 30px;background:var(--wash);border:1px solid var(--accent-border);border-radius:10px;">
+      <p style="font-family:var(--font-sans);font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--terra);margin-bottom:8px">From estimate to bound coverage</p>
+      <p style="font-size:1.05rem;color:var(--text);font-weight:600;margin-bottom:6px;font-family:var(--font-display)">Four minutes to a live HO-3 indication — then sign the real ACORD 80 online.</p>
+      <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:16px">An independent broker shops admitted carriers, the FAIR Plan + DIC, and E&amp;S markets. No fee, no obligation.</p>
+      <a href="/#quote" class="btn btn-accent">Get a pricing indication →</a>
+    </div>
+
+    <h2 style="font-family:var(--font-display);font-size:1.5rem;margin:34px 0 14px;color:var(--text)">Frequently asked</h2>
+    <h3>Is this a quote?</h3>
+    <p>No. It's a preliminary rebuild-cost estimate to anchor your Coverage A. A real quote comes from carriers after underwriting, a replacement-cost valuation, wildfire-zone review, and usually an inspection. Nothing here is a quote, binder, or offer of coverage. <a href="/faq">More common questions →</a></p>
+    <h3>Can you actually bind coverage from this?</h3>
+    <p>Coverage is bound by a licensed broker with a carrier — not by a calculator. This tool hands your square footage into the official <a href="/#quote">ACORD 80 application</a>; once you complete and e-sign it, a broker verifies the rebuild cost and takes it to market to place bindable coverage.</p>
+    <h3>Why $350 per square foot?</h3>
+    <p>It's a deliberately honest California midpoint for rebuild cost, used only as a starting point. Custom construction, hillside sites, and high-end finishes push the real number higher; your broker verifies it with a full valuation. <a href="/how-much-dwelling-coverage">The method in full →</a></p>
+
+    <!-- RELATED -->
+    <div style="margin-top:44px;padding:22px 26px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;">
+      <span style="font-family:var(--font-sans);font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--terra);display:block;margin-bottom:12px;">Keep reading</span>
+      <div style="display:flex;flex-wrap:wrap;gap:8px 18px;font-size:0.88rem;line-height:2;">
+        <a href="/how-much-dwelling-coverage" class="soft-link">How much dwelling coverage</a>
+        <a href="/coverage-a-dwelling" class="soft-link">Coverage A explained</a>
+        <a href="/extended-replacement-cost" class="soft-link">Extended replacement cost</a>
+        <a href="/replacement-cost-vs-actual-cash-value" class="soft-link">RCV vs ACV</a>
+        <a href="/cost" class="soft-link">What drives your premium</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="container">
+    <span class="kicker">Get Started</span>
+    <h2 class="section-title" style="margin-bottom:16px">Ready to see your real options?</h2>
+    <p class="lead" style="max-width:540px;margin:0 auto 32px">Takes about 4 minutes. Live indication as you answer, then a signed ACORD 80 our brokers take to the whole California market.</p>
+    <a href="/#quote" class="btn btn-accent btn-lg">Get a pricing indication →</a>
+    <p style="margin-top:16px;color:var(--muted2);font-size:0.875rem">Or call us directly: <a href="tel:3108045017" style="color:var(--accent)">310-804-5017</a> · <a href="mailto:quotes@bollinsure.com" style="color:var(--muted)">quotes@bollinsure.com</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-brand" style="font-size:1.1rem;display:inline-block;margin-bottom:16px">Best<span>HO3</span></a>
+        <p class="footer-disclaimer">WJB Services, Inc. dba Bollinsure Insurance Services. Independent homeowners insurance broker with a California focus. CA DOI Lic. #6013787.</p>
+        <p class="footer-disclaimer">Nothing on this site is a quote, binder, or offer of coverage. All pricing indications and rebuild-cost estimates are preliminary and subject to carrier underwriting, inspection, and approval. Policy terms control.</p>
+        <p style="margin-top:16px;font-size:0.875rem">
+          <a href="tel:3108045017" style="color:var(--muted)">310-804-5017</a> ·
+          <a href="mailto:quotes@bollinsure.com" style="color:var(--muted)">quotes@bollinsure.com</a>
+        </p>
+      </div>
+      <div>
+        <p class="footer-col-title">Coverage</p>
+        <ul class="footer-links">
+          <li><a href="/coverage">What HO-3 Covers</a></li>
+          <li><a href="/coverage-a-dwelling">Dwelling (Coverage A)</a></li>
+          <li><a href="/coverage-c-personal-property">Personal Property</a></li>
+          <li><a href="/personal-liability-coverage-e">Liability</a></li>
+          <li><a href="/deductibles">Deductibles</a></li>
+          <li><a href="/scheduled-personal-property">Scheduled Items</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">California</p>
+        <ul class="footer-links">
+          <li><a href="/california-homeowners-insurance">The CA Guide</a></li>
+          <li><a href="/california-wildfire-insurance">Wildfire Insurance</a></li>
+          <li><a href="/california-fair-plan">FAIR Plan</a></li>
+          <li><a href="/fair-plan-plus-dic">FAIR + DIC Pairing</a></li>
+          <li><a href="/earthquake-insurance-california">Earthquake</a></li>
+          <li><a href="/non-renewal-what-to-do">Non-Renewals</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Resources</p>
+        <ul class="footer-links">
+          <li><a href="/ho3-vs-ho5">HO-3 vs HO-5</a></li>
+          <li><a href="/landlord-dp3">Landlord DP-3</a></li>
+          <li><a href="/cost">Cost Guide</a></li>
+          <li><a href="/how-much-dwelling-coverage">How Much Coverage</a></li>
+          <li><a href="/replacement-cost-estimator">Rebuild-Cost Estimator</a></li>
+          <li><a href="/carriers">Carrier Guide</a></li>
+          <li><a href="/glossary">Glossary</a></li>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/#quote">Get Indication</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Bollinsure Insurance Services. All rights reserved.</span>
+      <span>CA DOI Lic. #6013787 · Independent Broker · Licensed in all 50 states</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/app.js" defer></script>
+<script>
+(function () {
+  "use strict";
+  var COST_PER_SQFT = 350; // sanctioned CA starting figure — broker verifies before binding
+  var input = document.getElementById('rc-sqft');
+  var result = document.getElementById('rc-result');
+  var amountEl = document.getElementById('rc-amount');
+  var basisEl = document.getElementById('rc-basis');
+  var continueBtn = document.getElementById('rc-continue');
+  var lastSqft = 0;
+
+  function parseSqft(v) {
+    var n = parseInt(String(v).replace(/[^0-9]/g, ''), 10);
+    return isNaN(n) ? 0 : n;
+  }
+  function money(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+
+  function update() {
+    var sqft = parseSqft(input.value);
+    lastSqft = sqft;
+    if (sqft >= 200) {
+      var covA = Math.round(sqft * COST_PER_SQFT / 1000) * 1000;
+      amountEl.textContent = money(covA);
+      basisEl.innerHTML = sqft.toLocaleString('en-US') + ' sq ft × ~$' + COST_PER_SQFT + '/sq ft. A starting point your broker verifies before binding.';
+      result.style.display = 'block';
+    } else {
+      result.style.display = 'none';
+    }
+  }
+
+  if (input) {
+    input.addEventListener('input', update);
+    // light thousands formatting on blur
+    input.addEventListener('blur', function () {
+      var n = parseSqft(input.value);
+      if (n > 0) input.value = n.toLocaleString('en-US');
+    });
+  }
+  if (continueBtn) {
+    continueBtn.addEventListener('click', function () {
+      try {
+        if (lastSqft >= 200) {
+          sessionStorage.setItem('bestho3_prefill', JSON.stringify({ total_living_area: lastSqft }));
+        }
+      } catch (e) {}
+      window.location.href = '/#quote';
+    });
+  }
+})();
+</script>
+</body>
+</html>
