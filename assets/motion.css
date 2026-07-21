@@ -1,0 +1,359 @@
+/* =============================================
+   BEST BRANDS — Motion & Story Layer
+   Reusable presentation primitives for static sites.
+   Brand colors and type continue to come from styles.css.
+   ============================================= */
+
+:root {
+  --motion-fast: 220ms;
+  --motion-base: 620ms;
+  --motion-slow: 900ms;
+  --motion-stagger: 90ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --scene-progress: 0;
+}
+
+/* A quiet orientation cue, not a second navigation bar. */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 3px;
+  z-index: 220;
+  pointer-events: none;
+  background: transparent;
+}
+.scroll-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--terra);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* Hero entrance: editorial pacing with no looping animation. */
+@media (scripting: enabled) {
+  [data-hero-motion] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity var(--motion-base) var(--motion-ease),
+      transform var(--motion-base) var(--motion-ease);
+  }
+  .hero.is-loaded [data-hero-motion] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .hero.is-loaded [data-hero-motion]:nth-child(1) { transition-delay: 40ms; }
+  .hero.is-loaded [data-hero-motion]:nth-child(2) { transition-delay: 120ms; }
+  .hero.is-loaded [data-hero-motion]:nth-child(3) { transition-delay: 200ms; }
+  .hero.is-loaded [data-hero-motion]:nth-child(4) { transition-delay: 280ms; }
+  .hero.is-loaded [data-hero-motion]:nth-child(5) { transition-delay: 340ms; }
+  .hero.is-loaded [data-hero-motion]:nth-child(6) { transition-delay: 400ms; }
+
+  [data-motion] {
+    opacity: 0;
+    transition:
+      opacity var(--motion-base) var(--motion-ease),
+      transform var(--motion-base) var(--motion-ease);
+    transition-delay: calc(var(--motion-order, 0) * var(--motion-stagger));
+  }
+  [data-motion="rise"] { transform: translateY(30px); }
+  [data-motion="slide-right"] { transform: translateX(-34px); }
+  [data-motion="slide-left"] { transform: translateX(34px); }
+  [data-motion="scale"] { transform: translateY(18px) scale(0.975); }
+  [data-motion="fade"] { transform: none; }
+  [data-motion].is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.hero-visual {
+  transform: translateY(calc(var(--scene-progress, 0) * 18px))
+             rotate(calc((var(--scene-progress, 0) - 0.5) * -1.2deg));
+  transition: transform 80ms linear;
+}
+
+/* Market route: retain the information, give the sweep a direction. */
+.market-route { position: relative; overflow: hidden; }
+.market-route::before {
+  content: "";
+  position: absolute;
+  width: 460px;
+  height: 460px;
+  right: -220px;
+  top: -260px;
+  border: 1px solid rgba(29, 87, 65, 0.16);
+  border-radius: 50%;
+}
+.market-route-grid { position: relative; }
+.market-route-grid::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 5%;
+  right: 5%;
+  top: 50%;
+  height: 2px;
+  background: var(--border2);
+  transform: translateY(-1px);
+}
+.market-route-grid::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 5%;
+  top: 50%;
+  width: 90%;
+  height: 2px;
+  background: var(--terra);
+  transform: translateY(-1px) scaleX(var(--scene-progress, 0));
+  transform-origin: left center;
+  transition: transform 120ms linear;
+}
+.market-card {
+  z-index: 1;
+  min-height: 192px;
+  transition:
+    transform var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast),
+    box-shadow var(--motion-fast),
+    background var(--motion-fast);
+}
+.market-card::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  left: 50%;
+  bottom: -25px;
+  border: 3px solid var(--bg2);
+  border-radius: 50%;
+  background: var(--border2);
+  transform: translateX(-50%);
+  transition: background var(--motion-fast), transform var(--motion-fast);
+}
+.market-card.is-active {
+  transform: translateY(-7px);
+  border-color: var(--accent-border);
+  background: #fffdf8;
+  box-shadow: var(--shadow-lg);
+}
+.market-card.is-active::after {
+  background: var(--terra);
+  transform: translateX(-50%) scale(1.25);
+}
+
+/* Outcome section: one strong editorial break replaces another card grid. */
+.outcome-section {
+  --outcome-ink: #eef0e7;
+  --outcome-muted: #bcc5b8;
+  --outcome-border: rgba(238, 240, 231, 0.16);
+  background:
+    radial-gradient(700px 380px at 95% 8%, rgba(165, 73, 39, 0.22), transparent 68%),
+    #17251e;
+  color: var(--outcome-ink);
+  overflow: hidden;
+}
+.outcome-section .section-title,
+.outcome-section h3 { color: var(--outcome-ink); }
+.outcome-section .lead { color: var(--outcome-muted); }
+.outcome-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(40px, 8vw, 112px);
+  align-items: end;
+  margin-bottom: 64px;
+}
+.outcome-intro .section-title {
+  max-width: 620px;
+  margin-bottom: 0;
+  font-size: clamp(2.2rem, 4.8vw, 4.2rem);
+}
+.outcome-note {
+  margin-top: 18px;
+  max-width: 680px;
+  color: #8f9b8d;
+  font-size: 0.76rem;
+  line-height: 1.65;
+}
+.placement-path {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--outcome-border);
+  border-bottom: 1px solid var(--outcome-border);
+  margin-bottom: 64px;
+}
+.placement-step {
+  min-height: 300px;
+  padding: 30px clamp(24px, 3vw, 42px) 36px 0;
+  position: relative;
+}
+.placement-step + .placement-step {
+  padding-left: clamp(24px, 3vw, 42px);
+  border-left: 1px solid var(--outcome-border);
+}
+.placement-index {
+  display: block;
+  margin-bottom: 68px;
+  color: #d38a68;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-style: italic;
+}
+.placement-label {
+  margin-bottom: 10px;
+  color: #d38a68;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.placement-step h3 { margin-bottom: 12px; font-size: 1.4rem; }
+.placement-step > p:last-child {
+  color: var(--outcome-muted);
+  font-size: 0.88rem;
+  line-height: 1.75;
+}
+.placement-step::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d38a68;
+  box-shadow: 0 0 0 5px #17251e;
+}
+.placement-step + .placement-step::after { left: clamp(24px, 3vw, 42px); }
+
+.client-story {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.6fr);
+  gap: 48px;
+  padding: clamp(36px, 6vw, 72px);
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 14px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+}
+.client-story-mark {
+  position: absolute;
+  right: 34px;
+  top: 18px;
+  color: rgba(165, 73, 39, 0.14);
+  font-family: var(--font-display);
+  font-size: 9rem;
+  line-height: 1;
+}
+.client-story blockquote { position: relative; z-index: 1; }
+.client-story blockquote p {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.6vw, 2.25rem);
+  line-height: 1.28;
+  letter-spacing: -0.015em;
+}
+.client-story figcaption {
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.client-story figcaption span:first-child {
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.client-story-outcome {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.client-story-outcome strong { color: var(--accent); }
+
+.outcome-cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 28px;
+  margin-top: 42px;
+}
+.outcome-cta p { max-width: 560px; color: var(--outcome-muted); }
+.outcome-cta p strong { color: var(--outcome-ink); }
+.outcome-cta > div { display: flex; flex-wrap: wrap; gap: 10px; }
+.outcome-section .btn-accent { background: #f2eee3; color: #173f30; }
+.outcome-section .btn-accent:hover { background: #fffdf8; color: #173f30; }
+.outcome-section .btn-ghost { border-color: rgba(238, 240, 231, 0.34); color: var(--outcome-ink); }
+.outcome-section .btn-ghost:hover { border-color: var(--outcome-ink); color: #fff; }
+
+.premium-grid .card {
+  transition:
+    transform var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast),
+    box-shadow var(--motion-fast);
+}
+.premium-grid .card:hover { transform: translateY(-5px); }
+.premium-grid .card:first-child,
+.premium-grid .card:last-child { border-color: var(--accent-border); }
+
+@media (max-width: 900px) {
+  .market-route-grid::before,
+  .market-route-grid::after,
+  .market-card::after { display: none; }
+  .outcome-intro { grid-template-columns: 1fr; gap: 28px; }
+  .placement-path { grid-template-columns: 1fr; }
+  .placement-step { min-height: auto; padding: 30px 0; }
+  .placement-step + .placement-step {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--outcome-border);
+  }
+  .placement-step + .placement-step::after { left: 0; }
+  .placement-index { margin-bottom: 28px; }
+  .client-story { grid-template-columns: 1fr; gap: 28px; }
+  .outcome-cta { align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 600px) {
+  .scroll-progress { height: 2px; }
+  .outcome-section { padding-top: 76px; padding-bottom: 76px; }
+  .client-story { padding: 32px 24px; }
+  .client-story-mark { right: 12px; top: 12px; font-size: 6rem; }
+  .client-story blockquote p { font-size: 1.35rem; }
+  .client-story-outcome { align-items: flex-start; flex-direction: column; }
+  .client-story-outcome span[aria-hidden="true"] { transform: rotate(90deg); }
+  .outcome-cta > div,
+  .outcome-cta .btn { width: 100%; }
+  .outcome-cta .btn { justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --scene-progress: 0; }
+  .scroll-progress { display: none; }
+  [data-hero-motion],
+  [data-motion] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .hero-visual,
+  .market-card,
+  .premium-grid .card { transform: none !important; transition: none !important; }
+  .market-route-grid::after { display: none; }
+}

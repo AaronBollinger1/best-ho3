@@ -58,28 +58,114 @@
       }
     });
   });
+  /* --- Reusable motion layer --- */
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hero = document.querySelector('.hero');
+  var motionTargets = document.querySelectorAll('[data-motion], .reveal');
 
+  /* Give every group a predictable stagger without page-specific selectors. */
+  document.querySelectorAll('[data-motion-group]').forEach(function (group) {
+    var groupItems = Array.prototype.filter.call(
+      group.querySelectorAll('[data-motion], .reveal'),
+      function (item) { return item.closest('[data-motion-group]') === group; }
+    );
+    groupItems.forEach(function (item, index) {
+      item.style.setProperty('--motion-order', index);
+    });
+  });
 
-  /* --- Scroll reveal --- */
-  if ('IntersectionObserver' in window) {
+  if (hero) {
+    if (reducedMotion) {
+      hero.classList.add('is-loaded');
+    } else {
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
+          hero.classList.add('is-loaded');
+        });
+      });
+    }
+  }
+
+  function showMotionTarget(el) {
+    el.classList.add('is-visible');
+    /* Keep the original reveal API working on all guide pages. */
+    el.classList.add('visible');
+  }
+
+  if (!reducedMotion && 'IntersectionObserver' in window) {
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+          showMotionTarget(entry.target);
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -48px 0px' });
 
-    document.querySelectorAll('.reveal').forEach(function (el) {
-      observer.observe(el);
-    });
+    motionTargets.forEach(function (el) { observer.observe(el); });
   } else {
-    /* Fallback: show all immediately */
-    document.querySelectorAll('.reveal').forEach(function (el) {
-      el.classList.add('visible');
+    motionTargets.forEach(showMotionTarget);
+  }
+
+  /* Scroll progress and section scenes share one requestAnimationFrame loop. */
+  var progressBar = document.getElementById('scroll-progress-bar');
+  var scenes = document.querySelectorAll('[data-scroll-scene]');
+  var ticking = false;
+
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function updateScrollEffects() {
+    ticking = false;
+    var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    var pageProgress = scrollable > 0 ? window.scrollY / scrollable : 0;
+
+    if (progressBar) {
+      progressBar.style.transform = 'scaleX(' + clamp(pageProgress, 0, 1).toFixed(4) + ')';
+    }
+
+    if (reducedMotion) return;
+
+    scenes.forEach(function (scene) {
+      var rect = scene.getBoundingClientRect();
+      var sceneProgress;
+
+      if (scene.id === 'main') {
+        sceneProgress = clamp(-rect.top / Math.max(rect.height * 0.8, 1), 0, 1);
+      } else {
+        sceneProgress = clamp(
+          (window.innerHeight * 0.72 - rect.top) / Math.max(rect.height * 0.86, 1),
+          0,
+          1
+        );
+      }
+
+      scene.style.setProperty('--scene-progress', sceneProgress.toFixed(4));
+
+      var marketCards = scene.querySelectorAll('.market-card');
+      if (marketCards.length && rect.top < window.innerHeight && rect.bottom > 0) {
+        var activeIndex = Math.min(
+          marketCards.length - 1,
+          Math.floor(sceneProgress * marketCards.length)
+        );
+        marketCards.forEach(function (card, index) {
+          card.classList.toggle('is-active', index === activeIndex);
+        });
+      }
     });
   }
+
+  function requestScrollUpdate() {
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(updateScrollEffects);
+    }
+  }
+
+  updateScrollEffects();
+  window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+  window.addEventListener('resize', requestScrollUpdate, { passive: true });
 
   /* --- Smooth nav offset for fixed header --- */
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {

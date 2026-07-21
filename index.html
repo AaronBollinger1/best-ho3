@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&family=Public+Sans:wght@400..700&family=Dancing+Script:wght@600&display=swap">
   <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/motion.css">
   <meta name="description" content="Independent California homeowners insurance broker. HO-3 pricing indication in minutes, signed ACORD 80 online, admitted carriers + FAIR Plan + E&S shopped for you. CA DOI #6013787.">
   <link rel="canonical" href="https://www.bestho3.com/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -39,6 +40,7 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-bar"></span></div>
 
 <!-- NAV -->
 <nav class="nav" id="main-nav">
@@ -65,20 +67,20 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero" id="main">
+<section class="hero" id="main" data-scroll-scene>
   <div class="hero-glow-1"></div>
   <div class="hero-glow-2"></div>
   <div class="hero-inner">
-    <div class="hero-content">
-      <span class="kicker">California Homeowners Insurance Broker</span>
-      <h1 class="hero-headline">California Home Insurance.<br><span class="grad-ink">Shopped, Not Settled.</span></h1>
-      <p class="hero-sub">Independent brokerage for the hardest homeowners market in America. Admitted carriers, the FAIR Plan, and surplus-lines markets — one application, every option on the table, before you renew or close escrow.</p>
-      <div class="hero-ctas">
+    <div class="hero-content" data-hero-group>
+      <span class="kicker" data-hero-motion>California Homeowners Insurance Broker</span>
+      <h1 class="hero-headline" data-hero-motion>California Home Insurance.<br><span class="grad-ink">Shopped, Not Settled.</span></h1>
+      <p class="hero-sub" data-hero-motion>Independent brokerage for the hardest homeowners market in America. Admitted carriers, the FAIR Plan, and surplus-lines markets — one application, every option on the table, before you renew or close escrow.</p>
+      <div class="hero-ctas" data-hero-motion>
         <a href="#quote" class="btn btn-accent btn-lg">Get a pricing indication →</a>
         <a href="tel:3108045017" class="btn btn-ghost btn-lg">Call 310-804-5017</a>
       </div>
-      <p style="margin-top:14px;font-size:0.82rem;color:var(--muted2)">Indication in about 4 minutes · Sign the ACORD 80 online · No broker fee · No obligation</p>
-      <div class="hero-stats">
+      <p data-hero-motion style="margin-top:14px;font-size:0.82rem;color:var(--muted2)">Indication in about 4 minutes · Sign the ACORD 80 online · No broker fee · No obligation</p>
+      <div class="hero-stats" data-hero-motion>
         <div class="stat">
           <span class="stat-value grad-ink">14+ carriers</span>
           <span class="stat-label">Admitted · High-value · E&amp;S · FAIR</span>
@@ -97,7 +99,7 @@
         </div>
       </div>
     </div>
-    <div class="hero-visual">
+    <div class="hero-visual" data-hero-motion>
       <svg viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px" role="img" aria-label="Illustration of a homeowners application with a pricing indication">
         <rect x="20" y="20" width="440" height="340" rx="10" fill="#fffdf8" stroke="#ddd3bd" stroke-width="1.5"/>
         <rect x="21" y="21" width="438" height="50" rx="9" fill="#f1ecdf"/>
@@ -137,28 +139,28 @@
 </section>
 
 <!-- MARKETS WE SHOP -->
-<section class="section-alt" style="padding:52px 0" id="markets">
-  <div class="container" style="text-align:center">
+<section class="section-alt market-route" style="padding:72px 0" id="markets" data-scroll-scene>
+  <div class="container" style="text-align:center" data-motion-group>
     <span class="kicker">The markets we shop for you</span>
     <h2 style="font-family:var(--font-display);font-weight:500;font-size:clamp(1.5rem,2.8vw,2.05rem);color:var(--text);margin:0 auto 12px;max-width:760px;line-height:1.2">One application, shopped across the whole California market</h2>
     <p style="max-width:640px;margin:0 auto 30px;color:var(--muted);font-size:1rem;line-height:1.7">Independent means we answer to your home, not one carrier. We place across four segments and quote the ones that fit — then hand you the best of what comes back.</p>
-    <div class="markets-grid">
-      <div class="card" style="padding:22px">
+    <div class="markets-grid market-route-grid">
+      <div class="card market-card" style="padding:22px" data-motion="rise">
         <span class="step-num">Preferred</span>
         <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:550;margin-bottom:6px">Admitted carriers</h3>
         <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;margin:0">Safeco, Travelers, Nationwide, Mercury, CSAA, Foremost, Stillwater — the competitive standard market.</p>
       </div>
-      <div class="card" style="padding:22px">
+      <div class="card market-card" style="padding:22px" data-motion="rise">
         <span class="step-num">High value</span>
         <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:550;margin-bottom:6px">Private-client</h3>
         <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;margin:0">Chubb, PURE, AIG Private Client, Cincinnati, Nationwide Private Client — richer contracts for higher-value homes.</p>
       </div>
-      <div class="card" style="padding:22px">
+      <div class="card market-card" style="padding:22px" data-motion="rise">
         <span class="step-num">Specialty</span>
         <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:550;margin-bottom:6px">Surplus lines (E&amp;S)</h3>
         <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;margin:0">American Modern, Lloyd's of London and other E&amp;S markets for brush-exposed and older homes.</p>
       </div>
-      <div class="card" style="padding:22px">
+      <div class="card market-card" style="padding:22px" data-motion="rise">
         <span class="step-num">Last resort</span>
         <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:550;margin-bottom:6px">FAIR Plan + DIC</h3>
         <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;margin:0">The California FAIR Plan paired with a DIC companion when the admitted market declines a home.</p>
@@ -331,15 +333,78 @@
   </div>
 </section>
 
+<!-- BRUSH & FAIR PLAN OUTCOMES -->
+<section class="section outcome-section" id="outcomes" data-scroll-scene>
+  <div class="container">
+    <div class="outcome-intro" data-motion-group>
+      <div data-motion="slide-right">
+        <span class="kicker">Brush Success Stories</span>
+        <h2 class="section-title">Before we settle for the FAIR Plan, we work the market.</h2>
+      </div>
+      <div data-motion="fade">
+        <p class="lead">Brush exposure changes the submission, not the effort. We document the home, match it to current carrier appetite, and coordinate FAIR Plan plus DIC only when it is the proper placement.</p>
+        <p class="outcome-note">No market is guaranteed. Eligibility, coverage, and pricing depend on underwriting, property condition, wildfire mapping, and carrier appetite at the time of submission.</p>
+      </div>
+    </div>
+
+    <div class="placement-path" data-motion-group aria-label="Our brush-exposed home placement process">
+      <article class="placement-step" data-motion="rise">
+        <span class="placement-index">01</span>
+        <p class="placement-label">Document</p>
+        <h3>Build the property story</h3>
+        <p>We review brush mapping, roof and system updates, defensible-space work, loss history, replacement cost, lender requirements, and the non-renewal deadline.</p>
+      </article>
+      <article class="placement-step" data-motion="rise">
+        <span class="placement-index">02</span>
+        <p class="placement-label">Remarket</p>
+        <h3>Look beyond the first decline</h3>
+        <p>We approach admitted, private-client, and specialty markets with real appetite for the home instead of treating one carrier's cancellation as the end of the road.</p>
+      </article>
+      <article class="placement-step" data-motion="rise">
+        <span class="placement-index">03</span>
+        <p class="placement-label">Coordinate</p>
+        <h3>Use FAIR + DIC when proper</h3>
+        <p>When the FAIR Plan is the sound option, we coordinate its fire coverage with a DIC companion and align limits, deductibles, effective dates, and mortgagee language.</p>
+      </article>
+    </div>
+
+    <figure class="client-story" data-motion="scale">
+      <div class="client-story-mark" aria-hidden="true">“</div>
+      <blockquote>
+        <p>I have had ISU Stanton and Associates as an insurance broker for many years and have not had any issues. Most recently, they assisted obtaining homeowner's insurance when my current provider canceled the policy due to fire risk concerns. ISU worked hard to find me another provider and avoid the dreaded California Fair Plan option which would have been far more expensive. The new provider is actually cheaper than the policy that was canceled. I am very happy with the result.</p>
+      </blockquote>
+      <figcaption>
+        <span>California homeowner</span>
+        <span>Longtime ISU Stanton &amp; Associates client</span>
+      </figcaption>
+      <div class="client-story-outcome" aria-label="Outcome summary">
+        <span>Fire-risk cancellation</span>
+        <span aria-hidden="true">→</span>
+        <span>Alternative carrier secured</span>
+        <span aria-hidden="true">→</span>
+        <strong>FAIR Plan avoided</strong>
+      </div>
+    </figure>
+
+    <div class="outcome-cta" data-motion="fade">
+      <p><strong>Facing a brush-zone non-renewal?</strong> Start early enough for us to work the full placement path.</p>
+      <div>
+        <a href="#quote" class="btn btn-accent">Get a pricing indication →</a>
+        <a href="tel:3108045017" class="btn btn-ghost">Talk to a broker</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- COST FACTORS -->
-<section class="section section-light" id="cost-factors">
+<section class="section section-light" id="cost-factors" data-scroll-scene>
   <div class="container">
     <div class="section-header">
       <span class="kicker">What Drives Your Premium</span>
       <h2 class="section-title">Eight levers set a California homeowners premium</h2>
       <p class="lead" style="max-width:720px">Some you can't change (location). Most you can (deductible, roof, wiring disclosure, alarm, carrier choice). The wizard above prices all eight live. <a href="/cost" style="color:var(--accent);text-decoration:underline">Full cost guide →</a></p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
+    <div class="premium-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px" data-motion-group>
       <div class="card reveal"><h3 style="font-size:0.95rem;margin-bottom:6px">1 · Wildfire exposure</h3><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin:0">The dominant CA factor — brush distance, fire-zone mapping, and community mitigation.</p></div>
       <div class="card reveal"><h3 style="font-size:0.95rem;margin-bottom:6px">2 · Coverage A</h3><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin:0">Premium scales with rebuild cost. Insure to rebuild, not to Zillow.</p></div>
       <div class="card reveal"><h3 style="font-size:0.95rem;margin-bottom:6px">3 · Roof age &amp; type</h3><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin:0">20+ year roofs surcharge; wood shake struggles; a documented re-roof pays for itself.</p></div>
