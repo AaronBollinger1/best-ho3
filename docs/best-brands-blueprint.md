@@ -88,6 +88,10 @@ Future stories should replace the facts rather than merely changing the nouns. V
 - Preserve existing destinations and tracking when restyling buttons.
 - Repeat the primary/secondary pair after the strongest proof point.
 
+## Expandable FAQ pattern
+
+Use native `<details class="faq-item">` with a `<summary class="faq-q">` and a `.faq-a` answer. This keeps every answer present in the source for search and no-script access while providing keyboard, touch, and screen-reader behavior without custom JavaScript. Use the same structure on landing pages and full FAQ libraries; category headings remain visible orientation points.
+
 ## Reduced motion and performance
 
 - All movement is disabled or simplified under `prefers-reduced-motion: reduce`.

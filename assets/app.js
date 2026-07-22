@@ -33,22 +33,6 @@
     });
   }
 
-  /* --- FAQ accordion --- */
-  document.querySelectorAll('.faq-item').forEach(function (item) {
-    var btn = item.querySelector('.faq-q');
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      var isOpen = item.classList.contains('open');
-      /* Close all */
-      document.querySelectorAll('.faq-item.open').forEach(function (openItem) {
-        openItem.classList.remove('open');
-      });
-      /* Toggle current */
-      if (!isOpen) {
-        item.classList.add('open');
-      }
-    });
-  });
   /* --- Reusable motion layer --- */
   var motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
   var reducedMotion = motionPreference.matches;

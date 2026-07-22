@@ -616,6 +616,17 @@ h1,h2,h3,h4 {
   overflow: hidden;
   background: var(--bg3);
   box-shadow: var(--shadow);
+  transition:
+    border-color 0.22s,
+    box-shadow 0.22s,
+    background 0.22s;
+}
+.faq-page-item + .faq-page-item { margin-top: 8px; }
+.faq-page-item + h2 { margin-top: 52px; }
+.faq-item[open] {
+  border-color: var(--accent-border);
+  background: #fffdf8;
+  box-shadow: var(--shadow-lg);
 }
 
 .faq-q {
@@ -633,30 +644,59 @@ h1,h2,h3,h4 {
   color: var(--text);
   text-align: left;
   gap: 16px;
-  transition: background 0.18s;
+  list-style: none;
+  transition: background 0.18s, color 0.18s;
 }
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q::marker { content: ""; }
 .faq-q:hover { background: rgba(29,87,65,0.04); }
+.faq-q:focus-visible {
+  outline: 3px solid rgba(29,87,65,0.24);
+  outline-offset: -3px;
+}
+.faq-item[open] .faq-q { color: var(--accent); }
 
 .faq-arrow {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border2);
+  border-radius: 50%;
   color: var(--terra);
-  font-size: 1.35rem;
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
   font-weight: 400;
   line-height: 1;
   flex-shrink: 0;
-  transition: transform 0.25s;
+  transition: transform 0.25s, background 0.2s, border-color 0.2s;
 }
-.faq-item.open .faq-arrow { transform: rotate(45deg); }
+.faq-item[open] .faq-arrow {
+  transform: rotate(45deg);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fffdf8;
+}
 
 .faq-a {
-  display: none;
-  padding: 0 24px 20px;
+  padding: 18px 24px 22px;
   font-size: 0.9rem;
   color: var(--muted);
   line-height: 1.8;
   border-top: 1px solid var(--border);
-  padding-top: 16px;
+  background: linear-gradient(180deg, rgba(29,87,65,0.025), transparent 70%);
 }
-.faq-item.open .faq-a { display: block; }
+.faq-a p:last-child { margin-bottom: 0; }
+.faq-a a {
+  color: var(--accent);
+  text-decoration-color: rgba(29,87,65,0.3);
+}
+
+@media (max-width: 600px) {
+  .faq-q { padding: 17px 18px; font-size: 1rem; }
+  .faq-a { padding: 16px 18px 20px; }
+  .faq-arrow { width: 28px; height: 28px; }
+}
 
 /* --- CTA SECTION (deep pine band) --- */
 .cta-section {
