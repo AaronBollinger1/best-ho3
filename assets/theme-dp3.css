@@ -1,0 +1,39 @@
+/* =============================================================
+   BestDP3 — per-line token palette  (a NEW line, from the chassis)
+   -------------------------------------------------------------
+   The ONLY styling a second line ships. It redefines the brand
+   channels the shared layers already consume via var(); it never
+   redefines a component rule. Load AFTER /assets/styles.css so
+   these :root values win the cascade. styles.css, motion.css and
+   apply.css are untouched — proving the token seam is the theme API.
+
+   Identity: a sibling of BestHO3. Same warm-paper base for family
+   cohesion; accent shifts pine → deep harbor teal, with a brass
+   secondary, for a landlord / investor (dwelling-fire) feel.
+   ============================================================= */
+:root {
+  /* Brand channels */
+  --accent:        #17566b;   /* deep harbor teal */
+  --accent2:       #0f3f50;   /* hover */
+  --terra:         #9c5a2a;   /* brass / copper secondary */
+  --terra2:        #83491f;
+  --wash:          #e1ebed;   /* cool teal wash panel */
+  --accent-bg:     rgba(23, 86, 107, 0.07);
+  --accent-border: rgba(23, 86, 107, 0.28);
+
+  /* RGB triplets (shared layers compose alpha from these) */
+  --accent-rgb: 23, 86, 107;
+  --terra-rgb:  156, 90, 42;
+
+  /* Platform semantic tokens */
+  --brand-ink:   #123c4a;     /* deep harbor surface for product panels */
+  --scene-accent: var(--terra);
+  --route-line:   var(--accent);
+
+  /* Proof-story / dark band tuned to the harbor palette */
+  --outcome-bg:      #10262e;
+  --outcome-accent:  #d99a5f;
+
+  /* Page chrome */
+  --theme-color: #f6f2e9;
+}

@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { guardRequest, clientIp } from "./lib/request-guard.js";
 
 /* Legacy / fallback intake: full wizard answers by email, no PDF generation.
    Used when the applicant clicks "Submit without signing" (e.g., the PDF
@@ -7,7 +8,6 @@ import { Resend } from "resend";
 
 const FROM_ADDRESS = process.env.FROM_EMAIL || "BestHO3 <quotes@bestho3.com>";
 const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || "quotes@bollinsure.com";
-const RL = new Map();
 
 function clean(v, max = 700) {
   if (v == null) return "";
@@ -16,17 +16,6 @@ function clean(v, max = 700) {
 function money(v) {
   const n = Number(String(v || "").replace(/[^0-9.]/g, "")) || 0;
   return n ? "$" + Math.round(n).toLocaleString("en-US") : "";
-}
-function ipFrom(req) {
-  return String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "unknown";
-}
-function rateLimited(ip) {
-  const now = Date.now();
-  const arr = (RL.get(ip) || []).filter((t) => now - t < 60000);
-  arr.push(now);
-  RL.set(ip, arr);
-  if (RL.size > 5000) RL.clear();
-  return arr.length > 20;
 }
 
 const LABELS = [
@@ -115,8 +104,8 @@ const LABELS = [
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   try {
-    const ip = ipFrom(req);
-    if (rateLimited(ip)) return res.status(429).json({ error: "Too many requests. Please wait a minute." });
+    if (await guardRequest(req, res, { scope: "submit-ho", limit: 20, windowSec: 60 })) return;
+    const ip = clientIp(req);
     const payload = req.body || {};
     const f = payload.fields || {};
     if (payload.website_hp || f.website_hp) return res.status(200).json({ ok: true });

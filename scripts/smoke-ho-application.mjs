@@ -181,4 +181,6 @@ const { default: handler } = await import(pathToFileURL(path.join(root, "api", "
 }
 
 await import("./test-personal-lines-provider.mjs");
+await import("./test-request-guard.mjs");
+await import("./test-line-dp3.mjs");
 console.log("ALL SMOKE TESTS PASSED");

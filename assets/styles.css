@@ -1709,3 +1709,125 @@ h1,h2,h3,h4 {
 .legal-body a:hover { color: var(--terra2); }
 .legal-body strong { color: var(--text); }
 .legal-body .legal-updated { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 0.86rem; }
+
+/* ============================================================
+   HOME (index) COMPOSITION + shared utilities
+   Promoted from ~147 inline style attributes so the home page
+   carries near-zero inline CSS. Colors are token-only; these
+   classes are reusable across every content page and line.
+   ============================================================ */
+
+/* — small reusable utilities — */
+.u-center      { text-align: center; }
+.u-underline   { text-decoration: underline; }
+.mx-auto       { margin-left: auto; margin-right: auto; }
+.ink           { color: var(--text); }
+.c-accent      { color: var(--accent); }
+.c-muted       { color: var(--muted); }
+.mw-540 { max-width: 540px; }
+.mw-640 { max-width: 640px; }
+.mw-680 { max-width: 680px; }
+.mw-700 { max-width: 700px; }
+.mw-720 { max-width: 720px; }
+.mw-760 { max-width: 760px; }
+.mb-14 { margin-bottom: 14px; }
+.mb-16 { margin-bottom: 16px; }
+.mt-26 { margin-top: 26px; }
+
+/* Mono overline / eyebrow (Coverage A…F labels, panel headers) */
+.overline {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--terra);
+}
+
+/* Muted body copy inside cards */
+.muted-body { font-size: 0.85rem; color: var(--muted); line-height: 1.7; margin: 0; }
+.ca-body    { font-size: 0.85rem; color: var(--muted); line-height: 1.7; margin: 0 0 12px; }
+.card-note  { font-size: 0.85rem; color: var(--muted); line-height: 1.7; margin: 0 0 14px; }
+.card-cta   { color: var(--accent); font-size: 0.85rem; font-weight: 600; }
+.card-accent { border-color: var(--accent-border); }
+
+/* Responsive card grids (auto-fit; inherently mobile-safe) */
+.cov-grid     { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+.ca-grid      { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.guide-grid   { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.cov-title    { font-size: 1.05rem; margin: 8px 0 8px; }
+.ca-title     { font-size: 1.15rem; margin-bottom: 8px; }
+
+/* Horizontally scrollable table wrapper */
+.table-scroll  { overflow-x: auto; }
+.table-footnote { margin-top: 18px; font-size: 0.9rem; color: var(--muted); }
+
+/* Button size variants */
+.btn-sm { font-size: 0.85rem; padding: 8px 16px; }
+.btn-md { font-size: 0.85rem; padding: 10px 18px; }
+
+/* — Markets we shop — */
+.market-route { padding: 72px 0; }
+.market-route > .container { text-align: center; }
+.route-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 2.8vw, 2.05rem);
+  color: var(--text);
+  margin: 0 auto 12px;
+  max-width: 760px;
+  line-height: 1.2;
+}
+.route-lead { max-width: 640px; margin: 0 auto 30px; color: var(--muted); font-size: 1rem; line-height: 1.7; }
+.route-more { font-size: 0.9rem; }
+.hero-note { margin-top: 14px; font-size: 0.82rem; color: var(--muted2); }
+.route-fineprint { font-size: 0.78rem; color: var(--muted2); max-width: 640px; margin: 18px auto 0; line-height: 1.6; }
+.market-card { padding: 22px; }
+.market-card h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 550; margin-bottom: 6px; }
+.market-card p  { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin: 0; }
+
+/* — Premium levers grid — */
+.premium-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.premium-grid h3 { font-size: 0.95rem; margin-bottom: 6px; }
+.premium-grid p  { font-size: 0.83rem; color: var(--muted); line-height: 1.65; margin: 0; }
+
+/* — Wizard skeleton loader — */
+.wiz-skeleton { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; }
+.wiz-sk-kicker { height: 20px; width: 35%; margin-bottom: 32px; }
+.wiz-sk-title  { height: 44px; width: 65%; margin-bottom: 12px; }
+.wiz-sk-sub    { height: 18px; width: 50%; margin-bottom: 36px; }
+.wiz-sk-row    { height: 52px; }
+.wiz-sk-row.gap    { margin-bottom: 18px; }
+.wiz-sk-row.gap-lg { margin-bottom: 32px; }
+.wiz-sk-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+.wiz-sk-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+.wiz-sk-actions { display: flex; justify-content: flex-end; }
+.wiz-sk-btn { height: 48px; width: 160px; border-radius: 8px; }
+
+/* — "What happens next" numbered steps — */
+.next-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+.next-step  { display: flex; gap: 12px; }
+.next-badge {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--wash); color: var(--accent);
+  font-size: 0.78rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.next-step-title { font-weight: 600; font-size: 0.875rem; margin: 0 0 3px; color: var(--text); }
+.next-step-body  { font-size: 0.8rem; color: var(--muted); margin: 0; line-height: 1.5; }
+
+/* — Resource link panels (more guides / by region) — */
+.link-panel { margin-top: 28px; padding: 20px 24px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+.link-panel + .link-panel { margin-top: 16px; }
+.link-panel-title {
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em; color: var(--terra);
+  display: block; margin-bottom: 12px;
+}
+.link-panel-links { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 0.85rem; line-height: 2; }
+
+/* — CTA + footer bits — */
+.cta-lead { max-width: 540px; margin: 0 auto 32px; }
+.cta-subnote { margin-top: 16px; color: var(--muted2); font-size: 0.875rem; }
+.footer-brand-link { font-size: 1.1rem; display: inline-block; margin-bottom: 16px; }
+.footer-contact { margin-top: 16px; font-size: 0.875rem; }
