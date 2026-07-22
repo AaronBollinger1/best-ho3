@@ -36,12 +36,58 @@
   --radius-lg:10px;
   --font-sans: 'Public Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-display: 'Newsreader', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
-  --font-mono: 'Public Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', 'Segoe UI Mono', Menlo, Consolas, monospace;
   color-scheme: light;
   --shadow:   0 1px 2px rgba(59,50,32,0.05), 0 4px 20px rgba(59,50,32,0.07);
   --shadow-lg:0 2px 6px rgba(59,50,32,0.06), 0 14px 44px rgba(59,50,32,0.12);
   --max-w:    1200px;
   --max-w-narrow: 760px;
+
+  /* ============================================================
+     PLATFORM TOKENS  (BestInsurance chassis)
+     A second line of insurance reskins by editing THIS block only.
+     Shared layers (apply.css, motion.css) reference these — never
+     their own hex literals.
+     ============================================================ */
+  /* Brand channels as RGB triplets so shared layers can compose alpha */
+  --accent-rgb: 29, 87, 65;      /* deep pine */
+  --terra-rgb:  165, 73, 39;     /* terracotta */
+  /* Single source of truth for signal greens (was split #164b38/#1d5741/#27a56e) */
+  --brand-ink:        #163f30;   /* deep pine surface for product panels */
+  --brand-live:       #1f9d57;   /* live/active dot + progress accents */
+  --brand-live-soft:  #6ee7a9;   /* light active tint on dark grounds */
+  --brand-live-text:  #157a42;   /* AA-compliant success text on white */
+  /* Radius ramp (one geometry system) */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-xl: 16px;
+  /* Elevation ramp */
+  --elev-1:   0 1px 2px rgba(59,50,32,0.05), 0 4px 20px rgba(59,50,32,0.07);
+  --elev-2:   0 2px 6px rgba(59,50,32,0.06), 0 14px 44px rgba(59,50,32,0.12);
+  --elev-app: 0 18px 60px rgba(20,43,32,0.08);
+  /* Type scale + legibility floor (labels never below 12px) */
+  --fs-label: 0.75rem;    /* 12px  — small-caps labels, pills */
+  --fs-micro: 0.8125rem;  /* 13px  — dense metadata */
+  --fs-body:  0.9375rem;  /* 15px  — rail/app body copy */
+  /* Application workspace surfaces (intentional, tokenized) */
+  --surface-app:       #f7f8f4;
+  --surface-app-panel: #ffffff;
+  --app-ink:  #18231d;
+  --app-line: #dfe5df;
+  /* Proof-story / motion semantic tokens (consumed by motion.css) */
+  --scene-accent: var(--terra);
+  --route-line:   var(--accent);
+  --outcome-bg:      #17251e;
+  --outcome-surface: #fffdf8;
+  --outcome-ink:     #eef0e7;
+  --outcome-ink-rgb: 238, 240, 231;
+  --outcome-muted:   #bcc5b8;
+  --outcome-faint:   #8f9b8d;
+  --outcome-border:  rgba(238, 240, 231, 0.16);
+  --outcome-accent:  #d38a68;
+  --outcome-btn:     #f2eee3;
+  --story-card-1:    #fdfbf5;
+  --story-card-2:    #f1ecdf;
 }
 
 html { scroll-behavior: smooth; font-size: 16px; }
@@ -1591,34 +1637,34 @@ h1,h2,h3,h4 {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #27a56e;
-  box-shadow: 0 0 0 4px rgba(39,165,110,0.1);
+  background: var(--brand-live);
+  box-shadow: 0 0 0 4px rgba(31,157,87,0.14);
 }
-.product-preview-bar strong { font-family: var(--font-mono); font-size: 0.6rem; color: #4c574f; }
+.product-preview-bar strong { font-family: var(--font-mono); font-size: 0.64rem; color: #4c574f; }
 .product-preview-body { display: grid; grid-template-columns: minmax(0,1.55fr) minmax(150px,0.8fr); min-height: 330px; }
 .product-preview-main { padding: 27px 24px; }
-.product-preview-side { padding: 27px 20px; background: #164b38; color: #f4faf6; }
+.product-preview-side { padding: 27px 20px; background: var(--brand-ink); color: #f4faf6; }
 .product-preview-kicker { display: block; margin-bottom: 8px; color: #6d786f; font-size: 0.59rem; font-weight: 750; letter-spacing: 0.13em; text-transform: uppercase; }
 .product-preview-main h2 { font-family: var(--font-sans); font-size: 1.02rem; font-weight: 750; letter-spacing: -0.02em; }
 .product-preview-main > p { margin-top: 2px; color: #738078; font-size: 0.68rem; }
 .product-preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 23px; }
 .product-preview-grid > div { padding: 12px; border: 1px solid #e0e6e0; border-radius: 8px; background: #fff; }
-.product-preview-grid span { display: block; color: #7b857e; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.06em; }
-.product-preview-grid strong { display: block; margin-top: 4px; color: #27342c; font-size: 0.76rem; }
+.product-preview-grid span { display: block; color: #6f7a73; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.product-preview-grid strong { display: block; margin-top: 4px; color: #27342c; font-size: 0.78rem; }
 .product-preview-scan { margin-top: 18px; }
 .product-preview-scan > span { display: block; height: 3px; overflow: hidden; border-radius: 999px; background: #e5ebe6; }
-.product-preview-scan > span::after { content: ""; display: block; width: 62%; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#164b38,#45b982); animation: product-scan 2.8s ease-in-out infinite alternate; }
+.product-preview-scan > span::after { content: ""; display: block; width: 62%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--brand-ink), var(--brand-live)); animation: product-scan 2.8s ease-in-out infinite alternate; }
 .product-preview-scan p { margin-top: 8px; color: #667069; font-size: 0.59rem; }
 @keyframes product-scan { from { transform: translateX(-10%); } to { transform: translateX(76%); } }
 .product-preview-side .product-preview-kicker { color: rgba(244,250,246,0.62); }
 .product-preview-price { display: block; margin-top: 13px; font-family: var(--font-display); font-size: 1.35rem; font-weight: 550; line-height: 1; }
-.product-preview-side > small { display: block; margin-top: 7px; color: rgba(244,250,246,0.58); font-size: 0.57rem; }
+.product-preview-side > small { display: block; margin-top: 7px; color: rgba(244,250,246,0.62); font-size: 0.62rem; }
 .product-preview-status { display: grid; grid-template-columns: 8px 1fr; gap: 9px; align-items: start; margin-top: 28px; }
 .product-preview-status + .product-preview-status { margin-top: 16px; }
-.product-preview-status > i { width: 7px; height: 7px; margin-top: 3px; border-radius: 50%; background: #6ee7a9; box-shadow: 0 0 0 4px rgba(110,231,169,0.1); }
+.product-preview-status > i { width: 7px; height: 7px; margin-top: 3px; border-radius: 50%; background: var(--brand-live-soft); box-shadow: 0 0 0 4px rgba(110,231,169,0.1); }
 .product-preview-status:last-child > i { background: transparent; border: 1px solid rgba(244,250,246,0.45); box-shadow: none; }
-.product-preview-status strong { display: block; font-size: 0.61rem; }
-.product-preview-status small { display: block; margin-top: 2px; color: rgba(244,250,246,0.56); font-size: 0.54rem; }
+.product-preview-status strong { display: block; font-size: 0.64rem; }
+.product-preview-status small { display: block; margin-top: 2px; color: rgba(244,250,246,0.6); font-size: 0.62rem; }
 @media (max-width: 560px) {
   .product-preview-body { grid-template-columns: 1fr; }
   .product-preview-side { min-height: 190px; }
@@ -1652,3 +1698,14 @@ h1,h2,h3,h4 {
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
   .product-preview-scan > span::after { animation: none; }
 }
+
+/* --- Legal / policy pages --- */
+.legal-body { margin-top: 28px; max-width: 68ch; }
+.legal-body h2 { margin: 34px 0 8px; font-family: var(--font-display); font-size: 1.32rem; font-weight: 600; letter-spacing: -0.01em; }
+.legal-body p { margin-bottom: 14px; color: var(--muted); font-size: 0.98rem; line-height: 1.75; }
+.legal-body ul { margin: 4px 0 18px 1.1rem; }
+.legal-body li { margin-bottom: 8px; color: var(--muted); font-size: 0.98rem; line-height: 1.7; }
+.legal-body a { color: var(--terra); border-bottom: 1px solid var(--accent-border); }
+.legal-body a:hover { color: var(--terra2); }
+.legal-body strong { color: var(--text); }
+.legal-body .legal-updated { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 0.86rem; }

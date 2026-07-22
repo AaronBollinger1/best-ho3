@@ -6,6 +6,11 @@
 (function () {
   'use strict';
 
+  /* Motion handshake: prove this script ran before any content is hidden.
+     motion.css only applies opacity:0 start-states under `.js-motion`, so if
+     this file fails to load or throws, the page renders fully visible. */
+  document.documentElement.classList.add('js-motion');
+
   /* --- Navigation --- */
   var nav = document.getElementById('main-nav');
 
@@ -26,7 +31,7 @@
     });
     /* Close on outside click */
     document.addEventListener('click', function (e) {
-      if (!nav.contains(e.target)) {
+      if (nav && !nav.contains(e.target)) {
         navLinks.classList.remove('open');
         hamburger.setAttribute('aria-expanded', 'false');
       }
@@ -214,7 +219,7 @@
       e.preventDefault();
       var offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 64;
       var top = target.getBoundingClientRect().top + window.scrollY - offset - 16;
-      window.scrollTo({ top: top, behavior: 'smooth' });
+      window.scrollTo({ top: top, behavior: reducedMotion ? 'auto' : 'smooth' });
     });
   });
 

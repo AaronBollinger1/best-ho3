@@ -3,9 +3,12 @@ import {
   QUOTE_CONTRACT_VERSION,
   buildQuoteEnvelope,
   normalizeQuoteResults,
+  registerLine,
   requestProviderQuotes,
   validateQuoteEnvelope
 } from "../api/lib/personal-lines-quote-provider.js";
+
+assert.equal(QUOTE_CONTRACT_VERSION, "bestbrands.quote.v1");
 
 const payload = {
   fields: {
@@ -59,5 +62,40 @@ assert.equal(quoted.results[1].status, "referred");
 
 const unsafe = normalizeQuoteResults({ results: [{ status: "quoted", bridgeUrl: "javascript:alert(1)" }] });
 assert.equal(unsafe.results[0].bridgeUrl, "");
+
+// A SECOND line can be registered and validated independently of homeowners.
+registerLine("auto", {
+  build(fields) {
+    return {
+      vehicle: { vin: fields.vin, year: Number(fields.vehicle_year) || 0 },
+      coverage: { bodilyInjury: Number(fields.bodily_injury_limit) || 0 }
+    };
+  },
+  validate(application) {
+    const errors = [];
+    if (!application.applicant || !application.applicant.fullName) errors.push("applicant.fullName");
+    if (!application.vehicle || !application.vehicle.vin) errors.push("vehicle.vin");
+    return errors;
+  }
+});
+
+const autoPayload = {
+  line: "auto",
+  fields: { applicant_full_name: "Auto Applicant", vin: "1HGCM82633A004352", vehicle_year: "2019", bodily_injury_limit: "100000" }
+};
+const autoEnvelope = buildQuoteEnvelope(autoPayload);
+assert.equal(autoEnvelope.contractVersion, QUOTE_CONTRACT_VERSION);
+assert.equal(autoEnvelope.line, "auto");
+assert.equal(autoEnvelope.application.vehicle.vin, "1HGCM82633A004352");
+assert.equal(autoEnvelope.application.applicant.fullName, "Auto Applicant");
+// The auto line validates on its OWN required fields, not homeowners' risk fields.
+assert.deepEqual(validateQuoteEnvelope(autoEnvelope), { valid: true, errors: [] });
+const autoMissingVin = buildQuoteEnvelope({ line: "auto", fields: { applicant_full_name: "Auto Applicant" } });
+const autoMissingVinResult = validateQuoteEnvelope(autoMissingVin);
+assert.equal(autoMissingVinResult.valid, false);
+assert.deepEqual(autoMissingVinResult.errors, ["vehicle.vin"]);
+
+// An unregistered line is rejected with a "line" error.
+assert.deepEqual(validateQuoteEnvelope(buildQuoteEnvelope({ line: "spaceship", fields: {} })), { valid: false, errors: ["line"] });
 
 console.log("personal-lines provider contract: OK");

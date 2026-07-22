@@ -12,15 +12,17 @@ This document turns the BestHO3 experience into a repeatable starting point for 
 
 ## What changes by brand
 
-Keep brand decisions in the existing primary stylesheet rather than in `motion.css`:
+A new line touches exactly two configuration surfaces plus its own copy:
 
-- Type families and type scale.
-- Core color tokens such as the page background, accent, ink, borders, and cards.
-- Photography, illustration, maps, icons, and texture.
-- Product facts, eligibility rules, disclosures, contact details, and testimonials.
-- CTA labels when the product requires a different intake path.
+1. **`assets/brand.js`** — the single per-line manifest (`window.BEST_BRAND`): name, line, contact, CTA label, the event-channel prefix, the localStorage draft-key namespace, the intake mount id, and the `/apply` shell config (step labels, stage map, timeline rows). The shared controllers (`app.js`, `apply.js`, `ho-wizard.js`) read from it and are never edited per line.
+2. **The platform token block in `assets/styles.css` `:root`** — the single source of truth for color, type, radius, elevation, and the proof-story/app-surface tokens. Reskin here only:
+   - Type families and type scale (`--fs-label/--fs-micro/--fs-body`).
+   - Brand color channels (`--accent-rgb`, `--terra-rgb`) and signal greens (`--brand-ink`, `--brand-live`, `--brand-live-text`).
+   - Radius ramp (`--radius-sm/md/xl`) and elevation ramp (`--elev-1/2/app`).
+   - App-workspace surfaces (`--surface-app`, `--surface-app-panel`) and proof-story tokens (`--outcome-*`, `--story-card-*`, `--scene-accent`, `--route-line`).
+3. **Per-page copy** — product facts, eligibility rules, disclosures, contact details, testimonials, and photography.
 
-`assets/motion.css` only owns timing, reveal behavior, progress cues, story layouts, and interaction states. This separation allows a future brand to look distinct without rebuilding its motion system.
+`assets/apply.css` and `assets/motion.css` contain **no** color/geometry literals — they consume the tokens above, so a new brand looks distinct without editing the shared layers. `assets/motion.css` only owns timing, reveal behavior, progress cues, story layouts, and interaction states.
 
 ## Page sequence
 
@@ -101,7 +103,7 @@ The reusable product surface lives at `/apply` and has four layers:
 - a persistent result card that labels modeled estimates separately from carrier quotes;
 - a status rail for application stage, market workflow, and privacy expectations.
 
-Future Best Brands should change questions, forms, disclosures, and quote adapters without changing this shell. `assets/apply.css` owns the shared application layout, while each brand's root tokens control typography, colors, and atmosphere. Product events use the `bestho3:*` convention today and should be renamed behind a shared brand adapter when the second product adopts the pattern.
+Future Best Brands change questions, forms, disclosures, and quote adapters without changing this shell. `assets/apply.css` owns the shared application layout, while the platform token block controls typography, colors, and atmosphere. The `/apply` controller (`assets/apply.js`) is product-agnostic: session prefix, step labels, stage map, and timeline all come from `window.BEST_BRAND`, and it subscribes to the brand's event channel. Product events use a line-neutral `${eventPrefix}:*` channel (default `bestbrands:*`, set per line in `assets/brand.js`); the intake mounts at `#intake-mount` (the legacy `#ho-wizard-mount` is still accepted). The controller also reads the wizard's last-emitted state (`window.__intake.last`) on load, so a restored draft renders the correct step, price, and status without interaction.
 
 Device-local draft recovery is limited to non-identity property details and expires after seven days. Applicant identity, consent, signature, loss history, and underwriting answers require authenticated server storage before cross-device save/resume is offered.
 
@@ -109,7 +111,7 @@ Device-local draft recovery is limited to non-identity property details and expi
 
 Never call a carrier or comparative-rater API from the browser. Normalize the intake into a provider-neutral contract on the server, then translate it inside a vendor adapter. Public result states remain distinct: preliminary estimate, quoted, referred, declined, and error.
 
-BestHO3's current contract is `api/lib/personal-lines-quote-provider.js`. The Zywave-specific adapter remains intentionally unimplemented until contracted authentication, schema, carrier, webhook/polling, rate-limit, and bridge documentation is available. See `docs/zywave-integration-contract.md` for the go-live gate.
+The contract lives in `api/lib/personal-lines-quote-provider.js` (version `bestbrands.quote.v1`). It is multi-line by construction: a generic transport envelope `{ contractVersion, line, application: { applicant, ...lineSpecific } }` plus a per-line schema registry (`LINE_SCHEMAS`, extended via `registerLine(line, schema)`). Homeowners is the first registered line; a new line registers its own `build`/`validate` descriptor (e.g. auto: drivers/vehicles/VIN) without touching the envelope or the adapter boundary. The Zywave-specific adapter remains intentionally unimplemented until contracted authentication, schema, carrier, webhook/polling, rate-limit, and bridge documentation is available. See `docs/zywave-integration-contract.md` for the go-live gate.
 
 ## Reduced motion and performance
 
@@ -121,8 +123,8 @@ BestHO3's current contract is `api/lib/personal-lines-quote-provider.js`. The Zy
 
 ## Brand rollout workflow
 
-1. Copy the semantic page sequence and shared motion layer.
-2. Map the new brand's tokens, type, imagery, and voice in its primary stylesheet.
+1. Copy the semantic page sequence and the shared layers (`app.js`, `apply.js`, `apply.css`, `motion.css`) unchanged.
+2. Author the new line's `assets/brand.js` manifest and remap the platform token block in `styles.css :root` (color, type, radius, elevation). Register the line's quote schema with `registerLine()`.
 3. Replace all product facts, contact information, disclosures, and testimonials.
 4. Connect high-intent CTAs to the product-specific `/apply` workspace and preserve the embedded fallback only when useful.
 5. Verify keyboard navigation, focus visibility, landmarks, headings, labels, contrast, and reduced motion.

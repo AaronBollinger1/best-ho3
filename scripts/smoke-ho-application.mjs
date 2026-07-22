@@ -8,6 +8,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { PDFDocument } from "pdf-lib";
 
 const root = process.cwd();
@@ -93,7 +94,7 @@ const payload = {
   quote: { low: 2400, high: 3700, dwelling: 650000, form: "HO-3 (special form)" }
 };
 
-const { default: handler } = await import(path.join("file://", root, "api", "ho-application.js"));
+const { default: handler } = await import(pathToFileURL(path.join(root, "api", "ho-application.js")).href);
 
 // ── 2. preview fill + re-read ───────────────────────────────────────────────
 {

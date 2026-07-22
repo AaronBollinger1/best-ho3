@@ -1,13 +1,16 @@
 :root {
-  --app-shell: #f7f8f4;
-  --app-panel: #ffffff;
+  /* Workspace tokens resolve to the shared brand layer in styles.css.
+     Brand color has ONE source of truth — reskin a new line there, not here. */
+  --app-shell: var(--surface-app);
+  --app-panel: var(--surface-app-panel);
   --app-ink: #18231d;
   --app-muted: #667069;
   --app-line: #dfe5df;
-  --app-green: #164b38;
-  --app-green-bright: #27a56e;
-  --app-orange: #b65b36;
-  --app-shadow: 0 18px 60px rgba(20, 43, 32, 0.08);
+  --app-green: var(--accent);
+  --app-green-bright: var(--brand-live);
+  --app-green-text: var(--brand-live-text);
+  --app-orange: var(--terra);
+  --app-shadow: var(--elev-app);
 }
 
 .application-page {
@@ -106,8 +109,8 @@
   border-left: 1px solid var(--app-line);
   padding-left: 22px;
 }
-.application-reference span { display: block; color: var(--app-muted); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; }
-.application-reference strong { display: block; margin-top: 5px; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; }
+.application-reference span { display: block; color: var(--app-muted); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.application-reference strong { display: block; margin-top: 5px; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.04em; }
 
 .application-grid {
   display: grid;
@@ -137,7 +140,7 @@
 .application-commandbar > div:first-child { display: flex; align-items: center; gap: 10px; }
 .application-commandbar strong { font-size: 0.76rem; }
 .application-save-status { color: var(--app-muted); text-align: right; }
-.application-workspace #ho-wizard-mount { padding: 28px; }
+.application-workspace #intake-mount { padding: 28px; }
 .application-workspace .ho-top-est { max-width: none; margin-top: 0; }
 .application-workspace .wz-card { max-width: none; box-shadow: none; border-color: var(--app-line); }
 .application-loading { display: flex; align-items: center; gap: 12px; min-height: 320px; justify-content: center; color: var(--app-muted); font-size: 0.84rem; }
@@ -153,13 +156,13 @@
   box-shadow: 0 10px 32px rgba(20, 43, 32, 0.04);
 }
 .application-indication-card { background: var(--app-green); border-color: var(--app-green); color: #f4faf6; }
-.application-card-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
+.application-card-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
 .application-indication-card .application-card-head { color: rgba(244, 250, 246, 0.72); }
-.application-pill { padding: 4px 8px; border-radius: 999px; background: rgba(255,255,255,0.12); color: #fff; font-size: 0.6rem; }
+.application-pill { padding: 4px 9px; border-radius: 999px; background: rgba(255,255,255,0.12); color: #fff; font-size: 0.68rem; }
 .application-pill.is-neutral { color: var(--app-green); background: rgba(22,75,56,0.09); }
 .application-price { display: block; font-family: var(--font-display); font-size: 1.7rem; font-weight: 550; line-height: 1.05; }
 .application-indication-card p { margin-top: 10px; color: rgba(244, 250, 246, 0.72); font-size: 0.76rem; line-height: 1.6; }
-.application-result-legend { display: flex; gap: 14px; margin-top: 18px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.62rem; color: rgba(244,250,246,0.64); }
+.application-result-legend { display: flex; gap: 14px; margin-top: 18px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.7rem; color: rgba(244,250,246,0.72); }
 .application-result-legend span { display: flex; align-items: center; gap: 6px; }
 .application-result-legend i { width: 6px; height: 6px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.5); }
 .application-result-legend i.is-active { background: #6ee7a9; border-color: #6ee7a9; }
@@ -168,20 +171,22 @@
 .application-timeline li { display: grid; grid-template-columns: 28px 1fr; gap: 11px; padding: 9px 0; opacity: 0.48; transition: opacity 180ms ease; }
 .application-timeline li > span { width: 25px; height: 25px; display: grid; place-items: center; border: 1px solid var(--app-line); border-radius: 50%; color: var(--app-muted); font-size: 0.66rem; font-weight: 700; }
 .application-timeline li strong { display: block; font-family: var(--font-sans); font-size: 0.76rem; font-weight: 700; line-height: 1.25; }
-.application-timeline li small { display: block; color: var(--app-muted); font-size: 0.66rem; line-height: 1.35; margin-top: 2px; }
+.application-timeline li small { display: block; color: var(--app-muted); font-size: 0.72rem; line-height: 1.35; margin-top: 2px; }
 .application-timeline li.is-current,
 .application-timeline li.is-complete { opacity: 1; }
 .application-timeline li.is-current > span { background: var(--app-green); border-color: var(--app-green); color: #fff; box-shadow: 0 0 0 4px rgba(22,75,56,0.08); }
 .application-timeline li.is-complete > span { background: #e8f5ed; border-color: #b4d9c4; color: var(--app-green); }
 
-.application-market-row { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--app-line); font-size: 0.7rem; }
-.application-market-row strong { text-align: right; font-size: 0.68rem; }
-.application-market-row strong.is-ready { color: var(--app-green-bright); }
+.application-market-row { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--app-line); font-size: 0.72rem; }
+.application-market-row strong { text-align: right; font-size: 0.72rem; }
+.application-market-row strong.is-ready { color: var(--app-green-text); }
 .application-market-card p { margin-top: 14px; color: var(--app-muted); font-size: 0.7rem; line-height: 1.55; }
 .application-reset { width: 100%; padding: 10px 12px; border: 1px solid var(--app-line); border-radius: 8px; background: transparent; color: var(--app-muted); font: 650 0.7rem var(--font-sans); cursor: pointer; }
 .application-reset:hover { border-color: var(--app-green); color: var(--app-green); }
-.application-privacy { padding: 0 4px; color: var(--app-muted); font-size: 0.63rem; line-height: 1.55; }
-.application-footer { max-width: 1440px; margin: 0 auto; padding: 22px 32px 32px; display: flex; justify-content: space-between; gap: 24px; border-top: 1px solid var(--app-line); color: var(--app-muted); font-size: 0.64rem; }
+.application-privacy { padding: 0 4px; color: var(--app-muted); font-size: 0.72rem; line-height: 1.55; }
+.application-footer { max-width: 1440px; margin: 0 auto; padding: 22px 32px 32px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; border-top: 1px solid var(--app-line); color: var(--app-muted); font-size: 0.72rem; line-height: 1.5; }
+.application-footer-links a { color: var(--app-green); border-bottom: 1px solid transparent; }
+.application-footer-links a:hover { border-bottom-color: currentColor; }
 
 @media (max-width: 1020px) {
   .application-grid { grid-template-columns: 1fr; }
@@ -196,7 +201,7 @@
   .application-intro { display: block; }
   .application-reference { margin-top: 22px; border-left: 0; padding-left: 0; }
   .application-grid { gap: 14px; }
-  .application-workspace #ho-wizard-mount { padding: 14px; }
+  .application-workspace #intake-mount { padding: 14px; }
   .application-commandbar { padding: 0 14px; }
   .application-save-status { max-width: 150px; }
   .application-rail { grid-template-columns: 1fr; }
