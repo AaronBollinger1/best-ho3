@@ -5,9 +5,9 @@
     "api/ho-application.js": { "includeFiles": "api/acord-80-homeowner-application.pdf" }
   },
   "redirects": [
-    { "source": "/quote", "destination": "/#quote", "permanent": true },
-    { "source": "/quote.html", "destination": "/#quote", "permanent": true },
-    { "source": "/get-a-quote", "destination": "/#quote", "permanent": true }
+    { "source": "/quote", "destination": "/apply", "permanent": true },
+    { "source": "/quote.html", "destination": "/apply", "permanent": true },
+    { "source": "/get-a-quote", "destination": "/apply", "permanent": true }
   ],
   "headers": [
     {

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Insurance Application | BestHO3</title>
+  <meta name="description" content="Complete your California homeowners application, receive a preliminary pricing indication, and submit a signed ACORD 80 to a licensed independent broker.">
+  <meta name="robots" content="noindex,follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&amp;family=Public+Sans:wght@400..700&amp;display=swap">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/apply.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#f7f8f4">
+</head>
+<body class="application-page" data-application-workspace>
+<a class="skip-link" href="#application">Skip to application</a>
+
+<header class="application-nav">
+  <a href="/" class="application-brand" aria-label="BestHO3 home">Best<span>HO3</span></a>
+  <div class="application-nav-center" aria-label="Application security">
+    <span class="application-live-dot" aria-hidden="true"></span>
+    Secure application workspace
+  </div>
+  <div class="application-nav-actions">
+    <a href="tel:3108045017">310-804-5017</a>
+    <a class="application-exit" href="/">Save property &amp; exit</a>
+  </div>
+</header>
+
+<main class="application-shell" id="application">
+  <section class="application-intro" aria-labelledby="application-title">
+    <div>
+      <span class="application-eyebrow">Homeowners intake · California</span>
+      <h1 id="application-title">One application. Every appropriate market.</h1>
+      <p>Build a preliminary indication as you answer, then review and sign the ACORD 80 your broker uses to approach admitted, specialty, and FAIR Plan + DIC markets when appropriate.</p>
+    </div>
+    <div class="application-reference" aria-label="Application session">
+      <span>Session</span>
+      <strong id="application-session">LOCAL — NEW</strong>
+    </div>
+  </section>
+
+  <div class="application-grid">
+    <section class="application-workspace" aria-label="Insurance application questions">
+      <div class="application-commandbar">
+        <div>
+          <span class="application-status-dot" aria-hidden="true"></span>
+          <strong id="application-step-label">Application ready</strong>
+        </div>
+        <div class="application-save-status" id="application-save-status" aria-live="polite">Property draft saves on this device</div>
+      </div>
+      <div id="ho-wizard-mount">
+        <div class="application-loading" role="status">
+          <span></span>
+          Preparing your secure application…
+        </div>
+      </div>
+    </section>
+
+    <aside class="application-rail" aria-label="Application status">
+      <section class="application-rail-card application-indication-card">
+        <div class="application-card-head">
+          <span>Current result</span>
+          <span class="application-pill" id="application-result-type">ESTIMATE</span>
+        </div>
+        <strong class="application-price" id="application-price">Complete the property basics</strong>
+        <p id="application-price-detail">Your preliminary range updates when square footage or a dwelling limit is available.</p>
+        <div class="application-result-legend">
+          <span><i class="is-active"></i> Preliminary estimate</span>
+          <span><i></i> Carrier quote</span>
+        </div>
+      </section>
+
+      <section class="application-rail-card">
+        <div class="application-card-head">
+          <span>Application progress</span>
+          <strong id="application-progress-percent">0%</strong>
+        </div>
+        <ol class="application-timeline" id="application-timeline">
+          <li class="is-current" data-stage="1"><span>1</span><div><strong>Property</strong><small>Address and occupancy</small></div></li>
+          <li data-stage="2"><span>2</span><div><strong>Home profile</strong><small>Structure, systems, protection</small></div></li>
+          <li data-stage="3"><span>3</span><div><strong>Coverage</strong><small>Applicant and desired limits</small></div></li>
+          <li data-stage="4"><span>4</span><div><strong>Underwriting</strong><small>History and review</small></div></li>
+          <li data-stage="5"><span>5</span><div><strong>Market submission</strong><small>Signed application to broker</small></div></li>
+        </ol>
+      </section>
+
+      <section class="application-rail-card application-market-card">
+        <div class="application-card-head"><span>Market workflow</span><span class="application-pill is-neutral">BROKER LED</span></div>
+        <div class="application-market-row"><span>Modeled indication</span><strong class="is-ready">Active</strong></div>
+        <div class="application-market-row"><span>Carrier market review</span><strong>After signed intake</strong></div>
+        <div class="application-market-row"><span>FAIR Plan + DIC review</span><strong>When appropriate</strong></div>
+        <p>Carrier pricing is shown only when returned by an authorized rating workflow. Until then, every range is labeled as a preliminary estimate.</p>
+      </section>
+
+      <button class="application-reset" id="application-reset" type="button">Start a new property draft</button>
+      <p class="application-privacy">Property details are retained on this device for up to 7 days. Applicant contact, signature, consent, and loss-history answers are not stored in the local draft.</p>
+    </aside>
+  </div>
+</main>
+
+<footer class="application-footer">
+  <span>WJB Services, Inc. dba Bollinsure Insurance Services · CA DOI Lic. #6013787</span>
+  <span>Nothing shown is a binder or guarantee of coverage. Policy terms control.</span>
+</footer>
+
+<script src="/assets/ho-wizard.js" defer></script>
+<script src="/assets/ho-review-signing.js" defer></script>
+<script src="/assets/apply.js" defer></script>
+</body>
+</html>

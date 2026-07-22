@@ -29,7 +29,7 @@ Keep brand decisions in the existing primary stylesheet rather than in `motion.c
 3. **Educate:** explain underwriting inputs and how the broker improves the submission.
 4. **Prove:** present a real problem, the work performed, and the result. Avoid anonymous praise without an outcome.
 5. **Convert:** repeat the indication CTA and provide a broker conversation for nuanced situations.
-6. **Intake:** keep the existing quote wizard and operational integrations unchanged unless the product workflow requires it.
+6. **Intake:** launch the dedicated `/apply` product workspace while retaining the embedded wizard as a compatible fallback.
 
 ## Motion API
 
@@ -82,15 +82,34 @@ Future stories should replace the facts rather than merely changing the nouns. V
 
 ## CTA rules
 
-- Keep one visually dominant action: `Get a pricing indication` for the current BestHO3 flow.
+- Keep one visually dominant action: `Start your application` leading to `/apply` for the current BestHO3 flow.
 - Keep `Talk to a broker` as the secondary action for edge cases and people who are not ready for intake.
 - Do not introduce a third competing CTA in the same viewport.
-- Preserve existing destinations and tracking when restyling buttons.
+- Route high-intent application CTAs to `/apply`; retain `#quote` only where the embedded fallback is intentional.
 - Repeat the primary/secondary pair after the strongest proof point.
 
 ## Expandable FAQ pattern
 
 Use native `<details class="faq-item">` with a `<summary class="faq-q">` and a `.faq-a` answer. This keeps every answer present in the source for search and no-script access while providing keyboard, touch, and screen-reader behavior without custom JavaScript. Use the same structure on landing pages and full FAQ libraries; category headings remain visible orientation points.
+
+## Application workspace pattern
+
+The reusable product surface lives at `/apply` and has four layers:
+
+- a minimal secure-workspace header with a clear exit and broker contact;
+- the existing product-specific intake in the main work area;
+- a persistent result card that labels modeled estimates separately from carrier quotes;
+- a status rail for application stage, market workflow, and privacy expectations.
+
+Future Best Brands should change questions, forms, disclosures, and quote adapters without changing this shell. `assets/apply.css` owns the shared application layout, while each brand's root tokens control typography, colors, and atmosphere. Product events use the `bestho3:*` convention today and should be renamed behind a shared brand adapter when the second product adopts the pattern.
+
+Device-local draft recovery is limited to non-identity property details and expires after seven days. Applicant identity, consent, signature, loss history, and underwriting answers require authenticated server storage before cross-device save/resume is offered.
+
+## Carrier-connected quoting boundary
+
+Never call a carrier or comparative-rater API from the browser. Normalize the intake into a provider-neutral contract on the server, then translate it inside a vendor adapter. Public result states remain distinct: preliminary estimate, quoted, referred, declined, and error.
+
+BestHO3's current contract is `api/lib/personal-lines-quote-provider.js`. The Zywave-specific adapter remains intentionally unimplemented until contracted authentication, schema, carrier, webhook/polling, rate-limit, and bridge documentation is available. See `docs/zywave-integration-contract.md` for the go-live gate.
 
 ## Reduced motion and performance
 
@@ -105,7 +124,7 @@ Use native `<details class="faq-item">` with a `<summary class="faq-q">` and a `
 1. Copy the semantic page sequence and shared motion layer.
 2. Map the new brand's tokens, type, imagery, and voice in its primary stylesheet.
 3. Replace all product facts, contact information, disclosures, and testimonials.
-4. Connect CTAs to the existing product-specific intake and broker paths.
+4. Connect high-intent CTAs to the product-specific `/apply` workspace and preserve the embedded fallback only when useful.
 5. Verify keyboard navigation, focus visibility, landmarks, headings, labels, contrast, and reduced motion.
 6. Test at 390px mobile, tablet, and 1440px desktop with no horizontal overflow.
 7. Exercise every form branch, API integration, document-generation path, and submission state.
@@ -117,6 +136,8 @@ Use native `<details class="faq-item">` with a `<summary class="faq-q">` and a `
 - The page communicates audience, product, and next action above the fold.
 - The proof story contains a concrete challenge, intervention, and outcome.
 - The primary CTA retains the current functional destination.
+- The application workspace distinguishes a preliminary estimate from a carrier quote.
+- Locally saved drafts exclude applicant identity, consent, signature, loss history, and underwriting answers.
 - No required information depends on animation.
 - Reduced-motion users receive an immediate, stable layout.
 - Mobile navigation and CTAs remain usable at 390px.

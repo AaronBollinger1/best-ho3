@@ -79,6 +79,86 @@
     website_hp: ''              // honeypot
   };
 
+  // Device-local draft intentionally excludes applicant identity, consent,
+  // signature, loss history, and underwriting answers. Durable cross-device
+  // persistence belongs behind authenticated server storage, not localStorage.
+  const DRAFT_KEY = 'bestho3_property_draft_v1';
+  const DRAFT_TTL = 7 * 24 * 60 * 60 * 1000;
+  const DRAFT_KEYS = [
+    'pathway', 'policy_form', 'occupancy_landlord',
+    'risk_address', 'risk_city', 'risk_county', 'risk_state', 'risk_zip',
+    'in_city_limits', 'residence_type', 'usage', 'vacancy', 'number_of_families',
+    'wildfire_exposure', 'year_built', 'total_living_area', 'construction_type',
+    'foundation_type', 'roof_material', 'roof_updated', 'roof_update_year',
+    'heating_updated', 'heating_update_year', 'plumbing_updated',
+    'plumbing_update_year', 'wiring_updated', 'wiring_update_year', 'wiring_type',
+    'electrical_panel', 'electrical_amps', 'roof_condition', 'plumbing_condition',
+    'housekeeping', 'door_locks', 'burglar_alarm', 'smoke_alarm', 'sprinklers',
+    'fire_extinguisher', 'swimming_pool', 'pool_fence', 'pool_diving_board',
+    'pool_slide', 'dwelling_limit', 'dwelling_touched', 'deductible',
+    'personal_liability_limit', 'med_pay_limit'
+  ];
+  const draftEnabled = document.body.hasAttribute('data-application-workspace');
+  let currentStep = 0;
+  let draftTimer = null;
+
+  function emit(name, detail) {
+    document.dispatchEvent(new CustomEvent('bestho3:' + name, { detail: detail || {} }));
+  }
+  function draftState() {
+    return DRAFT_KEYS.reduce((out, key) => {
+      if (Object.prototype.hasOwnProperty.call(state, key) && state[key] !== '') out[key] = state[key];
+      return out;
+    }, {});
+  }
+  function clearDraft() {
+    if (!draftEnabled) return;
+    try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    emit('draft', { cleared: true });
+  }
+  function saveDraft() {
+    if (!draftEnabled || !state.pathway) return;
+    clearTimeout(draftTimer);
+    draftTimer = setTimeout(() => {
+      try {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({
+          version: 1,
+          savedAt: Date.now(),
+          step: Math.min(Math.max(currentStep, 1), 4),
+          state: draftState()
+        }));
+        emit('draft', { savedAt: Date.now() });
+      } catch (e) {}
+    }, 220);
+  }
+  function restoreDraft() {
+    if (!draftEnabled) return 0;
+    try {
+      const fresh = new URL(window.location.href).searchParams.get('fresh') === '1';
+      if (fresh) {
+        localStorage.removeItem(DRAFT_KEY);
+        const cleanUrl = new URL(window.location.href);
+        cleanUrl.searchParams.delete('fresh');
+        window.history.replaceState({}, '', cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
+        return 0;
+      }
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return 0;
+      const draft = JSON.parse(raw);
+      if (!draft || draft.version !== 1 || !draft.savedAt || Date.now() - draft.savedAt > DRAFT_TTL) {
+        localStorage.removeItem(DRAFT_KEY);
+        return 0;
+      }
+      Object.assign(state, draft.state || {});
+      if (state.pathway === 'owner' || state.pathway === 'landlord') state.q.q_owner = 'Yes';
+      const step = Math.min(Math.max(Number(draft.step) || 1, 1), 4);
+      emit('draft', { restored: true, savedAt: draft.savedAt });
+      return step;
+    } catch (e) {
+      return 0;
+    }
+  }
+
   const QUESTIONS = [
     { key: 'q_owner',             text: 'Are you the owner of the property being insured?' },
     { key: 'q_hazard',            text: 'Any flooding, brush, forest-fire, or landslide hazard at the location?' },
@@ -367,8 +447,11 @@
     }
   }
   function updateStickyStep(current) {
+    currentStep = current;
     const el = document.getElementById('wz-sticky-step');
     if (el) el.textContent = 'Step ' + current + ' of ' + TOTAL_STEPS;
+    emit('step', { step: current, total: TOTAL_STEPS, label: STEP_LABELS[current - 1] || 'Application' });
+    saveDraft();
   }
 
   // ─── Indication math ──────────────────────────────────────────────────────
@@ -472,6 +555,7 @@
         '<div class="ho-top-est-value">Complete the basics</div>' +
         '<p class="ho-top-est-copy">Square footage (or a dwelling limit) unlocks your live estimate. It refines as you answer.</p></div>' +
         '<div class="ho-top-est-chip">Updates as you answer</div>';
+      emit('indication', { ready: false });
       return;
     }
     let copy = ind.formLabel + ' · Coverage A ' + fmtMoney(ind.dwelling) + ' · $' + parseDollar(state.deductible).toLocaleString() + ' deductible';
@@ -480,6 +564,14 @@
       '<div class="ho-top-est-value">' + fmtMoney(ind.low) + ' – ' + fmtMoney(ind.high) + ' <span style="font-size:0.6em;font-weight:600;color:#1d5741;">/ year</span></div>' +
       '<p class="ho-top-est-copy">' + copy + '. Preliminary indication — not a quote.</p></div>' +
       '<div class="ho-top-est-chip">Updates as you answer</div>';
+    emit('indication', {
+      ready: true,
+      low: ind.low,
+      high: ind.high,
+      dwelling: ind.dwelling,
+      range: fmtMoney(ind.low) + ' – ' + fmtMoney(ind.high) + ' / year',
+      summary: ind.formLabel + ' · Coverage A ' + fmtMoney(ind.dwelling)
+    });
   }
   let estTimer = null;
   function refreshTopEst() {
@@ -570,10 +662,13 @@
     // scroll to the card on genuine step transitions the user drove.
     if (!wzFirstRender) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
     wzFirstRender = false;
+    saveDraft();
   }
 
   // ─── Opening — routing (owner / landlord→DP-3 / renter) ──────────────────
   function renderOpening(mount) {
+    currentStep = 0;
+    emit('step', { step: 0, total: TOTAL_STEPS, label: 'Application' });
     const card = mk('div', { class: 'wz-card' });
     const h2 = mk('h2'); h2.textContent = 'Who lives in the home?'; card.appendChild(h2);
     const sub = mk('p'); sub.textContent = 'This decides the right policy form — HO-3/HO-5 for owner-occupied homes, DP-3 for rentals and investment properties.'; card.appendChild(sub);
@@ -1350,6 +1445,8 @@
         return true;
       },
       onSigned(data) {
+        clearDraft();
+        emit('submitted', { signed: true, auditId: data.auditId || '' });
         card.innerHTML = successHTML(true);
         const ref = document.createElement('p');
         ref.style.cssText = 'font-family:var(--font-mono);font-size:0.8rem;color:#17493a;background:#eef3ec;border:1px solid rgba(29,87,65,0.35);border-radius:8px;padding:10px 14px;display:inline-block;margin-bottom:16px;';
@@ -1401,6 +1498,8 @@
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error(data.error || 'Submission failed (' + res.status + ')');
+      clearDraft();
+      emit('submitted', { signed: false });
       card.innerHTML = successHTML(false);
     } catch (e) {
       if (err) { err.textContent = (e && e.message ? e.message : 'Submission failed.') + ' You can retry, or call 310-804-5017.'; err.classList.add('show'); }
@@ -1412,6 +1511,7 @@
   function init() {
     const mount = document.getElementById('ho-wizard-mount');
     if (!mount) return;
+    const restoredStep = restoreDraft();
     // Prefill from the public Coverage-A estimator (sqft handed off via
     // sessionStorage, never a URL, so no PII in query strings). The applicant
     // still confirms every field before the ACORD 80 is signed.
@@ -1425,8 +1525,18 @@
     } catch (e) {}
     injectStyles();
     mountStickyBar(mount);
+    if (draftEnabled) {
+      mount.addEventListener('input', saveDraft);
+      mount.addEventListener('change', saveDraft);
+      mount.addEventListener('click', saveDraft);
+    }
     renderTopEst();
-    renderOpening(mount);
+    if (restoredStep === 1) renderStep1(mount);
+    else if (restoredStep === 2) renderStep2(mount);
+    else if (restoredStep === 3) renderStep3(mount);
+    else if (restoredStep === 4) renderStep4(mount);
+    else renderOpening(mount);
+    emit('ready', { restored: restoredStep > 0 });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

@@ -1563,6 +1563,69 @@ h1,h2,h3,h4 {
   .quote-sidebar { position: static; }
 }
 
+/* --- Product-first hero workspace preview --- */
+.product-preview {
+  width: min(100%, 520px);
+  overflow: hidden;
+  border: 1px solid rgba(29,87,65,0.24);
+  border-radius: 14px;
+  background: #fbfcf9;
+  box-shadow: 0 28px 70px rgba(32,50,39,0.15), 0 2px 8px rgba(32,50,39,0.08);
+  text-align: left;
+}
+.product-preview-bar {
+  min-height: 45px;
+  padding: 0 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e1e7e1;
+  color: #677168;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.product-preview-bar span { display: flex; align-items: center; gap: 8px; }
+.product-preview-bar i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #27a56e;
+  box-shadow: 0 0 0 4px rgba(39,165,110,0.1);
+}
+.product-preview-bar strong { font-family: var(--font-mono); font-size: 0.6rem; color: #4c574f; }
+.product-preview-body { display: grid; grid-template-columns: minmax(0,1.55fr) minmax(150px,0.8fr); min-height: 330px; }
+.product-preview-main { padding: 27px 24px; }
+.product-preview-side { padding: 27px 20px; background: #164b38; color: #f4faf6; }
+.product-preview-kicker { display: block; margin-bottom: 8px; color: #6d786f; font-size: 0.59rem; font-weight: 750; letter-spacing: 0.13em; text-transform: uppercase; }
+.product-preview-main h2 { font-family: var(--font-sans); font-size: 1.02rem; font-weight: 750; letter-spacing: -0.02em; }
+.product-preview-main > p { margin-top: 2px; color: #738078; font-size: 0.68rem; }
+.product-preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 23px; }
+.product-preview-grid > div { padding: 12px; border: 1px solid #e0e6e0; border-radius: 8px; background: #fff; }
+.product-preview-grid span { display: block; color: #7b857e; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.product-preview-grid strong { display: block; margin-top: 4px; color: #27342c; font-size: 0.76rem; }
+.product-preview-scan { margin-top: 18px; }
+.product-preview-scan > span { display: block; height: 3px; overflow: hidden; border-radius: 999px; background: #e5ebe6; }
+.product-preview-scan > span::after { content: ""; display: block; width: 62%; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#164b38,#45b982); animation: product-scan 2.8s ease-in-out infinite alternate; }
+.product-preview-scan p { margin-top: 8px; color: #667069; font-size: 0.59rem; }
+@keyframes product-scan { from { transform: translateX(-10%); } to { transform: translateX(76%); } }
+.product-preview-side .product-preview-kicker { color: rgba(244,250,246,0.62); }
+.product-preview-price { display: block; margin-top: 13px; font-family: var(--font-display); font-size: 1.35rem; font-weight: 550; line-height: 1; }
+.product-preview-side > small { display: block; margin-top: 7px; color: rgba(244,250,246,0.58); font-size: 0.57rem; }
+.product-preview-status { display: grid; grid-template-columns: 8px 1fr; gap: 9px; align-items: start; margin-top: 28px; }
+.product-preview-status + .product-preview-status { margin-top: 16px; }
+.product-preview-status > i { width: 7px; height: 7px; margin-top: 3px; border-radius: 50%; background: #6ee7a9; box-shadow: 0 0 0 4px rgba(110,231,169,0.1); }
+.product-preview-status:last-child > i { background: transparent; border: 1px solid rgba(244,250,246,0.45); box-shadow: none; }
+.product-preview-status strong { display: block; font-size: 0.61rem; }
+.product-preview-status small { display: block; margin-top: 2px; color: rgba(244,250,246,0.56); font-size: 0.54rem; }
+@media (max-width: 560px) {
+  .product-preview-body { grid-template-columns: 1fr; }
+  .product-preview-side { min-height: 190px; }
+  .product-preview-status { display: inline-grid; width: 49%; margin-top: 24px; vertical-align: top; }
+  .product-preview-status + .product-preview-status { margin-top: 24px; }
+}
+
 /* --- Markets-we-shop grid (homepage) --- */
 .markets-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 920px; margin: 0 auto 32px; text-align: left; }
 @media (max-width: 860px) { .markets-grid { grid-template-columns: 1fr 1fr; } }
@@ -1587,4 +1650,5 @@ h1,h2,h3,h4 {
   .marquee-track { animation: none; }
   .shimmer { animation: none; }
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .product-preview-scan > span::after { animation: none; }
 }
