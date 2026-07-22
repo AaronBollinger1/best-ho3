@@ -102,7 +102,12 @@
   /* Navigation, page progress, and section scenes share one animation-frame loop. */
   var progressBar = document.getElementById('scroll-progress-bar');
   var scenes = document.querySelectorAll('[data-scroll-scene]');
+  var storyScenes = document.querySelectorAll('[data-story-scene]');
   var ticking = false;
+
+  if (!reducedMotion) {
+    storyScenes.forEach(function (scene) { scene.classList.add('is-enhanced'); });
+  }
 
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
@@ -156,6 +161,36 @@
         });
       }
     });
+
+    storyScenes.forEach(function (scene) {
+      var rect = scene.getBoundingClientRect();
+      var travel = Math.max(rect.height - window.innerHeight, 1);
+      var storyProgress = clamp(-rect.top / travel, 0, 1);
+      var lines = scene.querySelectorAll('[data-story-line]');
+
+      scene.style.setProperty('--story-progress', storyProgress.toFixed(4));
+
+      lines.forEach(function (line, index) {
+        var lineStart = -0.06 + index * 0.16;
+        var lineProgress = clamp((storyProgress - lineStart) / 0.18, 0, 1);
+        line.style.setProperty('--story-line-opacity', (0.22 + lineProgress * 0.78).toFixed(3));
+        line.style.setProperty('--story-line-y', ((1 - lineProgress) * 10).toFixed(2) + 'px');
+        line.style.setProperty('--story-line-blur', ((1 - lineProgress) * 1.5).toFixed(2) + 'px');
+      });
+
+      var metaProgress = clamp((storyProgress - 0.7) / 0.14, 0, 1);
+      var outcomeProgress = clamp((storyProgress - 0.82) / 0.14, 0, 1);
+      var meta = scene.querySelector('[data-story-meta]');
+      var outcome = scene.querySelector('[data-story-outcome]');
+      var counter = scene.querySelector('[data-story-counter]');
+
+      if (meta) meta.style.setProperty('--story-meta-progress', metaProgress.toFixed(3));
+      if (outcome) outcome.style.setProperty('--story-outcome-progress', outcomeProgress.toFixed(3));
+      if (counter) {
+        var activeLine = Math.min(lines.length, Math.max(1, Math.floor(storyProgress * lines.length) + 1));
+        counter.textContent = String(activeLine).padStart(2, '0') + ' / ' + String(lines.length).padStart(2, '0');
+      }
+    });
   }
 
   function requestScrollUpdate() {
@@ -177,6 +212,9 @@
       if (reducedMotion) {
         motionTargets.forEach(showMotionTarget);
         if (hero) hero.classList.add('is-loaded');
+        storyScenes.forEach(function (scene) { scene.classList.remove('is-enhanced'); });
+      } else {
+        storyScenes.forEach(function (scene) { scene.classList.add('is-enhanced'); });
       }
       requestScrollUpdate();
     });

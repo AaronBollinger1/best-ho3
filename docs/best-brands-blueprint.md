@@ -61,6 +61,12 @@ Add `data-scroll-scene` to a section whose progress should drive a visual cue. J
 
 Use `.market-route-grid` around `.market-card` elements. The card nearest the viewport center receives `.is-active`, reinforcing the path without adding a carousel or hiding content.
 
+### Pinned proof story
+
+Wrap the testimonial card in `data-story-scene` and divide the quote into meaningful `data-story-line` spans. The scene pins with native CSS sticky positioning while the shared animation-frame loop reveals each sentence, then the attribution and outcome. This creates a deliberate pause without wheel interception, forced snapping, or disabling normal page scroll.
+
+Keep the number of beats short enough to read in one pinned viewport. On reduced-motion devices the stage returns to normal document flow and every sentence is immediately visible.
+
 ## Proof-story pattern
 
 Use the brush-risk outcome section as the default proof pattern:
