@@ -8,6 +8,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { PDFDocument } from "pdf-lib";
 
 const root = process.cwd();
@@ -28,6 +29,19 @@ const wizard = fs.readFileSync(path.join(root, "assets", "ho-wizard.js"), "utf8"
 for (const phrase of ["window.__ho", "hoWizardReviewStep", "ho-sign-mount", "/api/submit-ho", "bestho5.com", "landlord-dp3"]) {
   assert.ok(wizard.includes(phrase), `ho-wizard.js should include: ${phrase}`);
 }
+const applicationPage = fs.readFileSync(path.join(root, "apply.html"), "utf8");
+for (const phrase of [
+  "data-application-workspace",
+  "application-timeline",
+  "/assets/apply.css",
+  "/assets/apply.js",
+  "Preliminary estimate",
+  "Carrier quote"
+]) {
+  assert.ok(applicationPage.includes(phrase), `apply.html should include: ${phrase}`);
+}
+assert.ok(wizard.includes("bestho3_property_draft_v1"), "wizard should include the device-local property draft");
+assert.ok(wizard.includes("emit('indication'"), "wizard should expose product indication events");
 console.log("static sanity: OK");
 
 // ── mock req/res ────────────────────────────────────────────────────────────
@@ -80,7 +94,7 @@ const payload = {
   quote: { low: 2400, high: 3700, dwelling: 650000, form: "HO-3 (special form)" }
 };
 
-const { default: handler } = await import(path.join("file://", root, "api", "ho-application.js"));
+const { default: handler } = await import(pathToFileURL(path.join(root, "api", "ho-application.js")).href);
 
 // ── 2. preview fill + re-read ───────────────────────────────────────────────
 {
@@ -166,4 +180,7 @@ const { default: handler } = await import(path.join("file://", root, "api", "ho-
   console.log(`signed submit: OK (audit ${res.body.auditId}, ${signed.getPageCount()} pages incl. audit certificate)`);
 }
 
+await import("./test-personal-lines-provider.mjs");
+await import("./test-request-guard.mjs");
+await import("./test-line-dp3.mjs");
 console.log("ALL SMOKE TESTS PASSED");

@@ -9,14 +9,11 @@
 (function () {
   "use strict";
 
-  var PDF_URLS = [
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js",
-    "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"
-  ];
-  var PDF_WORKER_URLS = [
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js",
-    "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js"
-  ];
+  /* Self-hosted pdf.js 3.11.174 (Apache-2.0) — vendored under /assets/vendor so
+     the app has no third-party script/worker origin and the CSP can stay
+     'self'-only. Update both files together via scripts/vendor-pdfjs.md. */
+  var PDF_URL = "/assets/vendor/pdfjs/pdf.min.js";
+  var PDF_WORKER_URL = "/assets/vendor/pdfjs/pdf.worker.min.js";
 
   var CONSENT_VERSION = "2026-07-16.bestho3.1";
   var CONSENT_TEXT = "I agree to conduct this application electronically. I can access, view, download, print, and keep the completed PDF. By selecting this box and clicking Sign & Submit, I intend my electronic signature, typed name, date/time, email address, IP address, browser/device information, and related audit data to be attached to and logically associated with this ACORD 80 homeowner application and to have the same legal effect as a handwritten signature to the fullest extent allowed by applicable law. I may request a paper copy or withdraw consent before submission by emailing quotes@bollinsure.com.";
@@ -115,17 +112,10 @@
     if (window.pdfjsLib) return window.pdfjsLib;
     if (!state.pdfLibPromise) {
       state.pdfLibPromise = (async function () {
-        var lastErr;
-        for (var i = 0; i < PDF_URLS.length; i++) {
-          try {
-            await loadScript(PDF_URLS[i]);
-            if (window.pdfjsLib) {
-              window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_URLS[i];
-              return window.pdfjsLib;
-            }
-          } catch (e) { lastErr = e; }
-        }
-        throw lastErr || new Error("PDF renderer unavailable");
+        await loadScript(PDF_URL);
+        if (!window.pdfjsLib) throw new Error("PDF renderer unavailable");
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
+        return window.pdfjsLib;
       })();
     }
     return state.pdfLibPromise;

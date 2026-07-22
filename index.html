@@ -15,25 +15,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&family=Public+Sans:wght@400..700&family=Dancing+Script:wght@600&display=swap">
   <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/motion.css">
   <meta name="description" content="Independent California homeowners insurance broker. HO-3 pricing indication in minutes, signed ACORD 80 online, admitted carriers + FAIR Plan + E&S shopped for you. CA DOI #6013787.">
   <link rel="canonical" href="https://www.bestho3.com/">
   <meta property="og:title" content="California Homeowners Insurance (HO-3) | Independent Broker | BestHO3">
   <meta property="og:description" content="HO-3 indication in minutes, signed ACORD 80 online. Admitted carriers, the FAIR Plan, and E&S markets — shopped by an independent broker. CA DOI #6013787.">
   <meta property="og:url" content="https://www.bestho3.com/">
   <meta property="og:type" content="website">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "InsuranceAgency",
-    "name": "BestHO3 — Bollinsure Insurance Services",
-    "url": "https://www.bestho3.com/",
-    "telephone": "+1-310-804-5017",
-    "email": "quotes@bollinsure.com",
-    "description": "Independent California homeowners insurance brokerage. HO-3, HO-5, DP-3, FAIR Plan + DIC placements.",
-    "areaServed": "US",
-    "hasCredential": "CA DOI License #6013787",
-    "address": {"@type": "PostalAddress", "addressLocality": "Los Angeles", "addressRegion": "CA", "addressCountry": "US"}
-  }
+  <!-- Structured data is emitted by the shared /assets/seo.js layer from this config. -->
+  <script>
+  window.PAGE_SEO = {
+    service: {
+      name: "California homeowners insurance brokerage",
+      serviceType: "Homeowners insurance (HO-3, HO-5) brokerage",
+      areaServed: "California",
+      description: "Independent California HO-3/HO-5 homeowners insurance brokerage — admitted carriers, the FAIR Plan + DIC, and surplus lines, shopped for you."
+    }
+  };
   </script>
   <meta name="theme-color" content="#f6f2e9">
   <meta name="twitter:card" content="summary_large_image">
@@ -43,6 +41,7 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-bar"></span></div>
 
 <!-- NAV -->
 <nav class="nav" id="main-nav">
@@ -62,27 +61,27 @@
       <li><a href="/faq">FAQ</a></li>
     </ul>
     <div class="nav-right">
-      <a href="tel:3108045017" class="btn btn-ghost" style="font-size:0.85rem;padding:8px 16px">310-804-5017</a>
-      <a href="#quote" class="btn btn-accent nav-cta">Get Indication</a>
+      <a href="tel:3108045017" class="btn btn-ghost btn-sm">310-804-5017</a>
+      <a href="/apply" class="btn btn-accent nav-cta">Start Application</a>
     </div>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero" id="main">
-  <div class="hero-glow-1"></div>
-  <div class="hero-glow-2"></div>
-  <div class="hero-inner">
-    <div class="hero-content">
-      <span class="kicker">California Homeowners Insurance Broker</span>
-      <h1 class="hero-headline">California Home Insurance.<br><span class="grad-ink">Shopped, Not Settled.</span></h1>
-      <p class="hero-sub">Independent brokerage for the hardest homeowners market in America. Admitted carriers, the FAIR Plan, and surplus-lines markets — one application, every option on the table, before you renew or close escrow.</p>
-      <div class="hero-ctas">
-        <a href="#quote" class="btn btn-accent btn-lg">Get a pricing indication →</a>
+<section class="hero" id="main" data-scroll-scene aria-labelledby="hero-title">
+  <div class="hero-glow-1" data-hero-ambient></div>
+  <div class="hero-glow-2" data-hero-ambient></div>
+  <div class="hero-inner" data-hero-stage>
+    <div class="hero-content" data-hero-group data-hero-copy>
+      <span class="kicker" data-hero-motion>California Homeowners Insurance Broker</span>
+      <h1 class="hero-headline" id="hero-title" data-hero-motion>California Home Insurance.<br><span class="grad-ink">Shopped, Not Settled.</span></h1>
+      <p class="hero-sub" data-hero-motion>Independent brokerage for the hardest homeowners market in America. Admitted carriers, the FAIR Plan, and surplus-lines markets — one application, every option on the table, before you renew or close escrow.</p>
+      <div class="hero-ctas" data-hero-motion>
+        <a href="/apply" class="btn btn-accent btn-lg">Start your application →</a>
         <a href="tel:3108045017" class="btn btn-ghost btn-lg">Call 310-804-5017</a>
       </div>
-      <p style="margin-top:14px;font-size:0.82rem;color:var(--muted2)">Indication in about 4 minutes · Sign the ACORD 80 online · No broker fee · No obligation</p>
-      <div class="hero-stats">
+      <p data-hero-motion class="hero-note">Indication in about 4 minutes · Sign the ACORD 80 online · No broker fee · No obligation</p>
+      <div class="hero-stats" data-hero-motion>
         <div class="stat">
           <span class="stat-value grad-ink">14+ carriers</span>
           <span class="stat-label">Admitted · High-value · E&amp;S · FAIR</span>
@@ -101,75 +100,69 @@
         </div>
       </div>
     </div>
-    <div class="hero-visual">
-      <svg viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px" role="img" aria-label="Illustration of a homeowners application with a pricing indication">
-        <rect x="20" y="20" width="440" height="340" rx="10" fill="#fffdf8" stroke="#ddd3bd" stroke-width="1.5"/>
-        <rect x="21" y="21" width="438" height="50" rx="9" fill="#f1ecdf"/>
-        <rect x="21" y="52" width="438" height="19" fill="#f1ecdf"/>
-        <line x1="21" y1="71" x2="459" y2="71" stroke="#ddd3bd" stroke-width="1"/>
-        <text x="40" y="51" font-family="Public Sans, sans-serif" font-size="10" font-weight="700" fill="#96421f" letter-spacing="2.5">HOMEOWNER APPLICATION · ACORD 80</text>
-        <rect x="320" y="88" width="120" height="64" rx="8" fill="#e8ece2" stroke="rgba(29,87,65,0.3)" stroke-width="1"/>
-        <text x="380" y="108" font-family="Public Sans, sans-serif" font-size="8.5" font-weight="600" fill="#7c8272" text-anchor="middle" letter-spacing="1">ROOF UPDATED</text>
-        <text x="380" y="137" font-family="Newsreader, Georgia, serif" font-size="26" font-weight="500" fill="#1d5741" text-anchor="middle">2019</text>
-        <line x1="40" y1="90" x2="300" y2="90" stroke="#e2d9c6" stroke-width="1"/>
-        <text x="40" y="108" font-family="Public Sans, sans-serif" font-size="8.5" font-weight="600" fill="#9a9d8b" letter-spacing="1">PROPERTY ADDRESS</text>
-        <rect x="40" y="112" width="255" height="28" rx="5" fill="#ffffff" stroke="#ddd3bd" stroke-width="1"/>
-        <text x="52" y="131" font-family="Public Sans, sans-serif" font-size="11" fill="#464d42">123 Oak Canyon Rd, Los Angeles</text>
-        <text x="40" y="158" font-family="Public Sans, sans-serif" font-size="8.5" font-weight="600" fill="#9a9d8b" letter-spacing="1">YEAR BUILT</text>
-        <rect x="40" y="162" width="120" height="28" rx="5" fill="#ffffff" stroke="#ddd3bd" stroke-width="1"/>
-        <text x="52" y="181" font-family="Newsreader, Georgia, serif" font-size="13" fill="#1d5741">1968</text>
-        <text x="170" y="158" font-family="Public Sans, sans-serif" font-size="8.5" font-weight="600" fill="#9a9d8b" letter-spacing="1">COVERAGE A · DWELLING</text>
-        <rect x="170" y="162" width="125" height="28" rx="5" fill="#ffffff" stroke="#ddd3bd" stroke-width="1"/>
-        <text x="182" y="181" font-family="Newsreader, Georgia, serif" font-size="13" fill="#464d42">$650,000</text>
-        <rect x="40" y="206" width="420" height="56" rx="8" fill="#e8ece2" stroke="rgba(29,87,65,0.25)" stroke-width="1"/>
-        <text x="56" y="227" font-family="Public Sans, sans-serif" font-size="8.5" font-weight="700" fill="#1d5741" letter-spacing="1.5">PRELIMINARY INDICATION</text>
-        <text x="56" y="251" font-family="Newsreader, Georgia, serif" font-size="23" font-weight="500" fill="#1d5741">$2,400 – $3,700 / yr</text>
-        <text x="280" y="227" font-family="Public Sans, sans-serif" font-size="8.5" font-weight="600" fill="#7c8272" letter-spacing="1">MARKETS QUOTED</text>
-        <text x="280" y="251" font-family="Newsreader, Georgia, serif" font-size="23" font-weight="500" font-style="italic" fill="#b65432">8–12</text>
-        <text x="40" y="288" font-family="Public Sans, sans-serif" font-size="8.5" font-weight="600" fill="#9a9d8b" letter-spacing="1.5">MARKET SWEEP</text>
-        <rect x="40" y="298" width="88" height="26" rx="5" fill="#ffffff" stroke="#ddd3bd" stroke-width="1"/>
-        <text x="84" y="315" font-family="Public Sans, sans-serif" font-size="9" font-weight="600" fill="#1d5741" text-anchor="middle">ADMITTED</text>
-        <rect x="136" y="298" width="88" height="26" rx="5" fill="#ffffff" stroke="#ddd3bd" stroke-width="1"/>
-        <text x="180" y="315" font-family="Public Sans, sans-serif" font-size="9" font-weight="600" fill="#1d5741" text-anchor="middle">FAIR + DIC</text>
-        <rect x="232" y="298" width="70" height="26" rx="5" fill="#ffffff" stroke="#ddd3bd" stroke-width="1"/>
-        <text x="267" y="315" font-family="Public Sans, sans-serif" font-size="9" font-weight="600" fill="#1d5741" text-anchor="middle">E&amp;S</text>
-        <rect x="340" y="296" width="100" height="28" rx="5" fill="rgba(182,84,50,0.1)" stroke="rgba(182,84,50,0.35)" stroke-width="1"/>
-        <text x="390" y="315" font-family="Public Sans, sans-serif" font-size="10" font-weight="700" fill="#96421f" text-anchor="middle">● SIGNED</text>
-      </svg>
+    <div class="hero-visual" data-hero-motion>
+      <div class="hero-visual-stage product-preview" data-hero-visual role="img" aria-label="BestHO3 application workspace showing property intelligence and a preliminary indication">
+        <div class="product-preview-bar"><span><i></i> Application workspace</span><strong>HO3–7K2P4A</strong></div>
+        <div class="product-preview-body">
+          <div class="product-preview-main">
+            <span class="product-preview-kicker">Property intelligence</span>
+            <h2>123 Oak Canyon Road</h2>
+            <p>Los Angeles, CA 90049</p>
+            <div class="product-preview-grid">
+              <div><span>Year built</span><strong>1968</strong></div>
+              <div><span>Living area</span><strong>1,850 ft²</strong></div>
+              <div><span>Roof update</span><strong>2019</strong></div>
+              <div><span>Occupancy</span><strong>Primary</strong></div>
+            </div>
+            <div class="product-preview-scan"><span></span><p>Evaluating property and market pathways…</p></div>
+          </div>
+          <aside class="product-preview-side">
+            <span class="product-preview-kicker">Current result</span>
+            <strong class="product-preview-price">$2,400–$3,700</strong>
+            <small>Preliminary annual estimate</small>
+            <div class="product-preview-status"><i></i><span><strong>Modeled indication</strong><small>Active</small></span></div>
+            <div class="product-preview-status"><i></i><span><strong>Carrier shopping</strong><small>After signed intake</small></span></div>
+          </aside>
+        </div>
+      </div>
     </div>
   </div>
+  <a class="hero-scroll-cue" href="#markets" aria-label="Explore the markets we shop">
+    <span>Explore the market</span>
+    <span class="hero-scroll-track" aria-hidden="true"><span></span></span>
+  </a>
 </section>
 
 <!-- MARKETS WE SHOP -->
-<section class="section-alt" style="padding:52px 0" id="markets">
-  <div class="container" style="text-align:center">
+<section class="section-alt market-route" id="markets" data-scroll-scene>
+  <div class="container" data-motion-group>
     <span class="kicker">The markets we shop for you</span>
-    <h2 style="font-family:var(--font-display);font-weight:500;font-size:clamp(1.5rem,2.8vw,2.05rem);color:var(--text);margin:0 auto 12px;max-width:760px;line-height:1.2">One application, shopped across the whole California market</h2>
-    <p style="max-width:640px;margin:0 auto 30px;color:var(--muted);font-size:1rem;line-height:1.7">Independent means we answer to your home, not one carrier. We place across four segments and quote the ones that fit — then hand you the best of what comes back.</p>
-    <div class="markets-grid">
-      <div class="card" style="padding:22px">
+    <h2 class="route-title">One application, shopped across the whole California market</h2>
+    <p class="route-lead">Independent means we answer to your home, not one carrier. We place across four segments and quote the ones that fit — then hand you the best of what comes back.</p>
+    <div class="markets-grid market-route-grid">
+      <div class="card market-card" data-motion="rise">
         <span class="step-num">Preferred</span>
-        <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:550;margin-bottom:6px">Admitted carriers</h3>
-        <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;margin:0">Safeco, Travelers, Nationwide, Mercury, CSAA, Foremost, Stillwater — the competitive standard market.</p>
+        <h3>Admitted carriers</h3>
+        <p>Safeco, Travelers, Nationwide, Mercury, CSAA, Foremost, Stillwater — the competitive standard market.</p>
       </div>
-      <div class="card" style="padding:22px">
+      <div class="card market-card" data-motion="rise">
         <span class="step-num">High value</span>
-        <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:550;margin-bottom:6px">Private-client</h3>
-        <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;margin:0">Chubb, PURE, AIG Private Client, Cincinnati, Nationwide Private Client — richer contracts for higher-value homes.</p>
+        <h3>Private-client</h3>
+        <p>Chubb, PURE, AIG Private Client, Cincinnati, Nationwide Private Client — richer contracts for higher-value homes.</p>
       </div>
-      <div class="card" style="padding:22px">
+      <div class="card market-card" data-motion="rise">
         <span class="step-num">Specialty</span>
-        <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:550;margin-bottom:6px">Surplus lines (E&amp;S)</h3>
-        <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;margin:0">American Modern, Lloyd's of London and other E&amp;S markets for brush-exposed and older homes.</p>
+        <h3>Surplus lines (E&amp;S)</h3>
+        <p>American Modern, Lloyd's of London and other E&amp;S markets for brush-exposed and older homes.</p>
       </div>
-      <div class="card" style="padding:22px">
+      <div class="card market-card" data-motion="rise">
         <span class="step-num">Last resort</span>
-        <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:550;margin-bottom:6px">FAIR Plan + DIC</h3>
-        <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;margin:0">The California FAIR Plan paired with a DIC companion when the admitted market declines a home.</p>
+        <h3>FAIR Plan + DIC</h3>
+        <p>The California FAIR Plan paired with a DIC companion when the admitted market declines a home.</p>
       </div>
     </div>
-    <p style="font-size:0.9rem"><a href="/carriers" class="soft-link">See how the market tiers work &amp; why carrier appetite shifts →</a></p>
-    <p style="font-size:0.78rem;color:var(--muted2);max-width:640px;margin:18px auto 0;line-height:1.6">Carrier names are shown to illustrate the segments we shop; availability and appetite vary by home, ZIP, and quarter, and listing a carrier isn't a guarantee of an offer.</p>
+    <p class="route-more"><a href="/carriers" class="soft-link">See how the market tiers work &amp; why carrier appetite shifts →</a></p>
+    <p class="route-fineprint">Carrier names are shown to illustrate the segments we shop; availability and appetite vary by home, ZIP, and quarter, and listing a carrier isn't a guarantee of an offer.</p>
   </div>
 </section>
 
@@ -179,29 +172,29 @@
     <div class="section-header centered">
       <span class="kicker">Pricing Indication &amp; Application</span>
       <h2 class="section-title">Your Indication &amp; Signed Application, Step by Step</h2>
-      <p class="lead" style="max-width:680px;margin-left:auto;margin-right:auto">See a live premium indication as you answer, then complete and e-sign the official ACORD 80 homeowner application right here — no printing, no PDFs to email. A licensed broker shops your home across admitted carriers, the FAIR Plan, and surplus lines.</p>
+      <p class="lead mw-680 mx-auto">See a live premium indication as you answer, then complete and e-sign the official ACORD 80 homeowner application right here — no printing, no PDFs to email. A licensed broker shops your home across admitted carriers, the FAIR Plan, and surplus lines.</p>
     </div>
     <div class="quote-layout">
 
       <div>
         <div id="ho-wizard-mount">
-          <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:40px">
-            <div class="shimmer" style="height:20px;width:35%;margin-bottom:32px"></div>
-            <div class="shimmer" style="height:44px;width:65%;margin-bottom:12px"></div>
-            <div class="shimmer" style="height:18px;width:50%;margin-bottom:36px"></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px">
-              <div class="shimmer" style="height:52px"></div>
-              <div class="shimmer" style="height:52px"></div>
+          <div class="wiz-skeleton">
+            <div class="shimmer wiz-sk-kicker"></div>
+            <div class="shimmer wiz-sk-title"></div>
+            <div class="shimmer wiz-sk-sub"></div>
+            <div class="wiz-sk-grid-2">
+              <div class="shimmer wiz-sk-row"></div>
+              <div class="shimmer wiz-sk-row"></div>
             </div>
-            <div class="shimmer" style="height:52px;margin-bottom:18px"></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px">
-              <div class="shimmer" style="height:52px"></div>
-              <div class="shimmer" style="height:52px"></div>
-              <div class="shimmer" style="height:52px"></div>
+            <div class="shimmer wiz-sk-row gap"></div>
+            <div class="wiz-sk-grid-3">
+              <div class="shimmer wiz-sk-row"></div>
+              <div class="shimmer wiz-sk-row"></div>
+              <div class="shimmer wiz-sk-row"></div>
             </div>
-            <div class="shimmer" style="height:52px;margin-bottom:32px"></div>
-            <div style="display:flex;justify-content:flex-end">
-              <div class="shimmer" style="height:48px;width:160px;border-radius:8px"></div>
+            <div class="shimmer wiz-sk-row gap-lg"></div>
+            <div class="wiz-sk-actions">
+              <div class="shimmer wiz-sk-btn"></div>
             </div>
           </div>
         </div>
@@ -210,49 +203,49 @@
       <aside class="quote-sidebar">
 
         <div class="card">
-          <p class="kicker" style="margin-bottom:16px">What Happens Next</p>
-          <ol style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px">
-            <li style="display:flex;gap:12px">
-              <span style="width:26px;height:26px;border-radius:50%;background:var(--wash);color:var(--accent);font-size:0.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">1</span>
+          <p class="kicker mb-16">What Happens Next</p>
+          <ol class="next-steps">
+            <li class="next-step">
+              <span class="next-badge">1</span>
               <div>
-                <p style="font-weight:600;font-size:0.875rem;margin:0 0 3px;color:var(--text)">We review your submission</p>
-                <p style="font-size:0.8rem;color:var(--muted);margin:0;line-height:1.5">A licensed broker reviews your home's wildfire mapping, replacement cost, and systems — often the same business day.</p>
+                <p class="next-step-title">We review your submission</p>
+                <p class="next-step-body">A licensed broker reviews your home's wildfire mapping, replacement cost, and systems — often the same business day.</p>
               </div>
             </li>
-            <li style="display:flex;gap:12px">
-              <span style="width:26px;height:26px;border-radius:50%;background:var(--wash);color:var(--accent);font-size:0.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">2</span>
+            <li class="next-step">
+              <span class="next-badge">2</span>
               <div>
-                <p style="font-weight:600;font-size:0.875rem;margin:0 0 3px;color:var(--text)">We sweep the whole market</p>
-                <p style="font-size:0.8rem;color:var(--muted);margin:0;line-height:1.5">Your signed ACORD 80 goes to the carriers with real appetite for your home — and if the brush mapping calls for it, we build the FAIR Plan + DIC pairing.</p>
+                <p class="next-step-title">We sweep the whole market</p>
+                <p class="next-step-body">Your signed ACORD 80 goes to the carriers with real appetite for your home — and if the brush mapping calls for it, we build the FAIR Plan + DIC pairing.</p>
               </div>
             </li>
-            <li style="display:flex;gap:12px">
-              <span style="width:26px;height:26px;border-radius:50%;background:var(--wash);color:var(--accent);font-size:0.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">3</span>
+            <li class="next-step">
+              <span class="next-badge">3</span>
               <div>
-                <p style="font-weight:600;font-size:0.875rem;margin:0 0 3px;color:var(--text)">You choose from real options</p>
-                <p style="font-size:0.8rem;color:var(--muted);margin:0;line-height:1.5">Side-by-side proposals with coverage differences called out in plain English — not just the cheapest number.</p>
+                <p class="next-step-title">You choose from real options</p>
+                <p class="next-step-body">Side-by-side proposals with coverage differences called out in plain English — not just the cheapest number.</p>
               </div>
             </li>
           </ol>
         </div>
 
         <div class="card">
-          <p class="kicker" style="margin-bottom:14px">Landlord or Investor?</p>
-          <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin:0 0 14px">Rentals and investment properties belong on a <strong style="color:var(--text)">DP-3 dwelling policy</strong>, not an HO-3. The wizard routes you automatically — or read the guide first.</p>
-          <a href="/landlord-dp3" class="btn btn-ghost" style="font-size:0.85rem;padding:10px 18px">Landlord DP-3 guide →</a>
+          <p class="kicker mb-14">Landlord or Investor?</p>
+          <p class="card-note">Rentals and investment properties belong on a <strong class="ink">DP-3 dwelling policy</strong>, not an HO-3. The wizard routes you automatically — or read the guide first.</p>
+          <a href="/landlord-dp3" class="btn btn-ghost btn-md">Landlord DP-3 guide →</a>
         </div>
 
         <div class="card">
-          <p class="kicker" style="margin-bottom:14px">Want Broader Coverage?</p>
-          <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin:0 0 14px">The <strong style="color:var(--text)">HO-5 comprehensive form</strong> covers your belongings open-perils at replacement cost — usually 10–20% more premium, often the better value on well-maintained homes. Our sister site specializes in it.</p>
-          <a href="https://www.bestho5.com" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.85rem;padding:10px 18px">BestHO5.com →</a>
+          <p class="kicker mb-14">Want Broader Coverage?</p>
+          <p class="card-note">The <strong class="ink">HO-5 comprehensive form</strong> covers your belongings open-perils at replacement cost — usually 10–20% more premium, often the better value on well-maintained homes. Our sister site specializes in it.</p>
+          <a href="https://www.bestho5.com" target="_blank" rel="noopener" class="btn btn-ghost btn-md">BestHO5.com →</a>
         </div>
 
-        <div class="card" style="border-color:var(--accent-border)">
-          <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin:0">
-            <strong style="color:var(--text)">WJB Services, Inc. dba Bollinsure Insurance Services</strong><br>
+        <div class="card card-accent">
+          <p class="muted-body">
+            <strong class="ink">WJB Services, Inc. dba Bollinsure Insurance Services</strong><br>
             CA DOI Lic. #6013787 · Licensed in all 50 states<br>
-            <a href="tel:3108045017" style="color:var(--accent)">310-804-5017</a> · <a href="mailto:quotes@bollinsure.com" style="color:var(--muted)">quotes@bollinsure.com</a>
+            <a href="tel:3108045017" class="c-accent">310-804-5017</a> · <a href="mailto:quotes@bollinsure.com" class="c-muted">quotes@bollinsure.com</a>
           </p>
         </div>
 
@@ -267,38 +260,38 @@
     <div class="section-header">
       <span class="kicker">What an HO-3 Covers</span>
       <h2 class="section-title">Six coverages, one policy</h2>
-      <p class="lead" style="max-width:720px">Every homeowners policy is built from Coverages A through F. Get these six numbers right and the rest is fine print. <a href="/coverage" style="color:var(--accent)">Full coverage guide →</a></p>
+      <p class="lead mw-720">Every homeowners policy is built from Coverages A through F. Get these six numbers right and the rest is fine print. <a href="/coverage" class="c-accent">Full coverage guide →</a></p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
-      <a href="/coverage-a-dwelling" class="card reveal" style="text-decoration:none">
-        <span style="font-family:var(--font-mono);font-size:0.72rem;font-weight:700;letter-spacing:0.1em;color:var(--terra)">COVERAGE A</span>
-        <h3 style="font-size:1.05rem;margin:8px 0 8px">Dwelling</h3>
-        <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin:0">The house itself, at rebuild cost — not market value. The number every other limit hangs off, and the one Californians most often get wrong.</p>
+    <div class="cov-grid">
+      <a href="/coverage-a-dwelling" class="card reveal">
+        <span class="overline">COVERAGE A</span>
+        <h3 class="cov-title">Dwelling</h3>
+        <p class="muted-body">The house itself, at rebuild cost — not market value. The number every other limit hangs off, and the one Californians most often get wrong.</p>
       </a>
-      <a href="/coverage-b-other-structures" class="card reveal" style="text-decoration:none">
-        <span style="font-family:var(--font-mono);font-size:0.72rem;font-weight:700;letter-spacing:0.1em;color:var(--terra)">COVERAGE B</span>
-        <h3 style="font-size:1.05rem;margin:8px 0 8px">Other Structures</h3>
-        <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin:0">Detached garages, fences, sheds, ADUs — typically 10% of Coverage A, adjustable when you actually have an ADU.</p>
+      <a href="/coverage-b-other-structures" class="card reveal">
+        <span class="overline">COVERAGE B</span>
+        <h3 class="cov-title">Other Structures</h3>
+        <p class="muted-body">Detached garages, fences, sheds, ADUs — typically 10% of Coverage A, adjustable when you actually have an ADU.</p>
       </a>
-      <a href="/coverage-c-personal-property" class="card reveal" style="text-decoration:none">
-        <span style="font-family:var(--font-mono);font-size:0.72rem;font-weight:700;letter-spacing:0.1em;color:var(--terra)">COVERAGE C</span>
-        <h3 style="font-size:1.05rem;margin:8px 0 8px">Personal Property</h3>
-        <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin:0">Everything you own, usually 50–70% of Coverage A. Named-perils on an HO-3 — open-perils if you upgrade to HO-5.</p>
+      <a href="/coverage-c-personal-property" class="card reveal">
+        <span class="overline">COVERAGE C</span>
+        <h3 class="cov-title">Personal Property</h3>
+        <p class="muted-body">Everything you own, usually 50–70% of Coverage A. Named-perils on an HO-3 — open-perils if you upgrade to HO-5.</p>
       </a>
-      <a href="/coverage-d-loss-of-use" class="card reveal" style="text-decoration:none">
-        <span style="font-family:var(--font-mono);font-size:0.72rem;font-weight:700;letter-spacing:0.1em;color:var(--terra)">COVERAGE D</span>
-        <h3 style="font-size:1.05rem;margin:8px 0 8px">Loss of Use</h3>
-        <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin:0">Rent and extra living costs while you rebuild. After a wildfire, rebuilds run years — 24-month minimums matter in CA.</p>
+      <a href="/coverage-d-loss-of-use" class="card reveal">
+        <span class="overline">COVERAGE D</span>
+        <h3 class="cov-title">Loss of Use</h3>
+        <p class="muted-body">Rent and extra living costs while you rebuild. After a wildfire, rebuilds run years — 24-month minimums matter in CA.</p>
       </a>
-      <a href="/personal-liability-coverage-e" class="card reveal" style="text-decoration:none">
-        <span style="font-family:var(--font-mono);font-size:0.72rem;font-weight:700;letter-spacing:0.1em;color:var(--terra)">COVERAGE E</span>
-        <h3 style="font-size:1.05rem;margin:8px 0 8px">Personal Liability</h3>
-        <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin:0">Defends and pays when someone sues you — dog bite, pool accident, a fall on your steps. $300k is the floor we recommend discussing.</p>
+      <a href="/personal-liability-coverage-e" class="card reveal">
+        <span class="overline">COVERAGE E</span>
+        <h3 class="cov-title">Personal Liability</h3>
+        <p class="muted-body">Defends and pays when someone sues you — dog bite, pool accident, a fall on your steps. $300k is the floor we recommend discussing.</p>
       </a>
-      <a href="/medical-payments-coverage-f" class="card reveal" style="text-decoration:none">
-        <span style="font-family:var(--font-mono);font-size:0.72rem;font-weight:700;letter-spacing:0.1em;color:var(--terra)">COVERAGE F</span>
-        <h3 style="font-size:1.05rem;margin:8px 0 8px">Medical Payments</h3>
-        <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin:0">Small no-fault medical bills for guests — the goodwill coverage that keeps small injuries from becoming lawsuits.</p>
+      <a href="/medical-payments-coverage-f" class="card reveal">
+        <span class="overline">COVERAGE F</span>
+        <h3 class="cov-title">Medical Payments</h3>
+        <p class="muted-body">Small no-fault medical bills for guests — the goodwill coverage that keeps small injuries from becoming lawsuits.</p>
       </a>
     </div>
   </div>
@@ -310,48 +303,125 @@
     <div class="section-header">
       <span class="kicker">The California Market</span>
       <h2 class="section-title">Yes, it's a hard market. That's why brokers exist.</h2>
-      <p class="lead" style="max-width:760px">Carriers have tightened appetite, non-renewed brush zones, and re-priced wildfire risk across the state. The difference between "uninsurable" and "well-placed" is usually just knowing which market wants your home this quarter.</p>
+      <p class="lead mw-760">Carriers have tightened appetite, non-renewed brush zones, and re-priced wildfire risk across the state. The difference between "uninsurable" and "well-placed" is usually just knowing which market wants your home this quarter.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
+    <div class="ca-grid">
       <div class="card reveal">
         <span class="step-num">The exposure</span>
-        <h3 style="font-size:1.15rem;margin-bottom:8px">Wildfire &amp; brush zones</h3>
-        <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin:0 0 12px">Brush mapping — not your ZIP code — decides your options. Home-hardening and Safer from Wildfires credits can reopen doors carriers had closed.</p>
-        <a href="/california-wildfire-insurance" style="color:var(--accent);font-size:0.85rem;font-weight:600">Wildfire insurance guide →</a>
+        <h3 class="ca-title">Wildfire &amp; brush zones</h3>
+        <p class="ca-body">Brush mapping — not your ZIP code — decides your options. Home-hardening and Safer from Wildfires credits can reopen doors carriers had closed.</p>
+        <a href="/california-wildfire-insurance" class="card-cta">Wildfire insurance guide →</a>
       </div>
       <div class="card reveal">
         <span class="step-num">The backstop</span>
-        <h3 style="font-size:1.15rem;margin-bottom:8px">FAIR Plan + DIC pairing</h3>
-        <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin:0 0 12px">The FAIR Plan covers fire; a Difference-in-Conditions policy adds back liability, water, and theft. Paired correctly, it's real coverage — not a consolation prize.</p>
-        <a href="/california-fair-plan" style="color:var(--accent);font-size:0.85rem;font-weight:600">FAIR Plan guide →</a>
+        <h3 class="ca-title">FAIR Plan + DIC pairing</h3>
+        <p class="ca-body">The FAIR Plan covers fire; a Difference-in-Conditions policy adds back liability, water, and theft. Paired correctly, it's real coverage — not a consolation prize.</p>
+        <a href="/california-fair-plan" class="card-cta">FAIR Plan guide →</a>
       </div>
       <div class="card reveal">
         <span class="step-num">The clock</span>
-        <h3 style="font-size:1.15rem;margin-bottom:8px">Non-renewed? Move fast.</h3>
-        <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin:0 0 12px">A non-renewal notice starts a clock, not a catastrophe. The notice arrives ahead of the effective date — enough time to remarket properly if you start now.</p>
-        <a href="/non-renewal-what-to-do" style="color:var(--accent);font-size:0.85rem;font-weight:600">Non-renewal playbook →</a>
+        <h3 class="ca-title">Non-renewed? Move fast.</h3>
+        <p class="ca-body">A non-renewal notice starts a clock, not a catastrophe. The notice arrives ahead of the effective date — enough time to remarket properly if you start now.</p>
+        <a href="/non-renewal-what-to-do" class="card-cta">Non-renewal playbook →</a>
       </div>
     </div>
   </div>
 </section>
 
+<!-- BRUSH & FAIR PLAN OUTCOMES -->
+<section class="section outcome-section" id="outcomes" data-scroll-scene>
+  <div class="container">
+    <div class="outcome-intro" data-motion-group>
+      <div data-motion="slide-right">
+        <span class="kicker">Brush Success Stories</span>
+        <h2 class="section-title">Before we settle for the FAIR Plan, we work the market.</h2>
+      </div>
+      <div data-motion="fade">
+        <p class="lead">Brush exposure changes the submission, not the effort. We document the home, match it to current carrier appetite, and coordinate FAIR Plan plus DIC only when it is the proper placement.</p>
+        <p class="outcome-note">No market is guaranteed. Eligibility, coverage, and pricing depend on underwriting, property condition, wildfire mapping, and carrier appetite at the time of submission.</p>
+      </div>
+    </div>
+
+    <div class="placement-path" data-motion-group aria-label="Our brush-exposed home placement process">
+      <article class="placement-step" data-motion="rise">
+        <span class="placement-index">01</span>
+        <p class="placement-label">Document</p>
+        <h3>Build the property story</h3>
+        <p>We review brush mapping, roof and system updates, defensible-space work, loss history, replacement cost, lender requirements, and the non-renewal deadline.</p>
+      </article>
+      <article class="placement-step" data-motion="rise">
+        <span class="placement-index">02</span>
+        <p class="placement-label">Remarket</p>
+        <h3>Look beyond the first decline</h3>
+        <p>We approach admitted, private-client, and specialty markets with real appetite for the home instead of treating one carrier's cancellation as the end of the road.</p>
+      </article>
+      <article class="placement-step" data-motion="rise">
+        <span class="placement-index">03</span>
+        <p class="placement-label">Coordinate</p>
+        <h3>Use FAIR + DIC when proper</h3>
+        <p>When the FAIR Plan is the sound option, we coordinate its fire coverage with a DIC companion and align limits, deductibles, effective dates, and mortgagee language.</p>
+      </article>
+    </div>
+
+    <div class="client-story-scene" data-story-scene>
+      <figure class="client-story">
+        <div class="client-story-progress" aria-hidden="true">
+          <span>Client outcome</span>
+          <span class="client-story-progress-track"><span data-story-progress-bar></span></span>
+          <span data-story-counter>01 / 05</span>
+        </div>
+        <div class="client-story-mark" aria-hidden="true">“</div>
+        <blockquote>
+          <p>
+            <span data-story-line>I have had my insurance broker for many years and have not had any issues.</span>
+            <span data-story-line>Most recently, they assisted obtaining homeowner's insurance when my current provider canceled the policy due to fire risk concerns.</span>
+            <span data-story-line>They worked hard to find me another provider and avoid the dreaded California Fair Plan option which would have been far more expensive.</span>
+            <span data-story-line>The new provider is actually cheaper than the policy that was canceled.</span>
+            <span data-story-line>I am very happy with the result.</span>
+          </p>
+        </blockquote>
+        <figcaption data-story-meta>
+          <span>California homeowner</span>
+          <span>Longtime brokerage client</span>
+        </figcaption>
+        <div class="client-story-outcome" data-story-outcome aria-label="Outcome summary">
+          <span>Fire-risk cancellation</span>
+          <span aria-hidden="true">→</span>
+          <span>Alternative carrier secured</span>
+          <span aria-hidden="true">→</span>
+          <strong>FAIR Plan avoided</strong>
+        </div>
+      </figure>
+    </div>
+
+    <div class="outcome-cta" data-motion="fade">
+      <p><strong>Facing a brush-zone non-renewal?</strong> Start early enough for us to work the full placement path.</p>
+      <div>
+        <a href="#quote" class="btn btn-accent">Get a pricing indication →</a>
+        <a href="tel:3108045017" class="btn btn-ghost">Talk to a broker</a>
+      </div>
+    </div>
+    <p class="outcome-note mt-26" data-motion="fade">Individual results vary. This reflects one client's experience and is not a prediction of savings, eligibility, or placement; carrier availability and pricing are determined case by case and are never guaranteed.</p>
+  </div>
+</section>
+
 <!-- COST FACTORS -->
-<section class="section section-light" id="cost-factors">
+<section class="section section-light" id="cost-factors" data-scroll-scene>
   <div class="container">
     <div class="section-header">
       <span class="kicker">What Drives Your Premium</span>
       <h2 class="section-title">Eight levers set a California homeowners premium</h2>
-      <p class="lead" style="max-width:720px">Some you can't change (location). Most you can (deductible, roof, wiring disclosure, alarm, carrier choice). The wizard above prices all eight live. <a href="/cost" style="color:var(--accent);text-decoration:underline">Full cost guide →</a></p>
+      <p class="lead mw-720">Some you can't change (location). Most you can (deductible, roof, wiring disclosure, alarm, carrier choice). The wizard above prices all eight live. <a href="/cost" class="c-accent u-underline">Full cost guide →</a></p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
-      <div class="card reveal"><h3 style="font-size:0.95rem;margin-bottom:6px">1 · Wildfire exposure</h3><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin:0">The dominant CA factor — brush distance, fire-zone mapping, and community mitigation.</p></div>
-      <div class="card reveal"><h3 style="font-size:0.95rem;margin-bottom:6px">2 · Coverage A</h3><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin:0">Premium scales with rebuild cost. Insure to rebuild, not to Zillow.</p></div>
-      <div class="card reveal"><h3 style="font-size:0.95rem;margin-bottom:6px">3 · Roof age &amp; type</h3><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin:0">20+ year roofs surcharge; wood shake struggles; a documented re-roof pays for itself.</p></div>
-      <div class="card reveal"><h3 style="font-size:0.95rem;margin-bottom:6px">4 · Systems &amp; wiring</h3><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin:0">Knob &amp; tube, aluminum wiring, fuse panels, and old plumbing move carriers to "no" — or to E&amp;S pricing.</p></div>
-      <div class="card reveal"><h3 style="font-size:0.95rem;margin-bottom:6px">5 · Claims history</h3><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin:0">Carriers pull 5–7 years of CLUE data. One water loss is survivable; surprises aren't.</p></div>
-      <div class="card reveal"><h3 style="font-size:0.95rem;margin-bottom:6px">6 · Deductible</h3><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin:0">$1,000 → $5,000 is often the cheapest premium cut you'll ever make.</p></div>
-      <div class="card reveal"><h3 style="font-size:0.95rem;margin-bottom:6px">7 · Protection &amp; hardening</h3><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin:0">Central alarms, sprinklers, ember-resistant vents, defensible space — stacked discounts.</p></div>
-      <div class="card reveal"><h3 style="font-size:0.95rem;margin-bottom:6px">8 · Carrier choice</h3><p style="font-size:0.83rem;color:var(--muted);line-height:1.65;margin:0">The same home prices 20–40% apart across carriers. This one is our job.</p></div>
+    <div class="premium-grid" data-motion-group>
+      <div class="card reveal"><h3>1 · Wildfire exposure</h3><p>The dominant CA factor — brush distance, fire-zone mapping, and community mitigation.</p></div>
+      <div class="card reveal"><h3>2 · Coverage A</h3><p>Premium scales with rebuild cost. Insure to rebuild, not to Zillow.</p></div>
+      <div class="card reveal"><h3>3 · Roof age &amp; type</h3><p>20+ year roofs surcharge; wood shake struggles; a documented re-roof pays for itself.</p></div>
+      <div class="card reveal"><h3>4 · Systems &amp; wiring</h3><p>Knob &amp; tube, aluminum wiring, fuse panels, and old plumbing move carriers to "no" — or to E&amp;S pricing.</p></div>
+      <div class="card reveal"><h3>5 · Claims history</h3><p>Carriers pull 5–7 years of CLUE data. One water loss is survivable; surprises aren't.</p></div>
+      <div class="card reveal"><h3>6 · Deductible</h3><p>$1,000 → $5,000 is often the cheapest premium cut you'll ever make.</p></div>
+      <div class="card reveal"><h3>7 · Protection &amp; hardening</h3><p>Central alarms, sprinklers, ember-resistant vents, defensible space — stacked discounts.</p></div>
+      <div class="card reveal"><h3>8 · Carrier choice</h3><p>The same home prices 20–40% apart across carriers. This one is our job.</p></div>
     </div>
   </div>
 </section>
@@ -362,9 +432,9 @@
     <div class="section-header">
       <span class="kicker">Pick the Right Form</span>
       <h2 class="section-title">HO-3, HO-5, or DP-3?</h2>
-      <p class="lead" style="max-width:700px">The form decides how your stuff is covered and what you can claim. Owner-occupied homes take HO-3 (or HO-5 for the broadest coverage); rentals take DP-3.</p>
+      <p class="lead mw-700">The form decides how your stuff is covered and what you can claim. Owner-occupied homes take HO-3 (or HO-5 for the broadest coverage); rentals take DP-3.</p>
     </div>
-    <div style="overflow-x:auto">
+    <div class="table-scroll">
       <table class="ho-table">
         <thead>
           <tr><th>Policy form</th><th>Best for</th><th>Dwelling</th><th>Contents</th><th>Typical premium</th></tr>
@@ -379,14 +449,14 @@
           </tr>
           <tr>
             <td><strong>HO-5</strong> · Comprehensive</td>
-            <td>Broader protection, better value on well-kept homes → <a href="https://www.bestho5.com" target="_blank" rel="noopener" style="color:var(--accent)">BestHO5.com</a></td>
+            <td>Broader protection, better value on well-kept homes → <a href="https://www.bestho5.com" target="_blank" rel="noopener" class="c-accent">BestHO5.com</a></td>
             <td>Open perils</td>
             <td>Open perils, replacement cost</td>
             <td>~10–20% more</td>
           </tr>
           <tr>
             <td><strong>DP-3</strong> · Dwelling fire</td>
-            <td>Landlords &amp; investment properties → <a href="/landlord-dp3" style="color:var(--accent)">Landlord guide</a></td>
+            <td>Landlords &amp; investment properties → <a href="/landlord-dp3" class="c-accent">Landlord guide</a></td>
             <td>Open perils</td>
             <td>Optional / limited</td>
             <td>Varies with rental risk</td>
@@ -394,7 +464,7 @@
         </tbody>
       </table>
     </div>
-    <p style="margin-top:18px;font-size:0.9rem;color:var(--muted)">Deep dives: <a href="/ho3-vs-ho5" style="color:var(--accent)">HO-3 vs HO-5</a> · <a href="/ho3-vs-dp3" style="color:var(--accent)">HO-3 vs DP-3</a> · <a href="/ho3-vs-ho6-condo" style="color:var(--accent)">Condos (HO-6)</a> · <a href="/what-is-an-ho3-policy" style="color:var(--accent)">What "special form" actually means</a></p>
+    <p class="table-footnote">Deep dives: <a href="/ho3-vs-ho5" class="c-accent">HO-3 vs HO-5</a> · <a href="/ho3-vs-dp3" class="c-accent">HO-3 vs DP-3</a> · <a href="/ho3-vs-ho6-condo" class="c-accent">Condos (HO-6)</a> · <a href="/what-is-an-ho3-policy" class="c-accent">What "special form" actually means</a></p>
   </div>
 </section>
 
@@ -404,9 +474,9 @@
     <div class="section-header">
       <span class="kicker">The Comprehensive Guide</span>
       <h2 class="section-title">Everything we know about California homeowners insurance</h2>
-      <p class="lead" style="max-width:720px">Written for California homes, useful anywhere. Start with the pillar guide or jump straight to your situation.</p>
+      <p class="lead mw-720">Written for California homes, useful anywhere. Start with the pillar guide or jump straight to your situation.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+    <div class="guide-grid">
       <a href="/california-homeowners-insurance" class="tile">
         <span class="tile-num">No. 01</span>
         <h3 class="tile-title">The California Guide</h3>
@@ -438,9 +508,9 @@
         <p class="tile-body">Live premium range as you answer — then sign the ACORD 80 online and we shop it.</p>
       </a>
     </div>
-    <div style="margin-top:28px;padding:20px 24px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;">
-      <span style="font-family:var(--font-mono);font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--terra);display:block;margin-bottom:12px;">More guides</span>
-      <div style="display:flex;flex-wrap:wrap;gap:8px 18px;font-size:0.85rem;line-height:2;">
+    <div class="link-panel">
+      <span class="link-panel-title">More guides</span>
+      <div class="link-panel-links">
         <a href="/replacement-cost-estimator" class="soft-link">Rebuild-cost estimator (tool)</a>
         <a href="/replacement-cost-vs-actual-cash-value" class="soft-link">Replacement cost vs ACV</a>
         <a href="/extended-replacement-cost" class="soft-link">Extended replacement cost</a>
@@ -477,9 +547,9 @@
         <a href="/glossary" class="soft-link">Glossary</a>
       </div>
     </div>
-    <div style="margin-top:16px;padding:20px 24px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;">
-      <span style="font-family:var(--font-mono);font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--terra);display:block;margin-bottom:12px;">By region</span>
-      <div style="display:flex;flex-wrap:wrap;gap:8px 18px;font-size:0.85rem;line-height:2;">
+    <div class="link-panel">
+      <span class="link-panel-title">By region</span>
+      <div class="link-panel-links">
         <a href="/los-angeles" class="soft-link">Los Angeles</a>
         <a href="/orange-county" class="soft-link">Orange County</a>
         <a href="/san-diego" class="soft-link">San Diego</a>
@@ -501,38 +571,38 @@
       <h2 class="section-title">California homeowners FAQ</h2>
     </div>
     <div class="faq">
-      <div class="faq-item">
-        <button class="faq-q">Is the premium range on this site a real quote?<span class="faq-arrow">+</span></button>
+      <details class="faq-item">
+        <summary class="faq-q">Is the premium range on this site a real quote?<span class="faq-arrow" aria-hidden="true">+</span></summary>
         <div class="faq-a"><p>No — it's a preliminary indication built from the answers you give the wizard. Real quotes come from carriers after underwriting, wildfire-zone mapping, a replacement-cost valuation, and usually an inspection. The indication exists so you know the ballpark before you spend time — and so we both know which markets are worth approaching.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">My carrier non-renewed me. Am I uninsurable?<span class="faq-arrow">+</span></button>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">My carrier non-renewed me. Am I uninsurable?<span class="faq-arrow" aria-hidden="true">+</span></summary>
         <div class="faq-a"><p>Almost certainly not. Non-renewals in California are usually about a carrier's portfolio-level wildfire exposure, not your specific home. The path is: remarket to admitted carriers with current appetite, then E&amp;S markets, then the FAIR Plan paired with a DIC policy. Start when the notice arrives — the notice arrives ahead of the effective date, precisely so there's time to do this properly. <a href="/non-renewal-what-to-do">Read the playbook</a>.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">What's the difference between HO-3 and HO-5?<span class="faq-arrow">+</span></button>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">What's the difference between HO-3 and HO-5?<span class="faq-arrow" aria-hidden="true">+</span></summary>
         <div class="faq-a"><p>Both cover the house itself against everything not specifically excluded ("open perils"). The difference is your belongings: HO-3 covers contents only for named perils at (often) actual cash value; HO-5 covers contents open-perils at replacement cost. HO-5 typically runs 10–20% more and is often the better value on well-maintained homes. <a href="/ho3-vs-ho5">Full comparison</a> — or see our HO-5 specialist site, <a href="https://www.bestho5.com" target="_blank" rel="noopener">BestHO5.com</a>.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">I rent out the property. Can I still use this application?<span class="faq-arrow">+</span></button>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">I rent out the property. Can I still use this application?<span class="faq-arrow" aria-hidden="true">+</span></summary>
         <div class="faq-a"><p>Yes — the wizard routes rentals and investment properties to a DP-3 dwelling application automatically. An HO-3 on a tenant-occupied home misrepresents the occupancy and can void claims, so getting the form right matters more than the premium difference. <a href="/landlord-dp3">Landlord DP-3 guide</a>.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Does homeowners insurance cover earthquakes or floods?<span class="faq-arrow">+</span></button>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">Does homeowners insurance cover earthquakes or floods?<span class="faq-arrow" aria-hidden="true">+</span></summary>
         <div class="faq-a"><p>No on both — the two biggest California gaps. Earthquake is a separate policy (CEA or private markets), and flood is NFIP or private flood. We broker both alongside your homeowners policy. <a href="/earthquake-insurance-california">Earthquake guide</a> · <a href="/flood-insurance-california">Flood guide</a>.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">What is the FAIR Plan, and is it bad?<span class="faq-arrow">+</span></button>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">What is the FAIR Plan, and is it bad?<span class="faq-arrow" aria-hidden="true">+</span></summary>
         <div class="faq-a"><p>The California FAIR Plan is the state's insurer of last resort for fire risk. It's not "bad" — it's incomplete: fire, lightning, smoke, and (optionally) wind, but no liability, theft, or water damage. That's why it's paired with a Difference-in-Conditions (DIC) policy that adds those back. Done correctly, FAIR + DIC is real, bankable coverage for brush-zone homes. <a href="/california-fair-plan">FAIR Plan guide</a>.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Do you charge a broker fee?<span class="faq-arrow">+</span></button>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">Do you charge a broker fee?<span class="faq-arrow" aria-hidden="true">+</span></summary>
         <div class="faq-a"><p>No broker fee on standard homeowners placements — carriers pay our commission. If a placement ever required a fee (rare, E&amp;S edge cases), it's disclosed in writing before you commit, as California law requires.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Who is behind BestHO3?<span class="faq-arrow">+</span></button>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">Who is behind BestHO3?<span class="faq-arrow" aria-hidden="true">+</span></summary>
         <div class="faq-a"><p>WJB Services, Inc. dba Bollinsure Insurance Services — an independent brokerage licensed by the California Department of Insurance (Lic. #6013787) and licensed in all 50 states. Homeowners is one of our core lines alongside earthquake, fine art, cyber, and workers compensation. Call <a href="tel:3108045017">310-804-5017</a> or email <a href="mailto:quotes@bollinsure.com">quotes@bollinsure.com</a>.</p></div>
-      </div>
+      </details>
     </div>
   </div>
 </section>
@@ -541,10 +611,10 @@
 <section class="cta-section">
   <div class="container">
     <span class="kicker">Get Started</span>
-    <h2 class="section-title" style="margin-bottom:16px">Ready to see your real options?</h2>
-    <p class="lead" style="max-width:540px;margin:0 auto 32px">Takes about 4 minutes. No commitment. Live indication as you answer, then a signed ACORD 80 our brokers take to the whole California market.</p>
-    <a href="#quote" class="btn btn-accent btn-lg">Get a pricing indication →</a>
-    <p style="margin-top:16px;color:var(--muted2);font-size:0.875rem">Or call us directly: <a href="tel:3108045017" style="color:var(--accent)">310-804-5017</a> · <a href="mailto:quotes@bollinsure.com" style="color:var(--muted)">quotes@bollinsure.com</a></p>
+    <h2 class="section-title mb-16">Ready to see your real options?</h2>
+    <p class="lead cta-lead">Takes about 4 minutes. No commitment. Live indication as you answer, then a signed ACORD 80 our brokers take to the whole California market.</p>
+    <a href="/apply" class="btn btn-accent btn-lg">Start your application →</a>
+    <p class="cta-subnote">Or call us directly: <a href="tel:3108045017" class="c-accent">310-804-5017</a> · <a href="mailto:quotes@bollinsure.com" class="c-muted">quotes@bollinsure.com</a></p>
   </div>
 </section>
 
@@ -553,12 +623,12 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="/" class="nav-brand" style="font-size:1.1rem;display:inline-block;margin-bottom:16px">Best<span>HO3</span></a>
+        <a href="/" class="nav-brand footer-brand-link">Best<span>HO3</span></a>
         <p class="footer-disclaimer">WJB Services, Inc. dba Bollinsure Insurance Services. Independent homeowners insurance broker with a California focus. CA DOI Lic. #6013787.</p>
         <p class="footer-disclaimer">Nothing on this site is a quote, binder, or offer of coverage. All pricing indications are preliminary estimates subject to carrier underwriting, inspection, and approval. Policy terms control.</p>
-        <p style="margin-top:16px;font-size:0.875rem">
-          <a href="tel:3108045017" style="color:var(--muted)">310-804-5017</a> ·
-          <a href="mailto:quotes@bollinsure.com" style="color:var(--muted)">quotes@bollinsure.com</a>
+        <p class="footer-contact">
+          <a href="tel:3108045017" class="c-muted">310-804-5017</a> ·
+          <a href="mailto:quotes@bollinsure.com" class="c-muted">quotes@bollinsure.com</a>
         </p>
       </div>
       <div>
@@ -594,18 +664,21 @@
           <li><a href="/carriers">Carrier Guide</a></li>
           <li><a href="/glossary">Glossary</a></li>
           <li><a href="/faq">FAQ</a></li>
-          <li><a href="#quote">Get Indication</a></li>
+          <li><a href="/apply">Start Application</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Bollinsure Insurance Services. All rights reserved.</span>
       <span>CA DOI Lic. #6013787 · Independent Broker · Licensed in all 50 states</span>
+      <span><a href="/privacy">Privacy &amp; CCPA notice</a> · <a href="/terms">Terms of use</a></span>
     </div>
   </div>
 </footer>
 
+<script src="/assets/brand.js" defer></script>
 <script src="/assets/app.js" defer></script>
+<script src="/assets/seo.js" defer></script>
 <script>
 (function(){
   "use strict";

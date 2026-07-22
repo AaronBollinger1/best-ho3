@@ -4,13 +4,13 @@ import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 import zlib from "zlib";
+import { guardRequest, canonicalFingerprint, clientIp } from "./lib/request-guard.js";
 
 const FROM_ADDRESS = process.env.FROM_EMAIL || "BestHO3 <quotes@bestho3.com>";
 const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || "quotes@bollinsure.com";
 const TEMPLATE_NAME = "acord-80-homeowner-application.pdf";
 const CONSENT_VERSION = "2026-07-16.bestho3.1";
 const TEMPLATE_CACHE = {};
-const RL = new Map();
 
 /* Field names below were extracted programmatically from the AcroForm of
    api/acord-80-homeowner-application.pdf (ACORD 80 2013/09, decrypted, XFA
@@ -160,17 +160,6 @@ function sha256(input) {
 function auditId() {
   return crypto.randomUUID ? crypto.randomUUID() : crypto.randomBytes(16).toString("hex");
 }
-function ipFrom(req) {
-  return String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "unknown";
-}
-function rateLimited(ip) {
-  const now = Date.now();
-  const arr = (RL.get(ip) || []).filter((t) => now - t < 60000);
-  arr.push(now);
-  RL.set(ip, arr);
-  if (RL.size > 5000) RL.clear();
-  return arr.length > 20;
-}
 function auditText(audit) {
   return Object.entries(audit).map(([k, v]) => `${k}: ${v == null ? "" : v}`).join("\n") + "\n";
 }
@@ -216,7 +205,10 @@ async function addAuditPage(pdf, audit) {
     ["Review started", audit.review_started_at], ["Preview generated", audit.preview_generated_at],
     ["Consent checked", audit.consented_at], ["Timezone", audit.timezone], ["Pages rendered", audit.page_count_reviewed],
     ["Full document reviewed", audit.full_document_reviewed], ["Coverage acknowledged", audit.coverage_ack],
-    ["Indication", audit.indication], ["Coverage A", audit.coverage_a], ["Signature SHA-256", audit.signature_sha256],
+    ["Indication", audit.indication], ["Coverage A", audit.coverage_a],
+    ["Reviewed-application fingerprint (server)", audit.review_fingerprint_server],
+    ["Client fingerprint matched", audit.review_fingerprint_match],
+    ["Signature SHA-256", audit.signature_sha256],
     ["Signed PDF SHA-256 before audit page", audit.signed_pdf_sha256_before_audit]
   ];
   for (const [label, value] of rows) {
@@ -439,8 +431,8 @@ async function fillPdf(fields, payload, opts = {}) {
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   try {
-    const ip = ipFrom(req);
-    if (rateLimited(ip)) return res.status(429).json({ error: "Too many requests. Please wait a minute." });
+    if (await guardRequest(req, res, { scope: "ho-application", limit: 20, windowSec: 60 })) return;
+    const ip = clientIp(req);
     const payload = req.body || {};
     const fields = sanitizeFields(payload.fields || {});
     if (payload.website_hp || fields.website_hp) return res.status(200).json({ ok: true });
@@ -460,6 +452,12 @@ export default async function handler(req, res) {
     if (!preview && !clean(consent.reviewFingerprint || payload.reviewFingerprint)) return res.status(400).json({ error: "Application preview review record required." });
 
     const quote = payload.quote || {};
+    /* Integrity of "what was reviewed" is computed HERE, from the exact data
+       this request will render into the PDF — never trusted from the client.
+       The client's number is retained only for comparison/audit visibility. */
+    const lossRowsForFp = Array.isArray(payload.lossRows) ? payload.lossRows : [];
+    const reviewFingerprintServer = canonicalFingerprint({ fields, lossRows: lossRowsForFp, quote });
+    const reviewFingerprintClient = clean(consent.reviewFingerprint || payload.reviewFingerprint, 120);
     const audit = preview ? null : {
       audit_id: auditId(),
       signed_at_utc: new Date().toISOString(),
@@ -481,6 +479,9 @@ export default async function handler(req, res) {
       coverage_ack: consent.coverageAck === true ? "yes" : "no",
       indication: quote.low && quote.high ? `${money(quote.low)}-${money(quote.high)} preliminary annual indication` : "custom market review",
       coverage_a: money(fields.dwelling_limit),
+      review_fingerprint_server: reviewFingerprintServer,
+      review_fingerprint_client: reviewFingerprintClient || "(none provided)",
+      review_fingerprint_match: reviewFingerprintClient && reviewFingerprintClient === reviewFingerprintServer ? "yes" : "no",
       signature_sha256: sha256(signatureDataUrl),
       signed_pdf_sha256_before_audit: ""
     };

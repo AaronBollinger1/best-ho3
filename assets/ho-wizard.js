@@ -79,6 +79,96 @@
     website_hp: ''              // honeypot
   };
 
+  // Device-local draft intentionally excludes applicant identity, consent,
+  // signature, loss history, and underwriting answers. Durable cross-device
+  // persistence belongs behind authenticated server storage, not localStorage.
+  const DRAFT_KEY = (window.BEST_BRAND && window.BEST_BRAND.draftKey) || 'bestho3_property_draft_v1';
+  const DRAFT_TTL = 7 * 24 * 60 * 60 * 1000;
+  const DRAFT_KEYS = [
+    'pathway', 'policy_form', 'occupancy_landlord',
+    'risk_address', 'risk_city', 'risk_county', 'risk_state', 'risk_zip',
+    'in_city_limits', 'residence_type', 'usage', 'vacancy', 'number_of_families',
+    'wildfire_exposure', 'year_built', 'total_living_area', 'construction_type',
+    'foundation_type', 'roof_material', 'roof_updated', 'roof_update_year',
+    'heating_updated', 'heating_update_year', 'plumbing_updated',
+    'plumbing_update_year', 'wiring_updated', 'wiring_update_year', 'wiring_type',
+    'electrical_panel', 'electrical_amps', 'roof_condition', 'plumbing_condition',
+    'housekeeping', 'door_locks', 'burglar_alarm', 'smoke_alarm', 'sprinklers',
+    'fire_extinguisher', 'swimming_pool', 'pool_fence', 'pool_diving_board',
+    'pool_slide', 'dwelling_limit', 'dwelling_touched', 'deductible',
+    'personal_liability_limit', 'med_pay_limit'
+  ];
+  const draftEnabled = document.body.hasAttribute('data-application-workspace');
+  let currentStep = 0;
+  let draftTimer = null;
+
+  function emit(name, detail) {
+    const d = detail || {};
+    const prefix = (window.BEST_BRAND && window.BEST_BRAND.eventPrefix) || 'bestbrands';
+    document.dispatchEvent(new CustomEvent(prefix + ':' + name, { detail: d }));
+    // Sticky replay: record the latest detail per event name so a late /apply
+    // subscriber (this script runs under `defer` and fires its initial
+    // step/indication/draft events before the controller subscribes) can read
+    // current state on load. Keep the existing window.__ho bridge untouched —
+    // ho-review-signing.js depends on it; this is an additive snapshot store.
+    window.__intake = window.__intake || {};
+    window.__intake.last = window.__intake.last || {};
+    window.__intake.last[name] = d;
+  }
+  function draftState() {
+    return DRAFT_KEYS.reduce((out, key) => {
+      if (Object.prototype.hasOwnProperty.call(state, key) && state[key] !== '') out[key] = state[key];
+      return out;
+    }, {});
+  }
+  function clearDraft() {
+    if (!draftEnabled) return;
+    try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    emit('draft', { cleared: true });
+  }
+  function saveDraft() {
+    if (!draftEnabled || !state.pathway) return;
+    clearTimeout(draftTimer);
+    draftTimer = setTimeout(() => {
+      try {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({
+          version: 1,
+          savedAt: Date.now(),
+          step: Math.min(Math.max(currentStep, 1), 4),
+          state: draftState()
+        }));
+        emit('draft', { savedAt: Date.now() });
+      } catch (e) {}
+    }, 220);
+  }
+  function restoreDraft() {
+    if (!draftEnabled) return 0;
+    try {
+      const fresh = new URL(window.location.href).searchParams.get('fresh') === '1';
+      if (fresh) {
+        localStorage.removeItem(DRAFT_KEY);
+        const cleanUrl = new URL(window.location.href);
+        cleanUrl.searchParams.delete('fresh');
+        window.history.replaceState({}, '', cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
+        return 0;
+      }
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return 0;
+      const draft = JSON.parse(raw);
+      if (!draft || draft.version !== 1 || !draft.savedAt || Date.now() - draft.savedAt > DRAFT_TTL) {
+        localStorage.removeItem(DRAFT_KEY);
+        return 0;
+      }
+      Object.assign(state, draft.state || {});
+      if (state.pathway === 'owner' || state.pathway === 'landlord') state.q.q_owner = 'Yes';
+      const step = Math.min(Math.max(Number(draft.step) || 1, 1), 4);
+      emit('draft', { restored: true, savedAt: draft.savedAt });
+      return step;
+    } catch (e) {
+      return 0;
+    }
+  }
+
   const QUESTIONS = [
     { key: 'q_owner',             text: 'Are you the owner of the property being insured?' },
     { key: 'q_hazard',            text: 'Any flooding, brush, forest-fire, or landslide hazard at the location?' },
@@ -113,9 +203,10 @@
          at (0,0,0) specificity, so component .wz-* padding/margins win. Adding
          margin:0/padding:0 here at ID specificity would silently override every
          component's spacing (the old "crammed fields" bug). */
-      #ho-wizard-mount { box-sizing: border-box; }
-      #ho-wizard-mount *, #ho-wizard-mount *::before, #ho-wizard-mount *::after { box-sizing: border-box; }
-      #ho-wizard-mount { font-family: var(--font-sans); color: var(--text); }
+      #ho-wizard-mount, #intake-mount { box-sizing: border-box; }
+      #ho-wizard-mount *, #ho-wizard-mount *::before, #ho-wizard-mount *::after,
+      #intake-mount *, #intake-mount *::before, #intake-mount *::after { box-sizing: border-box; }
+      #ho-wizard-mount, #intake-mount { font-family: var(--font-sans); color: var(--text); }
 
       .wz-card { background: #fff; color: #262b23; border-radius: 10px; padding: 48px 52px; box-shadow: 0 6px 28px rgba(59,50,32,0.14); max-width: 860px; margin: 0 auto; }
       @media (max-width: 640px) { .wz-card { padding: 28px 20px; } }
@@ -128,6 +219,9 @@
       .wz-field label { font-size: 0.78rem; font-weight: 600; color: #575f52; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: block; }
       .wz-input, .wz-select, .wz-textarea { background: #f6f2e9; border: 1.5px solid #cfc3a9; color: #262b23; border-radius: 8px; padding: 11px 14px; font-size: 0.95rem; width: 100%; min-height: 44px; font-family: var(--font-sans); transition: border-color 0.15s; }
       .wz-input:focus, .wz-select:focus, .wz-textarea:focus { border-color: #1d5741 !important; box-shadow: 0 0 0 3px rgba(29,87,65,0.12) !important; outline: none; background: #eef3ec; }
+      /* Keyboard focus indicator — clearly visible on every wizard control. */
+      #ho-wizard-mount :focus-visible, #intake-mount :focus-visible { outline: 3px solid #17493a !important; outline-offset: 2px !important; box-shadow: 0 0 0 3px rgba(246,242,233,0.9), 0 0 0 6px rgba(23,73,58,0.35) !important; }
+      .wz-visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
       .wz-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23555' d='M1 1l5 5 5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
       .wz-textarea { resize: vertical; min-height: 90px; }
       .wz-input.invalid, .wz-select.invalid, .wz-textarea.invalid { border-color: #a33d2a; }
@@ -269,6 +363,23 @@
 
       .wz-sticky-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg2, #efe9db); border-top: 1px solid var(--border, #e2d9c6); padding: 12px 20px; align-items: center; justify-content: space-between; gap: 12px; z-index: 100; font-size: 0.82rem; }
       @media (max-width: 768px) { .wz-sticky-bar.wz-on { display: flex; } }
+
+      /* Errors carry a non-color cue (glyph + shape), not color alone. */
+      .wz-error.show::before, .wz-form-error.show::before { content: '\\26A0 '; margin-right: 6px; font-weight: 700; }
+      .wz-input[aria-invalid="true"], .wz-select[aria-invalid="true"], .wz-textarea[aria-invalid="true"] { border-color: #a33d2a; border-width: 2px; box-shadow: inset 3px 0 0 #a33d2a; }
+      [role="radiogroup"][aria-invalid="true"] { outline: 2px dashed #a33d2a; outline-offset: 4px; border-radius: 8px; }
+
+      /* Respect reduced-motion: disable this component's transitions/animations. */
+      @media (prefers-reduced-motion: reduce) {
+        #ho-wizard-mount *, #ho-wizard-mount *::before, #ho-wizard-mount *::after,
+        #intake-mount *, #intake-mount *::before, #intake-mount *::after,
+        [class^="wz-"], [class*=" wz-"], .ho-top-est, .ho-top-est * {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
     `;
     document.head.appendChild(style);
   }
@@ -291,34 +402,183 @@
   }
   function parseDollar(v) { return parseFloat(String(v || '').replace(/[^0-9.]/g, '')) || 0; }
   function fmtMoney(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  // Brand-configurable mount, with the legacy homepage id as the fallback so
+  // both #intake-mount (/apply) and #ho-wizard-mount (homepage) resolve.
+  function getMount() {
+    const id = (window.BEST_BRAND && window.BEST_BRAND.mountId) || 'ho-wizard-mount';
+    return document.getElementById(id) || document.getElementById('ho-wizard-mount');
+  }
+  // Unique id generator so every control + label can be wired together, even
+  // when the same field key is rendered more than once across re-renders.
+  let _wzIdSeq = 0;
+  function wizId(key) {
+    return 'wz-' + String(key || 'field').replace(/[^A-Za-z0-9_-]/g, '-') + '-' + (++_wzIdSeq);
+  }
+  // errorId -> the control that error describes (native input/select/textarea,
+  // or a radiogroup). Lets validation wire aria + focus without DOM guessing.
+  const _errCtrl = {};
   function mkField(labelText, inputEl, errorId) {
     const d = mk('div', { class: 'wz-field' });
-    if (labelText) { const l = mk('label'); l.textContent = labelText; d.appendChild(l); }
+    if (!inputEl.id) inputEl.id = wizId(inputEl.name || (inputEl.tagName || 'field').toLowerCase());
+    if (labelText) {
+      const l = mk('label', { for: inputEl.id });
+      l.textContent = labelText;
+      d.appendChild(l);
+    }
     d.appendChild(inputEl);
-    if (errorId) { const e = mk('span', { class: 'wz-error', id: errorId }); d.appendChild(e); }
+    if (errorId) {
+      const e = mk('span', { class: 'wz-error', id: errorId });
+      d.appendChild(e);
+      _errCtrl[errorId] = inputEl;
+      inputEl.setAttribute('data-wz-error', errorId);
+    }
     return d;
   }
+
+  // Shared assertive live region: announces the validation summary. role=alert
+  // is atomic + assertive so a screen reader reads it on each validation pass.
+  function a11yLive() {
+    let r = document.getElementById('wz-a11y-live');
+    if (!r) {
+      r = mk('div', { id: 'wz-a11y-live', class: 'wz-visually-hidden', role: 'alert', 'aria-live': 'assertive', 'aria-atomic': 'true' });
+      document.body.appendChild(r);
+    }
+    return r;
+  }
+
+  // Resolve the control an error id points at: registered native control first,
+  // otherwise walk back from the error span to the nearest control/radiogroup.
+  function controlForError(errorId) {
+    if (_errCtrl[errorId] && document.body.contains(_errCtrl[errorId])) return _errCtrl[errorId];
+    const e = document.getElementById(errorId);
+    if (!e) return null;
+    let prev = e.previousElementSibling;
+    while (prev) {
+      if (prev.matches && prev.matches('input, select, textarea')) return prev;
+      if (prev.getAttribute && prev.getAttribute('role') === 'radiogroup') return prev;
+      prev = prev.previousElementSibling;
+    }
+    return null;
+  }
+  function focusControl(ctrl) {
+    if (!ctrl) return;
+    let target = ctrl;
+    if (ctrl.getAttribute && ctrl.getAttribute('role') === 'radiogroup') {
+      target = ctrl.querySelector('[role="radio"][tabindex="0"]') || ctrl.querySelector('[role="radio"]') || ctrl;
+    }
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    try { target.focus({ preventScroll: true }); } catch (e) { try { target.focus(); } catch (_) {} }
+    if (target.scrollIntoView) { try { target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); } catch (e) {} }
+  }
+
+  // Each validation pass is a synchronous burst of showErr/clearErr calls. We
+  // collect the invalid controls and, once the burst settles (microtask), move
+  // focus to the first invalid control and announce a summary.
+  let _invalidPass = [];
+  let _passScheduled = false;
+  function schedulePassFlush() {
+    if (_passScheduled) return;
+    _passScheduled = true;
+    _invalidPass = [];
+    const run = () => {
+      _passScheduled = false;
+      const region = a11yLive();
+      if (_invalidPass.length) {
+        const n = _invalidPass.length;
+        region.textContent = (n === 1)
+          ? 'There is 1 problem to fix: ' + _invalidPass[0].msg
+          : 'There are ' + n + ' problems to fix. Please review the highlighted fields, starting with: ' + _invalidPass[0].msg;
+        focusControl(_invalidPass[0].ctrl);
+      } else {
+        region.textContent = '';
+      }
+    };
+    if (window.queueMicrotask) queueMicrotask(run); else Promise.resolve().then(run);
+  }
   function showErr(id, msg) {
+    schedulePassFlush();
     const e = document.getElementById(id);
     if (!e) return;
     e.textContent = msg || '';
     e.classList.toggle('show', !!msg);
-    if (msg && e.previousElementSibling) e.previousElementSibling.classList.add('invalid');
+    const ctrl = controlForError(id);
+    if (ctrl) {
+      ctrl.classList.add('invalid');
+      if (msg) {
+        ctrl.setAttribute('aria-invalid', 'true');
+        // Merge our error id into any existing aria-describedby.
+        const db = (ctrl.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean);
+        if (db.indexOf(id) === -1) db.push(id);
+        ctrl.setAttribute('aria-describedby', db.join(' '));
+      }
+    }
+    if (msg && !_invalidPass.some(x => x.id === id)) _invalidPass.push({ id: id, ctrl: ctrl, msg: msg });
   }
   function clearErr(id) {
+    schedulePassFlush();
     const e = document.getElementById(id);
     if (!e) return;
     e.textContent = ''; e.classList.remove('show');
-    if (e.previousElementSibling) e.previousElementSibling.classList.remove('invalid');
+    const ctrl = controlForError(id);
+    if (ctrl) {
+      ctrl.classList.remove('invalid');
+      ctrl.removeAttribute('aria-invalid');
+      const db = (ctrl.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean).filter(x => x !== id);
+      if (db.length) ctrl.setAttribute('aria-describedby', db.join(' ')); else ctrl.removeAttribute('aria-describedby');
+    }
+    _invalidPass = _invalidPass.filter(x => x.id !== id);
   }
   function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v || '')); }
 
-  // Segmented single-select control bound to a state key.
-  function segGroup(key, options, onChange) {
+  // Turn a container of option buttons into an ARIA radiogroup: single tab stop,
+  // arrow/Home/End roving focus, native Space/Enter activation, programmatic
+  // selected state via aria-checked. isChecked(el) reports the live state.
+  function a11yRadioGroup(wrap, label, isChecked) {
+    wrap.setAttribute('role', 'radiogroup');
+    if (label) wrap.setAttribute('aria-label', label);
+    const radios = () => Array.prototype.slice.call(wrap.querySelectorAll('[role="radio"]'))
+      .filter(r => r.closest('[role="radiogroup"]') === wrap);
+    function sync() {
+      const rs = radios();
+      rs.forEach(r => r.setAttribute('aria-checked', isChecked(r) ? 'true' : 'false'));
+      let idx = rs.findIndex(r => r.getAttribute('aria-checked') === 'true');
+      if (idx < 0) idx = 0;
+      rs.forEach((r, i) => r.setAttribute('tabindex', i === idx ? '0' : '-1'));
+    }
+    wrap.addEventListener('click', function (ev) {
+      const r = ev.target && ev.target.closest ? ev.target.closest('[role="radio"]') : null;
+      if (r && wrap.contains(r)) sync();
+    });
+    wrap.addEventListener('keydown', function (ev) {
+      const rs = radios();
+      if (!rs.length) return;
+      let cur = rs.indexOf(document.activeElement);
+      if (cur < 0) { cur = rs.findIndex(r => r.getAttribute('aria-checked') === 'true'); if (cur < 0) cur = 0; }
+      let next = null;
+      switch (ev.key) {
+        case 'ArrowDown': case 'ArrowRight': next = (cur + 1) % rs.length; break;
+        case 'ArrowUp': case 'ArrowLeft': next = (cur - 1 + rs.length) % rs.length; break;
+        case 'Home': next = 0; break;
+        case 'End': next = rs.length - 1; break;
+        default: return; // Space/Enter fall through to native button activation
+      }
+      ev.preventDefault();
+      rs[next].click();   // activate selection (updates state + styling), then:
+      sync();
+      rs[next].focus();
+    });
+    sync();
+    return sync;
+  }
+
+  // Segmented single-select control bound to a state key. Rendered as an ARIA
+  // radiogroup (groupLabel is its accessible name) with radio option buttons.
+  function segGroup(key, options, onChange, groupLabel) {
     const wrap = mk('div', { class: 'wz-seg' });
     options.forEach(opt => {
-      const btn = mk('button', { type: 'button', class: 'wz-seg-btn' + (state[key] === opt.v ? ' selected' : '') });
+      const btn = mk('button', { type: 'button', role: 'radio', class: 'wz-seg-btn' + (state[key] === opt.v ? ' selected' : '') });
       btn.textContent = opt.l;
+      btn._v = opt.v;
       btn.addEventListener('click', () => {
         state[key] = opt.v;
         wrap.querySelectorAll('.wz-seg-btn').forEach(b => b.classList.remove('selected'));
@@ -328,10 +588,11 @@
       });
       wrap.appendChild(btn);
     });
+    a11yRadioGroup(wrap, groupLabel, r => state[key] === r._v);
     return wrap;
   }
   function selectEl(key, options, onChange) {
-    const s = mk('select', { class: 'wz-select' });
+    const s = mk('select', { class: 'wz-select', id: wizId(key) });
     options.forEach(o => {
       const op = mk('option', { value: o.v }); op.textContent = o.l;
       if (state[key] === o.v) op.selected = true;
@@ -341,7 +602,7 @@
     return s;
   }
   function textInput(key, attrs, onInput) {
-    const i = mk('input', Object.assign({ class: 'wz-input', type: 'text' }, attrs || {}));
+    const i = mk('input', Object.assign({ class: 'wz-input', type: 'text', id: wizId(key) }, attrs || {}));
     i.value = state[key] || '';
     i.addEventListener('input', () => { state[key] = i.value; refreshTopEst(); if (onInput) onInput(i.value); });
     return i;
@@ -367,8 +628,11 @@
     }
   }
   function updateStickyStep(current) {
+    currentStep = current;
     const el = document.getElementById('wz-sticky-step');
     if (el) el.textContent = 'Step ' + current + ' of ' + TOTAL_STEPS;
+    emit('step', { step: current, total: TOTAL_STEPS, label: STEP_LABELS[current - 1] || 'Application' });
+    saveDraft();
   }
 
   // ─── Indication math ──────────────────────────────────────────────────────
@@ -463,7 +727,7 @@
     let card = document.getElementById('ho-top-est');
     if (!card) {
       card = mk('div', { class: 'ho-top-est', id: 'ho-top-est' });
-      const mount = document.getElementById('ho-wizard-mount');
+      const mount = getMount();
       if (mount) mount.insertBefore(card, mount.firstChild);
     }
     const ind = calcIndication();
@@ -472,6 +736,7 @@
         '<div class="ho-top-est-value">Complete the basics</div>' +
         '<p class="ho-top-est-copy">Square footage (or a dwelling limit) unlocks your live estimate. It refines as you answer.</p></div>' +
         '<div class="ho-top-est-chip">Updates as you answer</div>';
+      emit('indication', { ready: false });
       return;
     }
     let copy = ind.formLabel + ' · Coverage A ' + fmtMoney(ind.dwelling) + ' · $' + parseDollar(state.deductible).toLocaleString() + ' deductible';
@@ -480,6 +745,14 @@
       '<div class="ho-top-est-value">' + fmtMoney(ind.low) + ' – ' + fmtMoney(ind.high) + ' <span style="font-size:0.6em;font-weight:600;color:#1d5741;">/ year</span></div>' +
       '<p class="ho-top-est-copy">' + copy + '. Preliminary indication — not a quote.</p></div>' +
       '<div class="ho-top-est-chip">Updates as you answer</div>';
+    emit('indication', {
+      ready: true,
+      low: ind.low,
+      high: ind.high,
+      dwelling: ind.dwelling,
+      range: fmtMoney(ind.low) + ' – ' + fmtMoney(ind.high) + ' / year',
+      summary: ind.formLabel + ' · Coverage A ' + fmtMoney(ind.dwelling)
+    });
   }
   let estTimer = null;
   function refreshTopEst() {
@@ -570,10 +843,13 @@
     // scroll to the card on genuine step transitions the user drove.
     if (!wzFirstRender) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
     wzFirstRender = false;
+    saveDraft();
   }
 
   // ─── Opening — routing (owner / landlord→DP-3 / renter) ──────────────────
   function renderOpening(mount) {
+    currentStep = 0;
+    emit('step', { step: 0, total: TOTAL_STEPS, label: 'Application' });
     const card = mk('div', { class: 'wz-card' });
     const h2 = mk('h2'); h2.textContent = 'Who lives in the home?'; card.appendChild(h2);
     const sub = mk('p'); sub.textContent = 'This decides the right policy form — HO-3/HO-5 for owner-occupied homes, DP-3 for rentals and investment properties.'; card.appendChild(sub);
@@ -611,8 +887,9 @@
     tenant.appendChild(mk('div', { class: 'wz-section-title' }, 'Current occupancy of the rental'));
     const seg = mk('div', { class: 'wz-seg' });
     [{ v: 'tenant', l: 'Tenant-occupied' }, { v: 'vacant', l: 'Currently vacant' }].forEach(opt => {
-      const btn = mk('button', { type: 'button', class: 'wz-seg-btn' + ((state.occupancy_landlord || 'tenant') === opt.v ? ' selected' : '') });
+      const btn = mk('button', { type: 'button', role: 'radio', class: 'wz-seg-btn' + ((state.occupancy_landlord || 'tenant') === opt.v ? ' selected' : '') });
       btn.textContent = opt.l;
+      btn._v = opt.v;
       btn.addEventListener('click', () => {
         state.occupancy_landlord = opt.v;
         if (opt.v === 'vacant') state.vacancy = 'Vacant'; else state.vacancy = 'No';
@@ -623,6 +900,7 @@
       seg.appendChild(btn);
     });
     if (!state.occupancy_landlord) state.occupancy_landlord = 'tenant';
+    a11yRadioGroup(seg, 'Current occupancy of the rental', r => (state.occupancy_landlord || 'tenant') === r._v);
     tenant.appendChild(seg);
     card.appendChild(tenant);
     card.appendChild(navRow(() => renderOpening(mount), () => renderStep1(mount), 'Start DP-3 application →'));
@@ -668,7 +946,7 @@
     ], (v) => {
       const el = document.getElementById('wz-restype-note');
       if (el) el.style.display = (v === 'condominium' || v === 'cooperative') ? '' : 'none';
-    }));
+    }, 'Residence type'));
     const condoNote = mk('div', { class: 'wz-note-accent', id: 'wz-restype-note', style: (state.residence_type === 'condominium' || state.residence_type === 'cooperative') ? '' : 'display:none' });
     condoNote.innerHTML = 'Condos and co-ops are usually written on an <strong>HO-6</strong> (walls-in) policy coordinated with your HOA master policy. Keep going — the same application works, and your broker will quote the right form. See <a href="/ho3-vs-ho6-condo" target="_blank" rel="noopener" style="color:#1d5741;font-weight:700;">HO-3 vs HO-6</a>.';
     card.appendChild(condoNote);
@@ -678,11 +956,11 @@
       card.appendChild(mk('div', { class: 'wz-section-title' }, 'How do you use it? *'));
       card.appendChild(segGroup('usage', [
         { v: 'primary', l: 'Primary residence' }, { v: 'seasonal', l: 'Seasonal' }, { v: 'secondary', l: 'Secondary' }, { v: 'other', l: 'Other' }
-      ]));
+      ], null, 'How do you use it?'));
       card.appendChild(mk('div', { class: 'wz-section-title' }, 'Currently vacant or unoccupied?'));
       card.appendChild(segGroup('vacancy', [
         { v: 'No', l: 'No — lived in' }, { v: 'Unoccupied', l: 'Unoccupied (furnished, temporary)' }, { v: 'Vacant', l: 'Vacant' }
-      ]));
+      ], null, 'Currently vacant or unoccupied?'));
     }
 
     const g2 = mk('div', { class: 'wz-grid', style: 'margin-top:20px' });
@@ -700,7 +978,7 @@
     card.appendChild(ctx);
     card.appendChild(segGroup('wildfire_exposure', [
       { v: 'no', l: 'No — urban / suburban' }, { v: 'yes', l: 'Yes — brush or canyon nearby' }, { v: 'unsure', l: 'Not sure' }
-    ]));
+    ], null, 'Is the home in or near a brush or wildland area?'));
     card.appendChild(mk('span', { class: 'wz-error', id: 'err-s1-wf' }));
 
     card.appendChild(navRow(() => (state.pathway === 'landlord' ? renderLandlordInterstitial(mount) : renderOpening(mount)), () => {
@@ -736,14 +1014,14 @@
     card.appendChild(mk('div', { class: 'wz-section-title' }, 'Construction type *'));
     card.appendChild(segGroup('construction_type', [
       { v: 'frame', l: 'Frame (wood)' }, { v: 'masonry', l: 'Masonry' }, { v: 'masonry_veneer', l: 'Masonry veneer' }, { v: 'other', l: 'Other' }
-    ]));
+    ], null, 'Construction type'));
     card.appendChild(mk('span', { class: 'wz-error', id: 'err-s2-ct' }));
     card.appendChild(mk('p', { class: 'wz-rate-note' }, 'Most CA homes are frame — that\'s the seismic-friendly default here.'));
 
     card.appendChild(mk('div', { class: 'wz-section-title' }, 'Foundation type (optional)'));
     card.appendChild(segGroup('foundation_type', [
       { v: 'closed', l: 'Closed / slab or perimeter' }, { v: 'open', l: 'Open / piers' }, { v: 'none', l: 'None' }, { v: '', l: 'Skip' }
-    ]));
+    ], null, 'Foundation type (optional)'));
 
     card.appendChild(mk('div', { class: 'wz-section-title' }, 'Roof material *'));
     card.appendChild(segGroup('roof_material', [
@@ -752,7 +1030,7 @@
     ], (v) => {
       const el = document.getElementById('wz-shake-note');
       if (el) el.style.display = v === 'shake' ? '' : 'none';
-    }));
+    }, 'Roof material'));
     const shakeNote = mk('div', { class: 'wz-note-warn', id: 'wz-shake-note', style: state.roof_material === 'shake' ? '' : 'display:none' });
     shakeNote.textContent = 'Wood-shake roofs have very limited carrier appetite in California brush zones — expect surcharges or a re-roof requirement. We\'ll still shop it.';
     card.appendChild(shakeNote);
@@ -773,14 +1051,16 @@
   // ─── Step 3 — Systems & condition ─────────────────────────────────────────
   function updRow(labelText, updKey, yearKey) {
     const frag = document.createDocumentFragment();
-    frag.appendChild(mk('div', { class: 'wz-upd-label' }, labelText));
-    const yr = mk('input', { class: 'wz-input', type: 'text', placeholder: 'Year', inputmode: 'numeric', maxlength: '4', style: state[updKey] === 'none' ? 'visibility:hidden' : '' });
+    const rowLabel = mk('div', { class: 'wz-upd-label', id: wizId(updKey + '-label') }, labelText);
+    frag.appendChild(rowLabel);
+    const yr = mk('input', { class: 'wz-input', type: 'text', placeholder: 'Year', inputmode: 'numeric', maxlength: '4', 'aria-label': labelText + ' last update year', style: state[updKey] === 'none' ? 'visibility:hidden' : '' });
     yr.value = state[yearKey] || '';
     yr.addEventListener('input', () => { state[yearKey] = yr.value; refreshTopEst(); });
     const seg = mk('div', { class: 'wz-seg' });
     [{ v: 'none', l: 'Original / unknown' }, { v: 'partial', l: 'Partial update' }, { v: 'full', l: 'Full update' }].forEach(opt => {
-      const btn = mk('button', { type: 'button', class: 'wz-seg-btn' + (state[updKey] === opt.v ? ' selected' : '') });
+      const btn = mk('button', { type: 'button', role: 'radio', class: 'wz-seg-btn' + (state[updKey] === opt.v ? ' selected' : '') });
       btn.textContent = opt.l;
+      btn._v = opt.v;
       btn.addEventListener('click', () => {
         state[updKey] = opt.v;
         seg.querySelectorAll('.wz-seg-btn').forEach(b => b.classList.remove('selected'));
@@ -790,6 +1070,8 @@
       });
       seg.appendChild(btn);
     });
+    seg.setAttribute('aria-labelledby', rowLabel.id);
+    a11yRadioGroup(seg, null, r => state[updKey] === r._v);
     frag.appendChild(seg);
     frag.appendChild(yr);
     return frag;
@@ -819,7 +1101,7 @@
     ], (v) => {
       const el = document.getElementById('wz-wiring-note');
       if (el) el.style.display = (v === 'aluminum' || v === 'knob_tube') ? '' : 'none';
-    }));
+    }, 'Wiring type'));
     const wireNote = mk('div', { class: 'wz-note-warn', id: 'wz-wiring-note', style: (state.wiring_type === 'aluminum' || state.wiring_type === 'knob_tube') ? '' : 'display:none' });
     wireNote.innerHTML = 'Aluminum and knob & tube wiring are material underwriting facts in CA — many standard carriers require remediation, and non-disclosure risks a denied claim. We disclose it properly and shop the carriers that accept it. See the <a href="/knob-and-tube-wiring" target="_blank" rel="noopener" style="color:#92400e;font-weight:700;text-decoration:underline;">wiring guide</a>.';
     card.appendChild(wireNote);
@@ -868,7 +1150,7 @@
     card.appendChild(mk('div', { class: 'wz-section-title' }, 'Exterior door locks *'));
     card.appendChild(segGroup('door_locks', [
       { v: 'deadbolt', l: 'Deadbolts' }, { v: 'spring', l: 'Spring latch only' }, { v: 'other', l: 'Other / smart locks' }
-    ]));
+    ], null, 'Exterior door locks'));
     card.appendChild(mk('span', { class: 'wz-error', id: 'err-s4-locks' }));
 
     const g = mk('div', { class: 'wz-grid' });
@@ -892,7 +1174,7 @@
     ], (v) => {
       const el = document.getElementById('wz-pool-sub');
       if (el) el.style.display = v !== 'no' && v ? '' : 'none';
-    }));
+    }, 'Swimming pool'));
     card.appendChild(mk('span', { class: 'wz-error', id: 'err-s4-pool' }));
     const poolSub = mk('div', { id: 'wz-pool-sub', style: (state.swimming_pool && state.swimming_pool !== 'no') ? 'margin-top:14px' : 'display:none' });
     const pg = mk('div', { class: 'wz-grid3' });
@@ -931,7 +1213,7 @@
     const phoneWrap = mk('div');
     const phone = textInput('applicant_phone', { placeholder: '(310) 555-0123', type: 'tel', autocomplete: 'tel' });
     phoneWrap.appendChild(mkField('Phone *', phone, 'err-s5-phone'));
-    const ptSeg = segGroup('applicant_phone_type', [{ v: 'cell', l: 'Cell' }, { v: 'home', l: 'Home' }, { v: 'business', l: 'Business' }]);
+    const ptSeg = segGroup('applicant_phone_type', [{ v: 'cell', l: 'Cell' }, { v: 'home', l: 'Home' }, { v: 'business', l: 'Business' }], null, 'Phone type');
     ptSeg.style.marginTop = '8px';
     phoneWrap.appendChild(ptSeg);
     g.appendChild(phoneWrap);
@@ -946,7 +1228,7 @@
     const msSeg = segGroup('mailing_same', [{ v: 'Yes', l: 'Same as the property' }, { v: 'No', l: 'Different mailing address' }], (v) => {
       const el = document.getElementById('wz-mailing-sub');
       if (el) el.style.display = v === 'No' ? '' : 'none';
-    });
+    }, 'Mailing address same as the property?');
     card.appendChild(msSeg);
     const mailSub = mk('div', { id: 'wz-mailing-sub', style: state.mailing_same === 'No' ? 'margin-top:14px' : 'display:none' });
     const mg = mk('div', { class: 'wz-grid' });
@@ -965,8 +1247,9 @@
         { v: 'HO5', tag: 'HO-5 · COMPREHENSIVE', h: 'Broadest coverage, better value', p: 'Open-perils on the house AND your belongings, replacement cost throughout. Typically 10–20% more premium.' }
       ];
       forms.forEach(f => {
-        const c = mk('button', { type: 'button', class: 'wz-form-card' + (state.policy_form === f.v ? ' selected' : '') });
+        const c = mk('button', { type: 'button', role: 'radio', 'aria-label': f.tag + ' — ' + f.h + '. ' + f.p, class: 'wz-form-card' + (state.policy_form === f.v ? ' selected' : '') });
         c.innerHTML = '<span class="wz-form-tag">' + f.tag + '</span><h4>' + f.h + '</h4><p>' + f.p + '</p>';
+        c._v = f.v;
         c.addEventListener('click', () => {
           state.policy_form = f.v;
           fc.querySelectorAll('.wz-form-card').forEach(x => x.classList.remove('selected'));
@@ -977,6 +1260,7 @@
         });
         fc.appendChild(c);
       });
+      a11yRadioGroup(fc, 'Policy form', r => state.policy_form === r._v);
       card.appendChild(fc);
       const ho5note = mk('div', { class: 'wz-note-accent', id: 'wz-ho5-note', style: state.policy_form === 'HO5' ? '' : 'display:none' });
       ho5note.innerHTML = 'Comprehensive-form shoppers: our sister site <a href="https://www.bestho5.com" target="_blank" rel="noopener" style="color:#1d5741;font-weight:700;">BestHO5.com</a> is dedicated to HO-5 placements. This application covers both — we\'ll quote HO-5 and show the HO-3 delta so you can judge the value. <a href="/ho3-vs-ho5" target="_blank" rel="noopener" style="color:#1d5741;font-weight:700;">Compare the forms →</a>';
@@ -1066,11 +1350,14 @@
 
     card.appendChild(mk('div', { class: 'wz-section-title' }, 'Losses or claims in the last 5 years? *'));
     const cb = mk('div', { class: 'wz-claims-btns' });
-    const noBtn = mk('button', { type: 'button', class: 'wz-claims-btn' + (state.hasClaims === 'no' ? ' selected-no' : '') });
+    const noBtn = mk('button', { type: 'button', role: 'radio', class: 'wz-claims-btn' + (state.hasClaims === 'no' ? ' selected-no' : '') });
     noBtn.innerHTML = '✓ No losses or claims';
-    const yesBtn = mk('button', { type: 'button', class: 'wz-claims-btn' + (state.hasClaims === 'yes' ? ' selected-yes' : '') });
+    noBtn._v = 'no';
+    const yesBtn = mk('button', { type: 'button', role: 'radio', class: 'wz-claims-btn' + (state.hasClaims === 'yes' ? ' selected-yes' : '') });
     yesBtn.innerHTML = 'Yes — I\'ll list them';
+    yesBtn._v = 'yes';
     cb.appendChild(noBtn); cb.appendChild(yesBtn);
+    a11yRadioGroup(cb, 'Losses or claims in the last 5 years?', r => state.hasClaims === r._v);
     card.appendChild(cb);
     card.appendChild(mk('span', { class: 'wz-error', id: 'err-s6-claims' }));
     const lossWrap = mk('div', { id: 'wz-loss-wrap', style: state.hasClaims === 'yes' ? '' : 'display:none' });
@@ -1144,23 +1431,26 @@
     QUESTIONS.forEach((q, idx) => {
       const box = mk('div', { class: 'wz-qq', 'data-q': q.key });
       const row = mk('div', { class: 'wz-qq-row' });
-      const t = mk('div', { class: 'wz-qq-text' });
+      const t = mk('div', { class: 'wz-qq-text', id: wizId(q.key + '-label') });
       const num = mk('span', { class: 'wz-qq-num' }); num.textContent = String(idx + 1).padStart(2, '0');
       t.appendChild(num); t.appendChild(document.createTextNode(q.text));
-      const btns = mk('div', { class: 'wz-qq-btns' });
+      const btns = mk('div', { class: 'wz-qq-btns', 'aria-labelledby': t.id });
       ['Yes', 'No'].forEach(v => {
-        const b = mk('button', { type: 'button', class: 'wz-qq-btn' + (state.q[q.key] === v ? (v === 'Yes' ? ' sel-yes' : ' sel-no') : '') });
+        const b = mk('button', { type: 'button', role: 'radio', class: 'wz-qq-btn' + (state.q[q.key] === v ? (v === 'Yes' ? ' sel-yes' : ' sel-no') : '') });
         b.textContent = v;
+        b._v = v;
         b.addEventListener('click', () => {
           state.q[q.key] = v;
           btns.querySelectorAll('.wz-qq-btn').forEach(x => x.classList.remove('sel-yes', 'sel-no'));
           b.classList.add(v === 'Yes' ? 'sel-yes' : 'sel-no');
           box.classList.remove('missing');
+          btns.removeAttribute('aria-invalid');
           updateExplain();
           refreshTopEst();
         });
         btns.appendChild(b);
       });
+      a11yRadioGroup(btns, null, r => state.q[q.key] === r._v);
       row.appendChild(t); row.appendChild(btns);
       box.appendChild(row);
       qWrap.appendChild(box);
@@ -1228,7 +1518,7 @@
     c2w.appendChild(c2);
     c2w.appendChild(document.createTextNode('I consent to being contacted by a licensed Bollinsure broker about my options.'));
     cw.appendChild(c2w);
-    const errDiv = mk('div', { class: 'wz-form-error', id: 'wz-submit-error' });
+    const errDiv = mk('div', { class: 'wz-form-error', id: 'wz-submit-error', role: 'alert', 'aria-live': 'assertive', 'aria-atomic': 'true' });
     cw.appendChild(errDiv);
     card.appendChild(cw);
 
@@ -1256,10 +1546,20 @@
       QUESTIONS.forEach(q => {
         const el = qWrap.querySelector('[data-q="' + q.key + '"]');
         const answered = state.q[q.key] === 'Yes' || state.q[q.key] === 'No';
-        if (el) el.classList.toggle('missing', !answered);
+        if (el) {
+          el.classList.toggle('missing', !answered);
+          const grp = el.querySelector('.wz-qq-btns');
+          if (grp) { if (!answered) grp.setAttribute('aria-invalid', 'true'); else grp.removeAttribute('aria-invalid'); }
+        }
         if (!answered && !firstMissing) firstMissing = el;
       });
-      if (firstMissing) firstMissing.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (firstMissing) {
+        const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        firstMissing.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        // Move keyboard focus to the first unanswered question's Yes/No group.
+        const grp = firstMissing.querySelector('.wz-qq-btns');
+        focusControl(grp || firstMissing);
+      }
       return !firstMissing;
     }
 
@@ -1350,6 +1650,8 @@
         return true;
       },
       onSigned(data) {
+        clearDraft();
+        emit('submitted', { signed: true, auditId: data.auditId || '' });
         card.innerHTML = successHTML(true);
         const ref = document.createElement('p');
         ref.style.cssText = 'font-family:var(--font-mono);font-size:0.8rem;color:#17493a;background:#eef3ec;border:1px solid rgba(29,87,65,0.35);border-radius:8px;padding:10px 14px;display:inline-block;margin-bottom:16px;';
@@ -1401,6 +1703,8 @@
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error(data.error || 'Submission failed (' + res.status + ')');
+      clearDraft();
+      emit('submitted', { signed: false });
       card.innerHTML = successHTML(false);
     } catch (e) {
       if (err) { err.textContent = (e && e.message ? e.message : 'Submission failed.') + ' You can retry, or call 310-804-5017.'; err.classList.add('show'); }
@@ -1410,8 +1714,9 @@
 
   // ─── Boot ─────────────────────────────────────────────────────────────────
   function init() {
-    const mount = document.getElementById('ho-wizard-mount');
+    const mount = getMount();
     if (!mount) return;
+    const restoredStep = restoreDraft();
     // Prefill from the public Coverage-A estimator (sqft handed off via
     // sessionStorage, never a URL, so no PII in query strings). The applicant
     // still confirms every field before the ACORD 80 is signed.
@@ -1425,8 +1730,18 @@
     } catch (e) {}
     injectStyles();
     mountStickyBar(mount);
+    if (draftEnabled) {
+      mount.addEventListener('input', saveDraft);
+      mount.addEventListener('change', saveDraft);
+      mount.addEventListener('click', saveDraft);
+    }
     renderTopEst();
-    renderOpening(mount);
+    if (restoredStep === 1) renderStep1(mount);
+    else if (restoredStep === 2) renderStep2(mount);
+    else if (restoredStep === 3) renderStep3(mount);
+    else if (restoredStep === 4) renderStep4(mount);
+    else renderOpening(mount);
+    emit('ready', { restored: restoredStep > 0 });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
