@@ -37,7 +37,9 @@ Load `assets/motion.css` after the brand stylesheet and keep the shared motion i
 
 ### Entrance motion
 
-Add `data-hero-motion` to hero elements that should enter in reading order. Add `data-hero-group` to the hero content container and `data-hero-visual` to the supporting visual.
+Add `data-hero-motion` to hero elements that should enter in reading order. Add `data-hero-group` to the hero content container, `data-hero-copy` to the copy column, and `data-hero-visual` to the inner supporting visual. Keeping the visual's entrance wrapper separate from its scroll-driven stage prevents transform collisions.
+
+The shared hero scene also supports a progress-driven exploration cue, ambient-layer parallax, a perspective shift on the visual, and a restrained copy exit. These mechanisms use the same normalized scene value and should remain scrubbed to actual scroll position rather than autoplaying.
 
 ### Scroll reveal
 
@@ -83,7 +85,7 @@ Future stories should replace the facts rather than merely changing the nouns. V
 ## Reduced motion and performance
 
 - All movement is disabled or simplified under `prefers-reduced-motion: reduce`.
-- Scroll handling is consolidated into one `requestAnimationFrame` update.
+- Navigation state, page progress, and scroll scenes are consolidated into one `requestAnimationFrame` update.
 - Intersection Observer triggers entrances; no animation library is required.
 - Animate opacity and transforms only. Avoid scroll-linked layout properties.
 - Keep imagery responsive and compressed; motion should not delay the quote experience.

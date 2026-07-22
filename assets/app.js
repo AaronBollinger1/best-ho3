@@ -6,17 +6,8 @@
 (function () {
   'use strict';
 
-  /* --- NAV scroll class --- */
+  /* --- Navigation --- */
   var nav = document.getElementById('main-nav');
-  if (nav) {
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 20) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
-      }
-    }, { passive: true });
-  }
 
   /* --- Hamburger menu --- */
   var hamburger = document.getElementById('hamburger');
@@ -59,7 +50,8 @@
     });
   });
   /* --- Reusable motion layer --- */
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var reducedMotion = motionPreference.matches;
   var hero = document.querySelector('.hero');
   var motionTargets = document.querySelectorAll('[data-motion], .reveal');
 
@@ -107,7 +99,7 @@
     motionTargets.forEach(showMotionTarget);
   }
 
-  /* Scroll progress and section scenes share one requestAnimationFrame loop. */
+  /* Navigation, page progress, and section scenes share one animation-frame loop. */
   var progressBar = document.getElementById('scroll-progress-bar');
   var scenes = document.querySelectorAll('[data-scroll-scene]');
   var ticking = false;
@@ -120,6 +112,10 @@
     ticking = false;
     var scrollable = document.documentElement.scrollHeight - window.innerHeight;
     var pageProgress = scrollable > 0 ? window.scrollY / scrollable : 0;
+
+    if (nav) {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }
 
     if (progressBar) {
       progressBar.style.transform = 'scaleX(' + clamp(pageProgress, 0, 1).toFixed(4) + ')';
@@ -142,6 +138,12 @@
       }
 
       scene.style.setProperty('--scene-progress', sceneProgress.toFixed(4));
+      scene.style.setProperty('--scene-eased-progress', (sceneProgress * sceneProgress * (3 - 2 * sceneProgress)).toFixed(4));
+
+      if (scene.id === 'main') {
+        scene.classList.toggle('is-scrolling', rect.bottom > 0 && rect.top < window.innerHeight);
+        scene.classList.toggle('is-cue-hidden', sceneProgress > 0.7 || rect.bottom <= 0);
+      }
 
       var marketCards = scene.querySelectorAll('.market-card');
       if (marketCards.length && rect.top < window.innerHeight && rect.bottom > 0) {
@@ -166,6 +168,19 @@
   updateScrollEffects();
   window.addEventListener('scroll', requestScrollUpdate, { passive: true });
   window.addEventListener('resize', requestScrollUpdate, { passive: true });
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) requestScrollUpdate();
+  });
+  if (motionPreference.addEventListener) {
+    motionPreference.addEventListener('change', function (event) {
+      reducedMotion = event.matches;
+      if (reducedMotion) {
+        motionTargets.forEach(showMotionTarget);
+        if (hero) hero.classList.add('is-loaded');
+      }
+      requestScrollUpdate();
+    });
+  }
 
   /* --- Smooth nav offset for fixed header --- */
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {

@@ -43,7 +43,7 @@ checkboxes.
 | Policy form (`HO 00 03`, `HO 00 05`, `DP 00 03`) | `F[0].P1[0].ResidentialStructure_PolicyForm_FormTypeCode_A[0]` |
 | Status = new business | `F[0].P1[0].Policy_Status_NewIndicator_A[0]` (check) |
 
-Surplus-lines number (#0D94699) is deliberately **not** written — E&S is placed through ISU.
+Surplus-lines number (#0D94699) is deliberately **not** written — E&S is placed through the appointed surplus-lines channel.
 
 ---
 

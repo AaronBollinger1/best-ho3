@@ -67,13 +67,13 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero" id="main" data-scroll-scene>
-  <div class="hero-glow-1"></div>
-  <div class="hero-glow-2"></div>
-  <div class="hero-inner">
-    <div class="hero-content" data-hero-group>
+<section class="hero" id="main" data-scroll-scene aria-labelledby="hero-title">
+  <div class="hero-glow-1" data-hero-ambient></div>
+  <div class="hero-glow-2" data-hero-ambient></div>
+  <div class="hero-inner" data-hero-stage>
+    <div class="hero-content" data-hero-group data-hero-copy>
       <span class="kicker" data-hero-motion>California Homeowners Insurance Broker</span>
-      <h1 class="hero-headline" data-hero-motion>California Home Insurance.<br><span class="grad-ink">Shopped, Not Settled.</span></h1>
+      <h1 class="hero-headline" id="hero-title" data-hero-motion>California Home Insurance.<br><span class="grad-ink">Shopped, Not Settled.</span></h1>
       <p class="hero-sub" data-hero-motion>Independent brokerage for the hardest homeowners market in America. Admitted carriers, the FAIR Plan, and surplus-lines markets — one application, every option on the table, before you renew or close escrow.</p>
       <div class="hero-ctas" data-hero-motion>
         <a href="#quote" class="btn btn-accent btn-lg">Get a pricing indication →</a>
@@ -100,6 +100,7 @@
       </div>
     </div>
     <div class="hero-visual" data-hero-motion>
+      <div class="hero-visual-stage" data-hero-visual>
       <svg viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px" role="img" aria-label="Illustration of a homeowners application with a pricing indication">
         <rect x="20" y="20" width="440" height="340" rx="10" fill="#fffdf8" stroke="#ddd3bd" stroke-width="1.5"/>
         <rect x="21" y="21" width="438" height="50" rx="9" fill="#f1ecdf"/>
@@ -134,8 +135,13 @@
         <rect x="340" y="296" width="100" height="28" rx="5" fill="rgba(182,84,50,0.1)" stroke="rgba(182,84,50,0.35)" stroke-width="1"/>
         <text x="390" y="315" font-family="Public Sans, sans-serif" font-size="10" font-weight="700" fill="#96421f" text-anchor="middle">● SIGNED</text>
       </svg>
+      </div>
     </div>
   </div>
+  <a class="hero-scroll-cue" href="#markets" aria-label="Explore the markets we shop">
+    <span>Explore the market</span>
+    <span class="hero-scroll-track" aria-hidden="true"><span></span></span>
+  </a>
 </section>
 
 <!-- MARKETS WE SHOP -->
@@ -371,11 +377,11 @@
     <figure class="client-story" data-motion="scale">
       <div class="client-story-mark" aria-hidden="true">“</div>
       <blockquote>
-        <p>I have had ISU Stanton and Associates as an insurance broker for many years and have not had any issues. Most recently, they assisted obtaining homeowner's insurance when my current provider canceled the policy due to fire risk concerns. ISU worked hard to find me another provider and avoid the dreaded California Fair Plan option which would have been far more expensive. The new provider is actually cheaper than the policy that was canceled. I am very happy with the result.</p>
+        <p>I have had my insurance broker for many years and have not had any issues. Most recently, they assisted obtaining homeowner's insurance when my current provider canceled the policy due to fire risk concerns. They worked hard to find me another provider and avoid the dreaded California Fair Plan option which would have been far more expensive. The new provider is actually cheaper than the policy that was canceled. I am very happy with the result.</p>
       </blockquote>
       <figcaption>
         <span>California homeowner</span>
-        <span>Longtime ISU Stanton &amp; Associates client</span>
+        <span>Longtime brokerage client</span>
       </figcaption>
       <div class="client-story-outcome" aria-label="Outcome summary">
         <span>Fire-risk cancellation</span>

@@ -11,6 +11,7 @@
   --motion-stagger: 90ms;
   --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --scene-progress: 0;
+  --scene-eased-progress: 0;
 }
 
 /* A quiet orientation cue, not a second navigation bar. */
@@ -26,7 +27,8 @@
   display: block;
   width: 100%;
   height: 100%;
-  background: var(--terra);
+  background: linear-gradient(90deg, var(--terra), var(--accent));
+  box-shadow: 0 0 12px rgba(165, 73, 39, 0.24);
   transform: scaleX(0);
   transform-origin: left center;
   will-change: transform;
@@ -51,6 +53,7 @@
   .hero.is-loaded [data-hero-motion]:nth-child(4) { transition-delay: 280ms; }
   .hero.is-loaded [data-hero-motion]:nth-child(5) { transition-delay: 340ms; }
   .hero.is-loaded [data-hero-motion]:nth-child(6) { transition-delay: 400ms; }
+  .hero-visual[data-hero-motion] { transition-delay: 320ms; }
 
   [data-motion] {
     opacity: 0;
@@ -70,10 +73,98 @@
   }
 }
 
-.hero-visual {
-  transform: translateY(calc(var(--scene-progress, 0) * 18px))
-             rotate(calc((var(--scene-progress, 0) - 0.5) * -1.2deg));
-  transition: transform 80ms linear;
+/* Scroll-scrubbed hero: one progress value drives depth, focus, and orientation. */
+.hero {
+  --scene-progress: 0;
+  --scene-eased-progress: 0;
+  isolation: isolate;
+  padding-bottom: 110px;
+}
+.hero-inner { z-index: 2; }
+.hero-content {
+  opacity: calc(1 - var(--scene-progress) * 0.32);
+  transform: translate3d(0, calc(var(--scene-eased-progress) * -20px), 0);
+}
+.hero.is-scrolling .hero-content,
+.hero.is-scrolling .hero-visual-stage,
+.hero.is-scrolling [data-hero-ambient] { will-change: transform, opacity; }
+[data-hero-ambient] {
+  transform: translate3d(0, calc(var(--scene-progress) * 34px), 0)
+             scale(calc(1 + var(--scene-progress) * 0.035));
+  transform-origin: center top;
+}
+.hero-visual { perspective: 1100px; }
+.hero-visual-stage {
+  position: relative;
+  width: 100%;
+  transform:
+    translate3d(calc(var(--scene-eased-progress) * -12px), calc(var(--scene-eased-progress) * 32px), 0)
+    rotateX(calc(var(--scene-eased-progress) * 2.2deg))
+    rotateZ(calc((var(--scene-progress) - 0.35) * -1.7deg))
+    scale(calc(1 - var(--scene-progress) * 0.035));
+  transform-origin: center 42%;
+}
+.hero-visual-stage::before,
+.hero-visual-stage::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 50%;
+}
+.hero-visual-stage::before {
+  width: 420px;
+  height: 420px;
+  left: 50%;
+  top: 50%;
+  border: 1px dashed rgba(165, 73, 39, 0.25);
+  transform: translate(-50%, -50%) rotate(calc(var(--scene-progress) * 110deg));
+}
+.hero-visual-stage::after {
+  width: 330px;
+  height: 330px;
+  left: 50%;
+  top: 50%;
+  border: 1px solid rgba(29, 87, 65, 0.13);
+  transform: translate(-50%, -50%) rotate(calc(var(--scene-progress) * -70deg));
+}
+.hero-scroll-cue {
+  position: fixed;
+  z-index: 3;
+  left: 50%;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--muted2);
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: calc(1 - var(--scene-progress) * 1.4);
+  transform: translate3d(-50%, calc(var(--scene-progress) * 10px), 0);
+}
+.hero:not(.is-scrolling) .hero-scroll-cue,
+.hero.is-cue-hidden .hero-scroll-cue {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+.hero-scroll-cue:hover { color: var(--accent); }
+.hero-scroll-track {
+  position: relative;
+  display: block;
+  width: 94px;
+  height: 1px;
+  overflow: hidden;
+  background: var(--border2);
+}
+.hero-scroll-track > span {
+  position: absolute;
+  inset: 0;
+  background: var(--terra);
+  transform: scaleX(var(--scene-progress));
+  transform-origin: left center;
 }
 
 /* Market route: retain the information, give the sweep a direction. */
@@ -313,6 +404,8 @@
 .premium-grid .card:last-child { border-color: var(--accent-border); }
 
 @media (max-width: 900px) {
+  .hero { padding-bottom: 92px; }
+  .hero-scroll-cue { bottom: 20px; }
   .market-route-grid::before,
   .market-route-grid::after,
   .market-card::after { display: none; }
@@ -332,6 +425,7 @@
 
 @media (max-width: 600px) {
   .scroll-progress { height: 2px; }
+  .hero-scroll-cue { display: none; }
   .outcome-section { padding-top: 76px; padding-bottom: 76px; }
   .client-story { padding: 32px 24px; }
   .client-story-mark { right: 12px; top: 12px; font-size: 6rem; }
@@ -341,6 +435,8 @@
   .outcome-cta > div,
   .outcome-cta .btn { width: 100%; }
   .outcome-cta .btn { justify-content: center; }
+  .hero-scroll-cue { width: calc(100% - 48px); justify-content: space-between; }
+  .hero-scroll-track { flex: 1; max-width: 110px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -353,7 +449,15 @@
     transition: none !important;
   }
   .hero-visual,
+  .hero-visual-stage,
+  .hero-content,
+  [data-hero-ambient],
+  .hero-scroll-cue,
   .market-card,
   .premium-grid .card { transform: none !important; transition: none !important; }
+  .hero-content,
+  .hero-scroll-cue { opacity: 1 !important; }
+  .hero-visual-stage::before,
+  .hero-visual-stage::after { display: none; }
   .market-route-grid::after { display: none; }
 }
