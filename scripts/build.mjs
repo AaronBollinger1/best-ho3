@@ -1,6 +1,11 @@
 /* =============================================================
-   Opt-in production build  (npm run build)
+   Opt-in production build  (npm run build:dist)
    -------------------------------------------------------------
+   NOTE: intentionally NOT named "build" — Vercel auto-runs a
+   package.json "build" script as its Build Command, which would
+   break the zero-config static deploy (it expects a public/ dir).
+   Keeping this out of the "build" name preserves the plain static
+   deploy; adopt dist/ only by setting the Build Command explicitly.
    Produces an optimized dist/ WITHOUT touching the source tree, so
    the plain static deploy keeps working exactly as-is. dist/:
      • minifies the referenced CSS/JS (esbuild),
@@ -10,8 +15,8 @@
      • emits dist/vercel.json with immutable 1-year caching for
        /assets so the hashed files can be cached forever.
 
-   Point Vercel at `npm run build` + output dir `dist` to adopt it;
-   until then nothing about the current deploy changes.
+   Point Vercel at `npm run build:dist` + output dir `dist` to adopt
+   it; until then nothing about the current deploy changes.
    ============================================================= */
 import fs from "node:fs";
 import path from "node:path";

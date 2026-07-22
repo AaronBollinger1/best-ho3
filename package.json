@@ -10,7 +10,7 @@
     "test:provider": "node scripts/test-personal-lines-provider.mjs",
     "test:guard": "node scripts/test-request-guard.mjs",
     "test:dp3": "node scripts/test-line-dp3.mjs",
-    "build": "node scripts/build.mjs"
+    "build:dist": "node scripts/build.mjs"
   },
   "dependencies": {
     "pdf-lib": "^1.17.1",
