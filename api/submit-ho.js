@@ -6,7 +6,7 @@ import { guardRequest, clientIp } from "./lib/request-guard.js";
    preview could not be built on their device). The broker prepares the
    ACORD 80 from these answers instead. */
 
-const FROM_ADDRESS = process.env.FROM_EMAIL || "BestHO3 <quotes@bestho3.com>";
+const FROM_ADDRESS = process.env.FROM_EMAIL || "Bollinsure Insurance Services <quotes@bollinsure.com>";
 const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || "quotes@bollinsure.com";
 
 function clean(v, max = 700) {

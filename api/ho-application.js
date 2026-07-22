@@ -6,7 +6,7 @@ import path from "path";
 import zlib from "zlib";
 import { guardRequest, canonicalFingerprint, clientIp } from "./lib/request-guard.js";
 
-const FROM_ADDRESS = process.env.FROM_EMAIL || "BestHO3 <quotes@bestho3.com>";
+const FROM_ADDRESS = process.env.FROM_EMAIL || "Bollinsure Insurance Services <quotes@bollinsure.com>";
 const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || "quotes@bollinsure.com";
 const TEMPLATE_NAME = "acord-80-homeowner-application.pdf";
 const CONSENT_VERSION = "2026-07-16.bestho3.1";
