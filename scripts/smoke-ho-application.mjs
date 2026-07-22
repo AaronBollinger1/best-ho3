@@ -14,12 +14,13 @@ import { PDFDocument } from "pdf-lib";
 const root = process.cwd();
 
 // ── 1. static site sanity ───────────────────────────────────────────────────
+// Line-agnostic: asserts the CHASSIS contract, not brand strings, so this same
+// test passes for every line (best-ho3, best-dp3, …). index.html is the line's
+// home; apply.html is where the wizard mounts on every line.
 const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 for (const phrase of [
-  "ho-wizard-mount",
-  "/assets/ho-wizard.js",
-  "/assets/ho-review-signing.js",
   "/assets/app.js",
+  "/assets/seo.js",
   "CA DOI Lic. #6013787",
   "Licensed in all 50 states"
 ]) {
@@ -33,6 +34,9 @@ const applicationPage = fs.readFileSync(path.join(root, "apply.html"), "utf8");
 for (const phrase of [
   "data-application-workspace",
   "application-timeline",
+  "intake-mount",
+  "/assets/ho-wizard.js",
+  "/assets/ho-review-signing.js",
   "/assets/apply.css",
   "/assets/apply.js",
   "Preliminary estimate",
