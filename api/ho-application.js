@@ -130,9 +130,22 @@ const ROOF_LABEL = { comp: "Composition shingle", tile: "Clay/concrete tile", me
 const WIRING_LABEL = { copper: "Copper (Romex)", aluminum: "Aluminum branch wiring", knob_tube: "Knob & tube", mixed: "Mixed", unknown: "Unknown per applicant" };
 const LOSS_ROWS = "ABCD";
 
+
+// Transliterate to WinAnsi-encodable chars so a stray em-dash / smart quote /
+// non-Latin char in a field can't 500 the pdf-lib fill ("WinAnsi cannot encode").
+function pdfSafe(s) {
+  return String(s == null ? "" : s)
+    .replace(/[‘’‚‛]/g, "'")
+    .replace(/[“”„‟]/g, '"')
+    .replace(/[–—―]/g, "-")
+    .replace(/…/g, "...")
+    .replace(/[    ]/g, " ")
+    .normalize("NFKC")
+    .replace(/[^\x20-\x7E -ÿ]/g, "");
+}
 function clean(v, max = 700) {
   if (v == null) return "";
-  return String(v).replace(/[\r\n\t]+/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
+  return pdfSafe(String(v).replace(/[\r\n\t]+/g, " ").replace(/\s+/g, " ").trim()).slice(0, max);
 }
 function limitText(v, max = 1200) {
   if (v == null) return "";
