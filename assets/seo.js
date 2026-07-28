@@ -23,12 +23,20 @@
   var OPERATOR = {
     name: "Bollinsure Insurance Services",
     legalName: "WJB Services, Inc. dba Bollinsure Insurance Services",
+    url: "https://www.bollinsure.com/",
     telephone: "+1-310-804-5017",
     email: "quotes@bollinsure.com",
     license: "CA DOI License #6013787",
     areaServed: "US",
     locality: "Los Angeles",
     region: "CA"
+  };
+
+  var EDITOR = {
+    name: "Aaron Bollinger",
+    url: "/aaron-bollinger",
+    jobTitle: "Editorial Lead, Personal Lines",
+    affiliation: OPERATOR.name
   };
 
   var brand = window.BEST_BRAND || {};
@@ -61,7 +69,7 @@
     "@id": orgId,
     "name": OPERATOR.name,
     "legalName": OPERATOR.legalName,
-    "url": siteRoot + "/",
+    "url": OPERATOR.url,
     "telephone": OPERATOR.telephone,
     "email": OPERATOR.email,
     "areaServed": OPERATOR.areaServed,
@@ -72,6 +80,17 @@
       "addressRegion": OPERATOR.region,
       "addressCountry": "US"
     }
+  });
+
+  var personId = siteRoot + EDITOR.url + "#person";
+  graph.push({
+    "@type": "Person",
+    "@id": personId,
+    "name": EDITOR.name,
+    "url": siteRoot + EDITOR.url,
+    "jobTitle": EDITOR.jobTitle,
+    "worksFor": { "@id": orgId },
+    "affiliation": { "@id": orgId }
   });
 
   /* — WebSite — */
@@ -85,15 +104,38 @@
 
   /* — WebPage — */
   var webPage = {
-    "@type": "WebPage",
+    "@type": page.type || "WebPage",
     "@id": pageId,
     "url": canonical,
     "name": docTitle || (brand.name || OPERATOR.name),
     "isPartOf": { "@id": siteId },
-    "about": { "@id": orgId }
+    "publisher": { "@id": orgId },
+    "author": { "@id": personId },
+    "reviewedBy": { "@id": orgId }
   };
   if (metaDesc) webPage.description = metaDesc;
+  if (page.datePublished) webPage.datePublished = page.datePublished;
+  if (page.dateModified) webPage.dateModified = page.dateModified;
   graph.push(webPage);
+
+  /* — Article — article pages get a citable editorial object in addition to
+     WebPage. Dates are declared per page; we never invent freshness. — */
+  if (attr('meta[property="og:type"]', "content") === "article" && !staticTypes.Article) {
+    graph.push({
+      "@type": "Article",
+      "@id": canonical + "#article",
+      "url": canonical,
+      "headline": page.headline || docTitle,
+      "description": metaDesc || undefined,
+      "mainEntityOfPage": { "@id": pageId },
+      "author": { "@id": personId },
+      "reviewedBy": { "@id": orgId },
+      "publisher": { "@id": orgId },
+      "datePublished": page.datePublished || undefined,
+      "dateModified": page.dateModified || undefined,
+      "about": page.about || (brand.line ? { "@type": "Thing", "name": brand.line + " insurance" } : undefined)
+    });
+  }
 
   /* — BreadcrumbList — explicit config wins; otherwise derive from the path. */
   var crumbs = Array.isArray(page.breadcrumbs) && page.breadcrumbs.length

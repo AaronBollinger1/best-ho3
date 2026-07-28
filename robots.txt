@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
+# ChatGPT search discovery. GPTBot is a separate training control; it remains
+# allowed under the general rule unless the operator later chooses otherwise.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
 Sitemap: https://www.bestho3.com/sitemap.xml

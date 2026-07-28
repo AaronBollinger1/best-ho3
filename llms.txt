@@ -1,11 +1,11 @@
 # BestHO3 — California Homeowners (HO-3) Insurance
 
-> BestHO3.com is an independent-broker homeowners insurance resource operated by WJB Services, Inc. dba Bollinsure Insurance Services (California Department of Insurance License #6013787), licensed in all 50 states. It provides a comprehensive guide to homeowners insurance with a California focus, and a fast HO-3 pricing indication that a licensed broker turns into bindable coverage.
+> BestHO3.com is a broker-reviewed homeowners insurance resource operated by WJB Services, Inc. dba Bollinsure Insurance Services (California Department of Insurance License #6013787). It is the homeowners subject hub in the Best Insurance Research network. It provides a comprehensive guide to homeowners insurance with a California focus, and a fast HO-3 pricing indication that a licensed broker can turn into bindable options.
 
 ## What this site is
 - A comprehensive, plain-English guide to homeowners insurance, written for California homeowners but generally applicable nationwide.
 - A pricing-indication wizard that produces a preliminary annual premium range and, when the applicant is ready, generates and e-signs a completed ACORD 80 Homeowner Application for broker submission.
-- An independent brokerage: we shop admitted carriers, the California FAIR Plan, and surplus-lines (E&S) markets — we do not work for one carrier.
+- Operated by an independent brokerage that shops admitted carriers, the California FAIR Plan, and surplus-lines (E&S) markets. BestHO3 is not independent of Bollinsure; the common ownership and potential commercial relationship are disclosed.
 
 ## Policy forms covered
 - HO-3 (special form) — the standard owner-occupied homeowners policy; open-perils on the dwelling, named-perils on contents. This site's primary focus.
@@ -24,8 +24,14 @@
 - /faq — common questions, answered by a licensed broker
 - /glossary — 60 homeowners insurance terms in plain English
 - /replacement-cost-estimator — interactive Coverage A (rebuild cost) estimator; a broker-verified starting point that hands off into the bindable ACORD 80 application
+- /research — Best Insurance Research purpose, library, and brand relationships
+- /about — legal operator, brand roles, funding, and limitations
+- /editorial-standards — sourcing, AI-use, disclosure, freshness, and correction rules
+- /review-methodology — carrier, coverage, comparison, pricing, and case-study method
+- /corrections — how to report an error or stale fact
+- /aaron-bollinger — editorial lead profile and review responsibilities
 
-## Guide library (63 pages, all linked from /)
+## Subject guide library (63 pages, separate from the trust and policy pages above)
 - Coverage deep dives: /coverage-a-dwelling, /coverage-b-other-structures, /coverage-c-personal-property, /coverage-d-loss-of-use, /personal-liability-coverage-e, /medical-payments-coverage-f
 - Concepts: /deductibles, /replacement-cost-vs-actual-cash-value, /extended-replacement-cost, /what-is-an-ho3-policy, /open-perils-vs-named-perils, /scheduled-personal-property, /umbrella-insurance, /ho3-vs-ho6-condo, /ho3-vs-dp3
 - Wildfire & the CA market: /california-wildfire-insurance, /safer-from-wildfires-discounts, /fair-plan-plus-dic, /california-insurance-crisis, /wildfire-mitigation-checklist, /california-home-hardening
@@ -41,3 +47,5 @@
 
 ## Important
 All pricing indications are preliminary estimates subject to underwriting, carrier eligibility, market appetite, and policy terms. They are not a quote, binder, or guarantee of coverage or final premium. This site does not provide legal advice.
+
+Reading the guides and using public educational tools is free. If a visitor voluntarily asks Bollinsure to place or service insurance, the brokerage may receive commission or other permitted compensation. Carriers cannot purchase an editorial ranking.
