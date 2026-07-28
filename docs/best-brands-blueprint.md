@@ -7,6 +7,10 @@ This document turns the BestHO3 experience into a repeatable starting point for 
 - A direct hero promise, one primary action, and one broker-assisted alternative.
 - Education before intake: explain the risk, available markets, and what improves placement.
 - Proof close to the decision: a specific client outcome, a concise path, and a clear limitation statement.
+- A visible Best Insurance Research relationship, licensed operator, editorial
+  lead, insurance reviewer, commercial disclosure, methodology, and correction
+  path. A broker-owned publication never describes itself as independent of
+  the brokerage.
 - Motion that explains sequence or hierarchy instead of looping decoration.
 - Accessible fallbacks: the page remains complete without JavaScript and respects reduced-motion preferences.
 
@@ -125,18 +129,23 @@ The contract lives in `api/lib/personal-lines-quote-provider.js` (version `bestb
 
 1. Copy the semantic page sequence and the shared layers (`app.js`, `apply.js`, `apply.css`, `motion.css`) unchanged.
 2. Author the new line's `assets/brand.js` manifest and remap the platform token block in `styles.css :root` (color, type, radius, elevation). Register the line's quote schema with `registerLine()`.
-3. Replace all product facts, contact information, disclosures, and testimonials.
-4. Connect high-intent CTAs to the product-specific `/apply` workspace and preserve the embedded fallback only when useful.
-5. Verify keyboard navigation, focus visibility, landmarks, headings, labels, contrast, and reduced motion.
-6. Test at 390px mobile, tablet, and 1440px desktop with no horizontal overflow.
-7. Exercise every form branch, API integration, document-generation path, and submission state.
-8. Run the repository's automated tests and inspect console errors before preview deployment.
-9. Review the preview with underwriting/compliance before production promotion.
+3. Generate the Best Insurance Research trust pages and apply the shared
+   research mark, editorial panel, author/reviewer data, commercial disclosure,
+   methodology, and corrections links.
+4. Replace all product facts, contact information, disclosures, and testimonials.
+5. Connect high-intent CTAs to the product-specific `/apply` workspace and preserve the embedded fallback only when useful.
+6. Verify keyboard navigation, focus visibility, landmarks, headings, labels, contrast, and reduced motion.
+7. Test at 390px mobile, tablet, and 1440px desktop with no horizontal overflow.
+8. Exercise every form branch, API integration, document-generation path, and submission state.
+9. Run the repository's automated tests and inspect console errors before preview deployment.
+10. Review the preview with underwriting/compliance before production promotion.
 
 ## Acceptance checklist
 
 - The page communicates audience, product, and next action above the fold.
 - The proof story contains a concrete challenge, intervention, and outcome.
+- Common ownership, potential brokerage compensation, the editorial lead,
+  licensed reviewer, sources/method, and correction path are visible.
 - The primary CTA retains the current functional destination.
 - The application workspace distinguishes a preliminary estimate from a carrier quote.
 - Locally saved drafts exclude applicant identity, consent, signature, loss history, and underwriting answers.

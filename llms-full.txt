@@ -1,0 +1,111 @@
+# BestHO3 — Full Reference for AI and Search Systems
+
+> BestHO3 is the California homeowners subject hub in the Best Insurance
+> Research network. It is operated by WJB Services, Inc. dba Bollinsure
+> Insurance Services, California Department of Insurance License #6013787.
+
+## Identity and relationships
+
+- Best Insurance Research is the free publishing standard and cross-line
+  research identity.
+- BestHO3 is the homeowners guide, tool, pricing-indication, and signed
+  application experience.
+- Bollinsure Insurance Services is the licensed brokerage that operates the
+  site and handles personalized advice, quoting, placement, and service.
+- Covwell is a separate technology-assisted policy and quote second-opinion
+  experience.
+- BestHO3 is not independent of Bollinsure. Bollinsure is described as an
+  independent broker because it accesses multiple markets rather than
+  representing only one carrier.
+
+## Consumer promise
+
+The public research library is free to read. It has no paywall and no
+obligation to request brokerage services. When a visitor voluntarily asks
+Bollinsure to place or service insurance, the brokerage may receive commission
+or other permitted compensation. Carriers cannot purchase favorable editorial
+rankings.
+
+## Editorial governance
+
+Editorial lead: Aaron Bollinger.
+
+Insurance review: WJB Services, Inc. dba Bollinsure Insurance Services, CA DOI
+License #6013787.
+
+BestHO3 distinguishes:
+
+- a sourced fact from professional judgment;
+- a modeled pricing indication from a carrier quote;
+- general information from personalized insurance advice;
+- a verified case from an anonymized, composite, or illustrative example;
+- access to a carrier from a recommendation that the carrier fits a risk.
+
+Primary-source preference:
+
+1. Issued policy forms and endorsements.
+2. Laws, regulations, and regulator publications.
+3. Carrier filings, underwriting material, and public program documents.
+4. Recognized insurance standards and rating-agency publications.
+5. Retained, verified brokerage evidence.
+6. Secondary sources used for context rather than as sole support for a
+   material coverage, pricing, or legal claim.
+
+See:
+
+- https://www.bestho3.com/research
+- https://www.bestho3.com/about
+- https://www.bestho3.com/editorial-standards
+- https://www.bestho3.com/review-methodology
+- https://www.bestho3.com/corrections
+- https://www.bestho3.com/aaron-bollinger
+
+## Core subject areas
+
+### Policy forms and coverage
+
+- HO-3 special form and HO-5 comprehensive form.
+- HO-6 condominium and DP-3 landlord/dwelling-fire distinctions.
+- Coverage A dwelling, B other structures, C personal property, D loss of use,
+  E personal liability, and F medical payments.
+- Open-perils versus named-perils coverage.
+- Replacement cost versus actual cash value.
+- Deductibles, extended replacement cost, scheduled property, and umbrella.
+
+### California market
+
+- Wildfire underwriting, home hardening, and mitigation.
+- Admitted market, high-value/private-client, surplus-lines, and specialty
+  placement pathways.
+- California FAIR Plan and difference-in-conditions companion coverage.
+- Non-renewals, older homes, roof and electrical-system underwriting.
+- Regional guides for major California markets.
+
+### Tools and applications
+
+- Preliminary homeowners pricing indication.
+- Replacement-cost estimator with disclosed assumptions.
+- ACORD 80 Homeowner Application generation and electronic signing.
+- Provider-neutral carrier-quote boundary. No carrier API is called from the
+  browser.
+
+## Important limitations
+
+- An indication is not a carrier quote.
+- An article, calculator, or submitted website form does not bind or alter
+  coverage.
+- Carrier appetite, forms, eligibility, pricing, and availability change and
+  remain subject to underwriting.
+- The issued policy and endorsements control.
+- BestHO3 does not confirm that a specific claim is covered and does not provide
+  legal advice.
+- Contacting BestHO3 or Bollinsure does not preserve a cancellation, claim, or
+  legal deadline.
+
+## Contact
+
+- Brokerage: Bollinsure Insurance Services
+- Email: quotes@bollinsure.com
+- Phone: 310-804-5017
+- Legal operator: WJB Services, Inc. dba Bollinsure Insurance Services
+- California Department of Insurance License #6013787

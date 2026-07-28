@@ -10,6 +10,8 @@
     "test:provider": "node scripts/test-personal-lines-provider.mjs",
     "test:guard": "node scripts/test-request-guard.mjs",
     "test:dp3": "node scripts/test-line-dp3.mjs",
+    "test:editorial": "node scripts/test-editorial-trust.mjs",
+    "content:editorial": "node scripts/generate-editorial-pages.mjs && node scripts/apply-editorial-trust.mjs",
     "build:dist": "node scripts/build.mjs"
   },
   "dependencies": {
