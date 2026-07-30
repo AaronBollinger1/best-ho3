@@ -23,7 +23,7 @@
   var OPERATOR = {
     name: "Bollinsure Insurance Services",
     legalName: "WJB Services, Inc. dba Bollinsure Insurance Services",
-    telephone: "+1-310-804-5017",
+    telephone: "+1-562-COVWELL",
     email: "quotes@bollinsure.com",
     license: "CA DOI License #6013787",
     areaServed: "US",

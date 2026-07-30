@@ -389,7 +389,7 @@
       if (!res.ok || !data.ok) throw new Error(data.error || "Submission failed (" + res.status + ")");
       if (window.__ho && window.__ho.onSigned) window.__ho.onSigned(data);
     } catch (e2) {
-      showError((e2 && e2.message ? e2.message : "Submission failed.") + " You can retry, or call 310-804-5017.");
+      showError((e2 && e2.message ? e2.message : "Submission failed.") + " You can retry, or call 562-COVWELL.");
       if (btn) { btn.textContent = "Sign & Submit Application →"; updateSubmitState(); }
     }
   }

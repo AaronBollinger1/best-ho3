@@ -612,8 +612,8 @@
   function mountStickyBar(mount) {
     if (document.getElementById('wz-sticky')) return;
     const bar = mk('div', { class: 'wz-sticky-bar', id: 'wz-sticky' });
-    const phone = mk('a', { href: 'tel:+13108045017', style: 'color:#1d5741;font-weight:600;text-decoration:none;' });
-    phone.textContent = '📞 310-804-5017';
+    const phone = mk('a', { href: 'tel:+15622689355', style: 'color:#1d5741;font-weight:600;text-decoration:none;' });
+    phone.textContent = '📞 562-COVWELL';
     const stepLabel = mk('span', { id: 'wz-sticky-step', style: 'color:var(--muted, #575f52);' });
     stepLabel.textContent = 'Get your indication';
     bar.appendChild(phone); bar.appendChild(stepLabel);
@@ -911,7 +911,7 @@
     const card = mk('div', { class: 'wz-card wz-success' });
     card.innerHTML = '<div class="wz-success-icon">🧳</div>' +
       '<h2>Renters (HO-4) — fastest by phone or email</h2>' +
-      '<p>Renters policies are quick: contents value, liability limit, address, done. Call <a href="tel:+13108045017">310-804-5017</a> or email <a href="mailto:quotes@bollinsure.com?subject=Renters%20insurance%20quote">quotes@bollinsure.com</a> and a licensed broker will have options for you same day.</p>' +
+      '<p>Renters policies are quick: contents value, liability limit, address, done. Call <a href="tel:+15622689355">562-COVWELL</a> or email <a href="mailto:quotes@bollinsure.com?subject=Renters%20insurance%20quote">quotes@bollinsure.com</a> and a licensed broker will have options for you same day.</p>' +
       '<p style="margin-top:10px;">Buying a home soon? Come back for your HO-3 — or read the <a href="/california-homeowners-insurance">California homeowners guide</a> in the meantime.</p>' +
       '<a href="#" class="wz-success-back" id="wz-renter-back">← Back</a>';
     card.querySelector('#wz-renter-back').addEventListener('click', (e) => { e.preventDefault(); renderOpening(mount); });
@@ -1685,7 +1685,7 @@
       '<div class="wz-success-icon">🏠</div>' +
       '<h2>' + (signed ? 'Application signed and submitted' : 'Submitted — a broker takes it from here') + '</h2>' +
       '<p>We start shopping your ' + (state.pathway === 'landlord' ? 'DP-3' : (state.policy_form === 'HO5' ? 'HO-5' : 'HO-3')) + ' the same business day' + (wf ? ' — including the FAIR Plan + DIC pairing if the wildfire mapping calls for it' : '') + '. A copy went to your email.</p>' +
-      '<p>Need us sooner? <a href="tel:+13108045017">310-804-5017</a> · <a href="mailto:quotes@bollinsure.com">quotes@bollinsure.com</a></p>' +
+      '<p>Need us sooner? <a href="tel:+15622689355">562-COVWELL</a> · <a href="mailto:quotes@bollinsure.com">quotes@bollinsure.com</a></p>' +
       '<a class="wz-success-back" href="/california-homeowners-insurance">Read the California homeowners guide →</a>' +
       '</div>';
   }
@@ -1707,7 +1707,7 @@
       emit('submitted', { signed: false });
       card.innerHTML = successHTML(false);
     } catch (e) {
-      if (err) { err.textContent = (e && e.message ? e.message : 'Submission failed.') + ' You can retry, or call 310-804-5017.'; err.classList.add('show'); }
+      if (err) { err.textContent = (e && e.message ? e.message : 'Submission failed.') + ' You can retry, or call 562-COVWELL.'; err.classList.add('show'); }
       btns.forEach(b => { b.disabled = false; });
     }
   }

@@ -16,7 +16,7 @@
     key: 'ho3',
     name: 'BestHO3',
     line: 'homeowners',
-    phone: '310-804-5017',
+    phone: '562-COVWELL',
     ctaLabel: 'Start your application',
 
     /* Namespaces — keep these line-neutral so a second product does not

@@ -136,7 +136,7 @@ export default async function handler(req, res) {
 
     if (!process.env.RESEND_API_KEY && process.env.VERCEL_ENV === "production") {
       console.error("[submit-ho] RESEND_API_KEY missing in production — submission NOT delivered:", clean(f.applicant_full_name));
-      return res.status(500).json({ error: "Submission could not be delivered. Please call 310-804-5017 or email quotes@bollinsure.com." });
+      return res.status(500).json({ error: "Submission could not be delivered. Please call 562-COVWELL or email quotes@bollinsure.com." });
     }
     if (process.env.RESEND_API_KEY) {
       const resend = new Resend(process.env.RESEND_API_KEY);
@@ -152,6 +152,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ error: "Unable to submit. Please call 310-804-5017." });
+    return res.status(500).json({ error: "Unable to submit. Please call 562-COVWELL." });
   }
 }

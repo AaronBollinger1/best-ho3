@@ -274,7 +274,7 @@ async function fillPdf(fields, payload, opts = {}) {
   // ── Producer (Bollinsure constants) ─────────────────────────────────────
   setText(P1 + "Producer_FullName_A[0]", "WJB Services, Inc. dba Bollinsure Insurance Services");
   setText(P1 + "Producer_ContactPerson_FullName_A[0]", "Aaron Bollinger");
-  setText(P1 + "Producer_ContactPerson_PhoneNumber_A[0]", "310-804-5017");
+  setText(P1 + "Producer_ContactPerson_PhoneNumber_A[0]", "562-COVWELL");
   setText(P1 + "Producer_ContactPerson_EmailAddress_A[0]", "quotes@bollinsure.com");
   setText(P1 + "Form_CompletionDate_A[0]", today);
   check(P1 + "Policy_Status_NewIndicator_A[0]");
@@ -512,7 +512,7 @@ export default async function handler(req, res) {
     if (!process.env.RESEND_API_KEY && process.env.VERCEL_ENV === "production") {
       // Never fake success in production — a signed application must reach the broker.
       console.error("[ho-application] RESEND_API_KEY missing in production — signed application NOT delivered:", clean(fields.applicant_full_name));
-      return res.status(500).json({ error: "Submission could not be delivered. Please call 310-804-5017 or email quotes@bollinsure.com." });
+      return res.status(500).json({ error: "Submission could not be delivered. Please call 562-COVWELL or email quotes@bollinsure.com." });
     }
     if (process.env.RESEND_API_KEY) {
       const resend = new Resend(process.env.RESEND_API_KEY);
