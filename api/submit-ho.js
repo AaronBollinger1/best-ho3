@@ -7,7 +7,7 @@ import { guardRequest, clientIp } from "./lib/request-guard.js";
    ACORD 80 from these answers instead. */
 
 const FROM_ADDRESS = "Best HO3 — Bollinsure Insurance Services <reviews@bollinsure.com>";
-const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || "quotes@bollinsure.com";
+const NOTIFY_EMAIL = 'reviews@bollinsure.com';
 
 function clean(v, max = 700) {
   if (v == null) return "";
@@ -136,7 +136,7 @@ export default async function handler(req, res) {
 
     if (!process.env.RESEND_API_KEY && process.env.VERCEL_ENV === "production") {
       console.error("[submit-ho] RESEND_API_KEY missing in production — submission NOT delivered:", clean(f.applicant_full_name));
-      return res.status(500).json({ error: "Submission could not be delivered. Please call 562-COVWELL or email quotes@bollinsure.com." });
+      return res.status(500).json({ error: "Submission could not be delivered. Please call 562-COVWELL or email reviews@bollinsure.com." });
     }
     if (process.env.RESEND_API_KEY) {
       const resend = new Resend(process.env.RESEND_API_KEY);

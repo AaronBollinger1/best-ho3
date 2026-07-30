@@ -7,7 +7,7 @@ import zlib from "zlib";
 import { guardRequest, canonicalFingerprint, clientIp } from "./lib/request-guard.js";
 
 const FROM_ADDRESS = "Best HO3 — Bollinsure Insurance Services <reviews@bollinsure.com>";
-const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || "quotes@bollinsure.com";
+const NOTIFY_EMAIL = 'reviews@bollinsure.com';
 const TEMPLATE_NAME = "acord-80-homeowner-application.pdf";
 const CONSENT_VERSION = "2026-07-16.bestho3.1";
 const TEMPLATE_CACHE = {};
@@ -275,7 +275,7 @@ async function fillPdf(fields, payload, opts = {}) {
   setText(P1 + "Producer_FullName_A[0]", "WJB Services, Inc. dba Bollinsure Insurance Services");
   setText(P1 + "Producer_ContactPerson_FullName_A[0]", "Aaron Bollinger");
   setText(P1 + "Producer_ContactPerson_PhoneNumber_A[0]", "562-COVWELL");
-  setText(P1 + "Producer_ContactPerson_EmailAddress_A[0]", "quotes@bollinsure.com");
+  setText(P1 + "Producer_ContactPerson_EmailAddress_A[0]", 'reviews@bollinsure.com');
   setText(P1 + "Form_CompletionDate_A[0]", today);
   check(P1 + "Policy_Status_NewIndicator_A[0]");
   if (clean(f.effective_date)) setText(P1 + "Policy_EffectiveDate_A[0]", toMDY(f.effective_date));
@@ -512,7 +512,7 @@ export default async function handler(req, res) {
     if (!process.env.RESEND_API_KEY && process.env.VERCEL_ENV === "production") {
       // Never fake success in production — a signed application must reach the broker.
       console.error("[ho-application] RESEND_API_KEY missing in production — signed application NOT delivered:", clean(fields.applicant_full_name));
-      return res.status(500).json({ error: "Submission could not be delivered. Please call 562-COVWELL or email quotes@bollinsure.com." });
+      return res.status(500).json({ error: "Submission could not be delivered. Please call 562-COVWELL or email reviews@bollinsure.com." });
     }
     if (process.env.RESEND_API_KEY) {
       const resend = new Resend(process.env.RESEND_API_KEY);
