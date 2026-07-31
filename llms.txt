@@ -1,6 +1,6 @@
 # BestHO3 — California Homeowners (HO-3) Insurance
 
-> BestHO3.com is an independent-broker homeowners insurance resource operated by WJB Services, Inc. dba Bollinsure Insurance Services (California Department of Insurance License #6013787), licensed in all 50 states. It provides a comprehensive guide to homeowners insurance with a California focus, and a fast HO-3 pricing indication that a licensed broker turns into bindable coverage.
+> BestHO3.com is an independent-broker homeowners insurance resource operated by WJB Services, Inc. dba Bollinsure Insurance Services (California Department of Insurance License #0D94699), licensed in all 50 states. It provides a comprehensive guide to homeowners insurance with a California focus, and a fast HO-3 pricing indication that a licensed broker turns into bindable coverage.
 
 ## What this site is
 - A comprehensive, plain-English guide to homeowners insurance, written for California homeowners but generally applicable nationwide.
@@ -37,7 +37,7 @@
 
 ## Contact
 - Brokerage: quotes@bollinsure.com / 562-COVWELL
-- Firm: WJB Services, Inc. dba Bollinsure Insurance Services, CA DOI License #6013787
+- Firm: WJB Services, Inc. dba Bollinsure Insurance Services, CA DOI License #0D94699
 
 ## Important
 All pricing indications are preliminary estimates subject to underwriting, carrier eligibility, market appetite, and policy terms. They are not a quote, binder, or guarantee of coverage or final premium. This site does not provide legal advice.

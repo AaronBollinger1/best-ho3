@@ -1,0 +1,26 @@
+# The repo root IS the deployment root, so anything committed here is fetchable
+# unless listed below. Measured on production 2026-07-31: /scripts/*.mjs returned
+# 200 on several properties, publishing internal tooling and, on the generated
+# sites, the entire page template.
+#
+# THE TRAP: once this file exists, `vercel deploy` reads it INSTEAD of
+# .gitignore. Every exclusion .gitignore was silently providing has to be
+# restated here — .env* above all, which is why the .env and .vercel lines are
+# not redundant.
+#
+# This is a deny list on purpose. An allow list would have to remember
+# package.json, which is what makes api/*.js ESM; drop it and every serverless
+# function fails to parse.
+
+# Internal documentation.
+*.md
+docs/
+
+# Test suites and operational tooling.
+scripts/
+
+# Local configuration and captured state.
+.mcp.json
+.env
+.env.*
+.vercel
