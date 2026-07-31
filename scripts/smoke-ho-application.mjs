@@ -21,7 +21,7 @@ const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 for (const phrase of [
   "/assets/app.js",
   "/assets/seo.js",
-  "CA DOI Lic. #6013787",
+  "CA DOI Lic. #0D94699",
   "Licensed in all 50 states"
 ]) {
   assert.ok(index.includes(phrase), `index.html should include: ${phrase}`);

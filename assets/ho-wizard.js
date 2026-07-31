@@ -871,7 +871,7 @@
     });
     card.appendChild(cards);
     const note = mk('p', { style: 'font-size:0.78rem;color:#575f52;margin-top:18px;line-height:1.6;' });
-    note.textContent = 'Independent brokerage — WJB Services, Inc. dba Bollinsure Insurance Services, CA DOI Lic. #6013787, licensed in all 50 states. No broker fee.';
+    note.textContent = 'Independent brokerage — WJB Services, Inc. dba Bollinsure Insurance Services, CA DOI Lic. #0D94699, licensed in all 50 states. No broker fee.';
     card.appendChild(note);
     swapCard(mount, card);
   }
@@ -911,7 +911,7 @@
     const card = mk('div', { class: 'wz-card wz-success' });
     card.innerHTML = '<div class="wz-success-icon">🧳</div>' +
       '<h2>Renters (HO-4) — fastest by phone or email</h2>' +
-      '<p>Renters policies are quick: contents value, liability limit, address, done. Call <a href="tel:+15622689355">562-COVWELL</a> or email <a href="mailto:quotes@bollinsure.com?subject=Renters%20insurance%20quote">quotes@bollinsure.com</a> and a licensed broker will have options for you same day.</p>' +
+      '<p>Renters policies are quick: contents value, liability limit, address, done. Call <a href="tel:+15622689355">562-COVWELL</a> or email <a href="mailto:reviews@bollinsure.com?subject=Renters%20insurance%20quote">reviews@bollinsure.com</a> and a licensed broker will have options for you same day.</p>' +
       '<p style="margin-top:10px;">Buying a home soon? Come back for your HO-3 — or read the <a href="/california-homeowners-insurance">California homeowners guide</a> in the meantime.</p>' +
       '<a href="#" class="wz-success-back" id="wz-renter-back">← Back</a>';
     card.querySelector('#wz-renter-back').addEventListener('click', (e) => { e.preventDefault(); renderOpening(mount); });
@@ -1496,7 +1496,7 @@
       'Identical homes priced 20–40% apart by carrier',
       'FAIR Plan + DIC pairing done right',
       'No broker fee — the carrier pays our commission',
-      'Aaron Bollinger · CA DOI Lic. #6013787'
+      'Aaron Bollinger · CA DOI Lic. #0D94699'
     ].forEach((t, i) => {
       const li = mk('li');
       if (i === 4) { li.style.color = '#1d5741'; li.style.fontWeight = '600'; }
@@ -1685,7 +1685,7 @@
       '<div class="wz-success-icon">🏠</div>' +
       '<h2>' + (signed ? 'Application signed and submitted' : 'Submitted — a broker takes it from here') + '</h2>' +
       '<p>We start shopping your ' + (state.pathway === 'landlord' ? 'DP-3' : (state.policy_form === 'HO5' ? 'HO-5' : 'HO-3')) + ' the same business day' + (wf ? ' — including the FAIR Plan + DIC pairing if the wildfire mapping calls for it' : '') + '. A copy went to your email.</p>' +
-      '<p>Need us sooner? <a href="tel:+15622689355">562-COVWELL</a> · <a href="mailto:quotes@bollinsure.com">quotes@bollinsure.com</a></p>' +
+      '<p>Need us sooner? <a href="tel:+15622689355">562-COVWELL</a> · <a href="mailto:reviews@bollinsure.com">reviews@bollinsure.com</a></p>' +
       '<a class="wz-success-back" href="/california-homeowners-insurance">Read the California homeowners guide →</a>' +
       '</div>';
   }

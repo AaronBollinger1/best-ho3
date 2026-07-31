@@ -24,8 +24,8 @@
     name: "Bollinsure Insurance Services",
     legalName: "WJB Services, Inc. dba Bollinsure Insurance Services",
     telephone: "+1-562-COVWELL",
-    email: "quotes@bollinsure.com",
-    license: "CA DOI License #6013787",
+    email: "reviews@bollinsure.com",
+    license: "CA DOI License #0D94699",
     areaServed: "US",
     locality: "Los Angeles",
     region: "CA"
