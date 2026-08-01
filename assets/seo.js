@@ -23,12 +23,23 @@
   var OPERATOR = {
     name: "Bollinsure Insurance Services",
     legalName: "WJB Services, Inc. dba Bollinsure Insurance Services",
-    telephone: "+1-562-COVWELL",
+    // Dialable, not the vanity spelling. schema.org telephone is machine-read;
+    // "+1-562-COVWELL" is not a number. 562-COVWELL stays as display text
+    // everywhere a human reads it.
+    telephone: "+15622689355",
     email: "reviews@bollinsure.com",
-    license: "CA DOI License #0D94699",
+    license: "0D94699",
     areaServed: "US",
-    locality: "Los Angeles",
-    region: "CA"
+    // The agency is in Westlake Village. This said Los Angeles — the assumption
+    // the 562 area code invites — and addressLocality is the field that decides
+    // local-pack eligibility, so it was wrong in the one place it costs money.
+    street: "3625 E Thousand Oaks Blvd Ste 292",
+    locality: "Westlake Village",
+    region: "CA",
+    postalCode: "91362",
+    // The masterbrand's own @id, so the ten properties resolve to one entity
+    // instead of ten unrelated agencies sharing a name and a licence number.
+    parentId: "https://www.bollinsure.com/#agency"
   };
 
   var brand = window.BEST_BRAND || {};
@@ -65,11 +76,22 @@
     "telephone": OPERATOR.telephone,
     "email": OPERATOR.email,
     "areaServed": OPERATOR.areaServed,
-    "hasCredential": OPERATOR.license,
+    // hasCredential expects a Credential, not a string. A bare
+    // "CA DOI License #0D94699" is a type violation and parses as nothing.
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "name": "California Department of Insurance Agency License",
+      "credentialCategory": "License",
+      "recognizedBy": { "@type": "Organization", "name": "California Department of Insurance" },
+      "identifier": OPERATOR.license
+    },
+    "parentOrganization": { "@id": OPERATOR.parentId },
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": OPERATOR.street,
       "addressLocality": OPERATOR.locality,
       "addressRegion": OPERATOR.region,
+      "postalCode": OPERATOR.postalCode,
       "addressCountry": "US"
     }
   });
