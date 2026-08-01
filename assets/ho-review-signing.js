@@ -387,6 +387,11 @@
       });
       var data = await res.json().catch(function () { return {}; });
       if (!res.ok || !data.ok) throw new Error(data.error || "Submission failed (" + res.status + ")");
+      // The conversion. Fired only once the server confirms ok, so a failed or
+      // retried submission never reports a lead Ads would then bid on.
+      if (window.bollinsure && window.bollinsure.lead) {
+        window.bollinsure.lead({ lead_type: "ho3", quote_id: data.quote_id || data.id || "" });
+      }
       if (window.__ho && window.__ho.onSigned) window.__ho.onSigned(data);
     } catch (e2) {
       showError((e2 && e2.message ? e2.message : "Submission failed.") + " You can retry, or call 562-COVWELL.");
