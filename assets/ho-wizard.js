@@ -76,6 +76,9 @@
     q_explanations: '',
     additional_notes: '',
     consent_indication: false, consent_contact: false,
+    // Express written consent for autodialed or prerecorded calls and texts.
+    // Deliberately NOT part of the submit gate — see TCPA_CONSENT_TEXT.
+    consent_tcpa: false, consent_tcpa_at: '',
     website_hp: ''              // honeypot
   };
 
@@ -385,6 +388,14 @@
   }
 
   // ─── Utilities ────────────────────────────────────────────────────────────
+  // The exact wording the applicant agreed to, recorded verbatim with the
+  // consent. Under the TCPA the burden of proving prior express written consent
+  // sits on the caller, and "they ticked a box" is not a defence without the
+  // words that were next to it. Bump TCPA_CONSENT_VERSION whenever this string
+  // changes so old records stay attributable to the text they were given.
+  const TCPA_CONSENT_VERSION = '2026-08-01';
+  const TCPA_CONSENT_TEXT = 'I agree that Bollinsure Insurance Services may call and text me at the number I provided, including with an autodialer or a prerecorded voice, about insurance products and services. Consent is not a condition of buying anything or of getting this application reviewed. Message and data rates may apply, message frequency varies, and I can reply STOP to opt out or HELP for help at any time.';
+
   function mk(tag, attrs) {
     const e = document.createElement(tag);
     if (attrs) Object.entries(attrs).forEach(([k, v]) => {
@@ -1513,11 +1524,36 @@
     c1w.appendChild(c1);
     c1w.appendChild(document.createTextNode('I understand this is a preliminary indication — not a quote, binder, or policy, and coverage is subject to carrier underwriting.'));
     cw.appendChild(c1w);
+    // This box gates submission, so it must only ever describe TRANSACTIONAL
+    // contact — a licensed broker replying about the application you just asked
+    // them to review. It is the errand, not marketing. It previously read "I
+    // consent to being contacted... about my options", which is broad enough to
+    // read as marketing consent while being a condition of using the service.
     const c2w = mk('label', { class: 'wz-check-label' });
     const c2 = mk('input', { type: 'checkbox' }); c2.checked = state.consent_contact;
     c2w.appendChild(c2);
-    c2w.appendChild(document.createTextNode('I consent to being contacted by a licensed Bollinsure broker about my options.'));
+    c2w.appendChild(document.createTextNode('I am asking a licensed Bollinsure broker to review this application and reply to me about it by phone or email.'));
     cw.appendChild(c2w);
+
+    // Express written consent, its own control, optional, and NOT part of the
+    // gate below. TCPA prior express written consent requires telling the
+    // consumer they are not required to agree in order to obtain the service —
+    // a disclosure that cannot be made truthfully on a box that blocks
+    // submission. That is why this is separate from c2 rather than added to it.
+    const c3w = mk('label', { class: 'wz-check-label', style: 'align-items:flex-start;margin-top:14px;padding-top:14px;border-top:1px dashed #d8ded2' });
+    const c3 = mk('input', { type: 'checkbox' }); c3.checked = state.consent_tcpa;
+    c3w.appendChild(c3);
+    const c3t = mk('span', {});
+    c3t.appendChild(document.createTextNode(TCPA_CONSENT_TEXT + ' See our '));
+    const c3link = mk('a', { href: '/privacy', target: '_blank', rel: 'noopener' });
+    c3link.textContent = 'privacy policy';
+    c3t.appendChild(c3link);
+    c3t.appendChild(document.createTextNode('.'));
+    c3w.appendChild(c3t);
+    cw.appendChild(c3w);
+    const c3note = mk('p', { class: 'wz-rate-note', style: 'margin:6px 0 0 28px;color:#5c6b5f;font-size:0.82rem;' });
+    c3note.textContent = 'Optional. Leaving this unchecked does not affect your application — we will still reply.';
+    cw.appendChild(c3note);
     const errDiv = mk('div', { class: 'wz-form-error', id: 'wz-submit-error', role: 'alert', 'aria-live': 'assertive', 'aria-atomic': 'true' });
     cw.appendChild(errDiv);
     card.appendChild(cw);
@@ -1525,7 +1561,7 @@
     // ── Signed ACORD 80 flow (ho-review-signing.js) ─────────────────────────
     const signMount = mk('div', { id: 'ho-sign-mount' });
     const gateNote = mk('p', { id: 'wz-sign-gate', class: 'wz-rate-note', style: 'margin-top:16px;color:#17493a;' });
-    gateNote.textContent = 'Answer all 16 questions and check both boxes above to generate and sign your application.';
+    gateNote.textContent = 'Answer all 16 questions and check the first two boxes above to generate and sign your application. The call-and-text box is optional.';
     card.appendChild(gateNote);
     card.appendChild(signMount);
     const gate = () => {
@@ -1538,6 +1574,12 @@
     };
     c1.addEventListener('change', () => { state.consent_indication = c1.checked; gate(); });
     c2.addEventListener('change', () => { state.consent_contact = c2.checked; gate(); });
+    // No gate() call — this consent must never affect whether the form can be
+    // submitted. Stamping the time here is what makes the record provable later.
+    c3.addEventListener('change', () => {
+      state.consent_tcpa = c3.checked;
+      state.consent_tcpa_at = c3.checked ? new Date().toISOString() : '';
+    });
     qWrap.addEventListener('click', () => setTimeout(gate, 0));
     gate();
 
@@ -1629,6 +1671,22 @@
             q_explanations: state.q_explanations,
             additional_notes: state.additional_notes,
             website_hp: state.website_hp
+          },
+          // The consent record travels with the application. granted:false is sent
+          // deliberately rather than omitted, because an absent field proves
+          // nothing either way — and the wording is carried verbatim, since the
+          // burden of proving express written consent is on the caller and a
+          // ticked box is no defence without the words that sat beside it.
+          consent: {
+            indication_acknowledged: !!state.consent_indication,
+            transactional_contact: !!state.consent_contact,
+            tcpa: {
+              granted: !!state.consent_tcpa,
+              at: state.consent_tcpa_at || '',
+              version: TCPA_CONSENT_VERSION,
+              text: TCPA_CONSENT_TEXT,
+              page: (typeof location !== 'undefined' ? location.href.split('#')[0] : '')
+            }
           },
           lossRows: state.hasClaims === 'yes'
             ? state.lossRows.filter(r => r.date || r.description || r.amount).slice(0, 4).map(r => ({ date: r.date, description: r.description, amount: String(parseDollar(r.amount) || '') }))

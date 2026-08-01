@@ -37,6 +37,33 @@
     return payload;
   }
 
+  // ── Global Privacy Control ──────────────────────────────────────────────────
+  // The privacy policy tells consumers we honour GPC as an opt-out of sale and
+  // sharing. Before 2026-08-01 nothing in the estate read the signal, so that was
+  // an assertion rather than a behaviour. The ONLY cross-context-advertising
+  // vector on these properties is the Google Ads conversion tag, and that tag
+  // fires on the lead event pushed below — so honouring GPC has to mean the lead
+  // event never fires for that browser, not that we noted the signal politely.
+  //
+  // Checkable from the console: with GPC on, bollinsure.gpc === true, no
+  // quoteFormSubmitted or generate_lead ever reaches window.dataLayer, and a
+  // Consent Mode v2 denial for the three advertising signals is pushed instead.
+  var GPC = (function () {
+    try { return w.navigator && w.navigator.globalPrivacyControl === true; }
+    catch (e) { return false; }
+  })();
+
+  function gtag() { w.dataLayer.push(arguments); }
+
+  if (GPC) {
+    gtag("consent", "update", {
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied"
+    });
+    push("gpc_opt_out", { gpc: true });
+  }
+
   // A submission can only convert once. Retries, double-clicks and a back-button
   // return to the thank-you state must not each report a lead — that inflates the
   // conversion count Ads bids on, which is worse than reporting nothing.
@@ -46,7 +73,8 @@
     track: push,
 
     lead: function (detail) {
-      if (converted) return null;
+      // A GPC browser has opted out of sharing. The conversion never fires.
+      if (GPC || converted) return null;
       converted = true;
       detail = detail || {};
       // quoteFormSubmitted is what the container's existing GA4 tag listens for;
@@ -76,6 +104,7 @@
   w.bollinsure.lead = api.lead;
   w.bollinsure.track = api.track;
   w.bollinsure.formStart = api.formStart;
+  w.bollinsure.gpc = GPC;   // so the privacy page's claim is verifiable, not just stated.
 
   // Delegated click tracking. Attached once, survives re-rendered wizard markup,
   // and costs nothing when nothing matches.

@@ -5,7 +5,7 @@
   "type": "module",
   "description": "BestHO3 — California homeowners (HO-3) insurance guide, indication, ACORD 80 application, PDF, and broker submission workflow",
   "scripts": {
-    "test": "node scripts/bake-seo.mjs && node scripts/smoke-ho-application.mjs && node scripts/test-lead-events.mjs",
+    "test": "node scripts/bake-seo.mjs && node scripts/smoke-ho-application.mjs && node scripts/test-lead-events.mjs && node scripts/test-tcpa-consent.mjs",
     "test:fields": "node scripts/verify-acord80-fieldmap.mjs",
     "test:provider": "node scripts/test-personal-lines-provider.mjs",
     "test:guard": "node scripts/test-request-guard.mjs",
