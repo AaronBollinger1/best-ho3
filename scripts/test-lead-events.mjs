@@ -117,7 +117,11 @@ function load({ brandKey = "bestho3" } = {}) {
       if (fs.existsSync(p)) copies.push([`${repo.name}/${rel}`, fs.readFileSync(p, "utf8")]);
     }
   }
-  const drift = copies.filter(([, body]) => body !== src).map(([n]) => n);
+  // Compare content, not line endings. Git normalises CRLF on checkout, so a raw
+  // byte comparison reports drift on Windows for a file that is identical in the
+  // repository — a false alarm that trains people to ignore this assertion.
+  const norm = (s) => s.replace(/\r\n/g, "\n");
+  const drift = copies.filter(([, body]) => norm(body) !== norm(src)).map(([n]) => n);
   assert.deepEqual(drift, [], `lead-events.js has drifted on: ${drift.join(", ")}`);
   console.log(`  identical across ${copies.length} properties`);
 }

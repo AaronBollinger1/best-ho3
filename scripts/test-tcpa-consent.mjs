@@ -58,7 +58,10 @@ assert.ok(!/autodial|prerecorded|text me|marketing/i.test(c2[1]),
 // ── best-dp3 shares this wizard verbatim ────────────────────────────────────
 const twin = path.resolve(ROOT, "../best-dp3/assets/ho-wizard.js");
 if (fs.existsSync(twin)) {
-  assert.equal(fs.readFileSync(twin, "utf8"), src,
+  // Compare content, not line endings — git normalises CRLF on checkout, so a raw
+  // byte comparison reports drift on Windows for a file identical in the repo.
+  const norm = (x) => x.replace(/\r\n/g, "\n");
+  assert.equal(norm(fs.readFileSync(twin, "utf8")), norm(src),
     "best-dp3/assets/ho-wizard.js has drifted — the TCPA fix must apply to both sites");
 }
 
