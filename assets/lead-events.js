@@ -117,10 +117,14 @@
       : a.closest("nav") ? "nav" : a.closest("footer") ? "footer" : "body";
     var label = (a.textContent || "").trim().slice(0, 40);
 
+    var path = href.replace(/^https?:\/\/[^/]+/, "");
     if (href.indexOf("tel:") === 0) push("phone_click", { zone: zone, label: label });
     else if (href.indexOf("mailto:") === 0) push("email_click", { zone: zone, label: label });
-    else if (/^\/?(quote|apply)\b/.test(href.replace(/^https?:\/\/[^/]+/, "")))
-      push("quote_click", { zone: zone, label: label });
+    else if (/^\/?(quote|apply)\b/.test(path)) push("quote_click", { zone: zone, label: label });
+    // Broker-of-record intent. Previously fired only into Vercel Analytics by an
+    // inline shim on one site; it is the highest-intent click a benefits
+    // brokerage gets, so it belongs in the shared module and in GA4.
+    else if (/^\/?switch-brokers\b/.test(path)) push("bor_click", { zone: zone, label: label });
   }, { passive: true });
 
   // First interaction with any form field on the page counts as form_start.
