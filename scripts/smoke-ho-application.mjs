@@ -27,7 +27,7 @@ for (const phrase of [
   assert.ok(index.includes(phrase), `index.html should include: ${phrase}`);
 }
 const wizard = fs.readFileSync(path.join(root, "assets", "ho-wizard.js"), "utf8");
-for (const phrase of ["window.__ho", "hoWizardReviewStep", "ho-sign-mount", "/api/submit-ho", "bestho5.com", "landlord-dp3"]) {
+for (const phrase of ["window.__ho", "hoWizardReviewStep", "ho-sign-mount", "/api/submit-ho", "ho3-vs-ho5", "landlord-dp3"]) {
   assert.ok(wizard.includes(phrase), `ho-wizard.js should include: ${phrase}`);
 }
 const applicationPage = fs.readFileSync(path.join(root, "apply.html"), "utf8");

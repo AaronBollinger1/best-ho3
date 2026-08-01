@@ -794,7 +794,7 @@
     }
     if (state.policy_form === 'HO5' && state.pathway !== 'landlord') {
       const h5 = mk('div', { style: 'margin-top:12px;padding:13px 15px;border:1px solid rgba(29,87,65,0.4);background:rgba(29,87,65,0.06);border-radius:10px;font-size:0.82rem;line-height:1.6;color:#1a3a2a;' });
-      h5.innerHTML = '<strong style="color:#17493a;">You chose HO-5 — good instinct for better value.</strong> Open-perils coverage on your contents, usually 10–20% more premium. Our sister site <a href="https://www.bestho5.com" target="_blank" rel="noopener" style="color:#1d5741;font-weight:700;">BestHO5.com</a> specializes in comprehensive-form placements; this application works for both — we quote HO-5 first and show you the HO-3 delta.';
+      h5.innerHTML = '<strong style="color:#17493a;">You chose HO-5 — good instinct for better value.</strong> Open-perils coverage on your contents, usually 10–20% more premium. We place the comprehensive form too; this application works for both — we quote HO-5 first and show you the HO-3 delta.';
       box.appendChild(h5);
     }
     return box;
@@ -1263,7 +1263,7 @@
       a11yRadioGroup(fc, 'Policy form', r => state.policy_form === r._v);
       card.appendChild(fc);
       const ho5note = mk('div', { class: 'wz-note-accent', id: 'wz-ho5-note', style: state.policy_form === 'HO5' ? '' : 'display:none' });
-      ho5note.innerHTML = 'Comprehensive-form shoppers: our sister site <a href="https://www.bestho5.com" target="_blank" rel="noopener" style="color:#1d5741;font-weight:700;">BestHO5.com</a> is dedicated to HO-5 placements. This application covers both — we\'ll quote HO-5 and show the HO-3 delta so you can judge the value. <a href="/ho3-vs-ho5" target="_blank" rel="noopener" style="color:#1d5741;font-weight:700;">Compare the forms →</a>';
+      ho5note.innerHTML = 'Comprehensive-form shoppers: we place HO-5 as well. This application covers both — we\'ll quote HO-5 and show the HO-3 delta so you can judge the value. <a href="/ho3-vs-ho5" target="_blank" rel="noopener" style="color:#1d5741;font-weight:700;">Compare the forms →</a>';
       card.appendChild(ho5note);
     } else {
       const dpNote = mk('div', { class: 'wz-note-accent' });
