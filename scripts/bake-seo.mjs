@@ -48,6 +48,21 @@ const agency = {
     identifier: OPERATOR.license,
   },
   parentOrganization: { "@id": OPERATOR.parentId },
+  // The sibling sites. parentOrganization alone points up to Bollinsure but says nothing
+  // about the eight sites beside this one, so a crawler that meets bestepli.com and this
+  // site has no reason to read them as one business — and a citation earned by either
+  // accrues to neither. sameAs is the edge that makes the estate a single entity.
+  sameAs: [
+    "https://www.bollinsure.com/",
+    "https://www.bestho3.com/",
+    "https://www.bestdwellingfire.com/",
+    "https://www.bestcyberliability.com/",
+    "https://www.bestepli.com/",
+    "https://www.bestworkerscompensation.com/",
+    "https://www.bestgroupmedical.com/",
+    "https://www.bestartinsurance.com/",
+    "https://www.bestearthquakeinsurance.com/",
+  ].filter((u) => u !== `${SITE}/`),
   address: {
     "@type": "PostalAddress",
     streetAddress: OPERATOR.street,

@@ -1507,7 +1507,7 @@
       'Identical homes priced 20–40% apart by carrier',
       'FAIR Plan + DIC pairing done right',
       'No broker fee — the carrier pays our commission',
-      'Aaron Bollinger · CA DOI Lic. #0D94699'
+      'Aaron Bollinger · CA DOI Lic. #4345268'
     ].forEach((t, i) => {
       const li = mk('li');
       if (i === 4) { li.style.color = '#1d5741'; li.style.fontWeight = '600'; }
