@@ -127,18 +127,24 @@ const pages = files.filter((f) => f.endsWith('.html') && !/[\\/]google[^\\/]*\.h
 // A blanket percentage would have papered over that; this states the actual invariant, so a
 // real page that loses its rating still fails even while those two legitimately pass.
 {
+  // Sites in the estate word this differently — "4.9 on Google across 18 reviews" here,
+  // "rated 4.9 on Google from 18 reviews" on bestgroupmedical. Matching one literal string
+  // would have reported the other site as having no rating anywhere, so match the claim.
+  const SHOWS_RATING = /on Google (?:across|from)\b|Google[^<]{0,20}rating/i;
   const visibleLicence = (html) => html
     .split(/<script[\s\S]*?<\/script>/).join(' ')
     .includes(AGENCY_LICENCE);
   const missing = pages
-    .filter((f) => { const h = readFileSync(f, 'utf8'); return visibleLicence(h) && !h.includes('on Google across'); })
+    .filter((f) => { const h = readFileSync(f, 'utf8'); return visibleLicence(h) && !SHOWS_RATING.test(h); })
     .map(rel);
   assert.deepEqual(missing, [],
     `${missing.length} page(s) show the licence without the rating — the two belong together:\n  ${missing.slice(0, 8).join('\n  ')}`);
-  // A rating a reader cannot check is decoration.
-  const shown = pages.find((f) => readFileSync(f, 'utf8').includes('on Google across'));
+  // A rating a reader cannot check is decoration. Either form of profile link counts: the
+  // brand search and the Maps CID both land on the same Business Profile.
+  const shown = pages.find((f) => SHOWS_RATING.test(readFileSync(f, 'utf8')));
   assert.ok(shown, 'no page carries the rating at all');
-  assert.match(readFileSync(shown, 'utf8'), /href="https:\/\/www\.google\.com\/search\?q=Bollinsure[^"]*"/,
+  assert.match(readFileSync(shown, 'utf8'),
+    /https:\/\/www\.google\.com\/(?:search\?q=Bollinsure|maps\?cid=\d+)/,
     'the rating must link to the Google Business Profile so a reader can verify it');
 }
 
