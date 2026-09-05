@@ -28,7 +28,7 @@
     // everywhere a human reads it.
     telephone: "+15622689355",
     email: "reviews@bollinsure.com",
-    license: "0D94699",
+    license: "6013787",
     areaServed: "US",
     // The agency is in Westlake Village. This said Los Angeles — the assumption
     // the 562 area code invites — and addressLocality is the field that decides
@@ -77,7 +77,7 @@
     "email": OPERATOR.email,
     "areaServed": OPERATOR.areaServed,
     // hasCredential expects a Credential, not a string. A bare
-    // "CA DOI License #0D94699" is a type violation and parses as nothing.
+    // "CA DOI License #6013787" is a type violation and parses as nothing.
     "hasCredential": {
       "@type": "EducationalOccupationalCredential",
       "name": "California Department of Insurance Agency License",
