@@ -882,7 +882,7 @@
     });
     card.appendChild(cards);
     const note = mk('p', { style: 'font-size:0.78rem;color:#575f52;margin-top:18px;line-height:1.6;' });
-    note.textContent = 'Independent brokerage — WJB Services, Inc. dba Bollinsure Insurance Services, CA DOI Lic. #0D94699, licensed in all 50 states. No broker fee.';
+    note.textContent = 'Independent brokerage — WJB Services, Inc. dba Bollinsure Insurance Services, CA DOI Lic. #6013787, licensed in all 50 states. No broker fee.';
     card.appendChild(note);
     swapCard(mount, card);
   }
