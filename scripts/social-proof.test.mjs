@@ -25,7 +25,14 @@ const ROOT = new URL('../', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, 
 // Must equal CANON in bollinsure-finalize/api/reviews.js.
 const RATING = '4.9';
 const COUNT = 18;
-const AGENCY_LICENCE = '0D94699';
+// The authoritative split, confirmed against bollinsure.com production and by the owner:
+// 6013787 is the entity licence held by WJB Services, Inc. dba Bollinsure Insurance
+// Services; 0D94699 and 4345268 are producer licences held by the two people.
+//
+// This guard previously encoded that mapping the other way round, so it asserted the
+// error instead of catching it and failed every run once the pages were corrected. A
+// guard is only as good as the fact it encodes.
+const AGENCY_LICENCE = '6013787';
 // These belong to people, not to WJB Services, Inc. Presenting either AS the agency's
 // licence is the error that shipped on 291 pages across three spokes.
 //
@@ -33,7 +40,7 @@ const AGENCY_LICENCE = '0D94699';
 // licence and then attributing each producer licence to the individual who holds it, which
 // is better disclosure than the spokes that omit them entirely. So the rule is attribution,
 // not absence: a producer number must sit next to its holder's name.
-const PRODUCER_LICENCES = { 6013787: 'Brian Bollinger', 4345268: 'Aaron Bollinger' };
+const PRODUCER_LICENCES = { '0D94699': 'Brian Bollinger', 4345268: 'Aaron Bollinger' };
 const PARENT = 'https://www.bollinsure.com/#agency';
 
 const SKIP = /node_modules|[\\/]\.git|[\\/]dist/;
@@ -95,7 +102,7 @@ const pages = files.filter((f) => f.endsWith('.html') && !/[\\/]google[^\\/]*\.h
 
 // ── 2b. And the agency licence is never presented as a person's ──
 // The inverse of the error above, and the one actually found here: two bylines read
-// "Aaron Bollinger, CA Lic. #0D94699". 0D94699 is the entity licence held by WJB Services,
+// "Aaron Bollinger, CA Lic. #6013787". 6013787 is the entity licence held by WJB Services,
 // Inc.; Aaron's own producer licence is 4345268. Crediting a named individual with the
 // agency's number misstates who is licensed to do what, which is the one class of error on
 // an insurance site that a regulator, not just a crawler, cares about.
