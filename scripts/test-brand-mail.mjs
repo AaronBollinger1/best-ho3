@@ -7,6 +7,7 @@
 // Source of truth for the module under test: see the header of api/lib/brand-mail.js.
 
 import assert from 'node:assert/strict';
+import { createHmac } from 'node:crypto';
 import {
   resolveBrandMail,
   renderApplicantConfirmation,
@@ -167,12 +168,36 @@ const fixture = {
   // The signed BestAMS hop.
   const lead = calls.find((call) => call.url.includes('website-lead'));
   assert.ok(lead, 'the submission is posted to BestAMS');
-  assert.match(lead.init.headers['x-bestos-signature'], /^sha256=[0-9a-f]{64}$/, 'HMAC-SHA256 signature header');
-  assert.ok(lead.init.headers['Idempotency-Key'], 'a stable idempotency key is sent');
+  // THE SIGNATURE IS RECOMPUTED, NOT SHAPE-CHECKED. A 64-hex assertion passes for a random digest
+  // or an HMAC over different bytes, which is exactly the failure the signed hop exists to prevent.
+  const expected = `sha256=${createHmac('sha256', 'test-secret').update(lead.init.body).digest('hex')}`;
+  assert.equal(lead.init.headers['x-bestos-signature'], expected, 'the signature is HMAC-SHA256 over the exact raw body with the configured secret');
+
   const body = JSON.parse(lead.init.body);
   assert.equal(body.brand_key, BRAND_KEY, 'brand_key identifies the property');
   assert.ok(body.sent_at && body.nonce, 'sent_at and nonce are inside the signed body');
+  // One identifier per submission, in the signed body AND as the idempotency key, so a retry of
+  // one submission dedupes while two genuine requests from one person never collapse.
+  assert.ok(body.submission_id, 'the signed body carries a submission_id');
+  assert.equal(lead.init.headers['Idempotency-Key'], body.submission_id, 'the idempotency key IS the submission id');
+  assert.equal(body.details.submission_id, body.submission_id, 'the details bag carries the same id');
+  assert.equal(result.submissionId, body.submission_id);
   assert.equal(result.leadStatus, 'recorded');
+  assert.equal(result.ok, true, 'both sends succeeded');
+
+  // Two submissions must not share an identifier.
+  const second = await handleBrandSubmission({
+    ...fixture, brandName: BRAND, brandKey: BRAND_KEY, siteUrl: SITE, privacyUrl: PRIVACY,
+    env: { RESEND_API_KEY: 'test-key', BESTOS_WEBSITE_LEAD_URL: 'https://www.bestams.com/api/inbound/website-lead', BESTOS_WEBSITE_LEAD_SECRET: 'test-secret' },
+  });
+  assert.notEqual(second.submissionId, result.submissionId, 'each submission gets its own identifier');
+
+  // A caller that already owns an identifier keeps it.
+  const supplied = await handleBrandSubmission({
+    ...fixture, brandName: BRAND, brandKey: BRAND_KEY, siteUrl: SITE, privacyUrl: PRIVACY, submissionId: 'audit-abc',
+    env: { RESEND_API_KEY: 'test-key' },
+  });
+  assert.equal(supplied.submissionId, 'audit-abc', 'a caller-supplied submission id is used verbatim');
 
   // Unset URL is a skip, not a failure, and never blocks the visitor.
   calls.length = 0;
@@ -203,6 +228,57 @@ const fixture = {
   assert.deepEqual(safeFacts([{ label: 'ZIP', value: '90212' }]), [{ label: 'ZIP', value: '90212' }], 'a ZIP survives intact');
   assert.deepEqual(safeFacts([{ label: 'Reference', value: '4111 1111 1111 1234' }]),
     [{ label: 'Reference', value: 'ending 1234' }], 'a card-shaped value is still masked');
+}
+
+// ── 6. A failed broker notification stops the applicant confirmation ────────────────────────────
+//
+// A receipt promising "a licensed broker reviews your details and replies within one business day"
+// over a notification nobody received is a promise no one is in a position to keep, and it stops
+// the visitor retrying. The caller must be able to answer the browser with a retry state.
+{
+  const calls = [];
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async (url, init) => {
+    calls.push({ url: String(url), init });
+    if (String(url).includes('api.resend.com')) return { ok: false, status: 500, text: async () => 'boom' };
+    return { ok: true, status: 200, text: async () => '{}' };
+  };
+
+  const failed = await handleBrandSubmission({
+    ...fixture, brandName: BRAND, brandKey: BRAND_KEY, siteUrl: SITE, privacyUrl: PRIVACY,
+    env: { RESEND_API_KEY: 'test-key', BESTOS_WEBSITE_LEAD_URL: 'https://www.bestams.com/api/inbound/website-lead', BESTOS_WEBSITE_LEAD_SECRET: 'test-secret' },
+  });
+
+  assert.equal(failed.internal.ok, false, 'the broker notification failed');
+  assert.equal(failed.confirmation.ok, false, 'no confirmation is sent over a failed notification');
+  assert.equal(failed.confirmation.reason, 'internal_notification_failed');
+  assert.equal(failed.ok, false, 'the caller is told to answer with a retry state');
+  assert.equal(calls.filter((c) => c.url.includes('api.resend.com')).length, 1, 'exactly one send was attempted, not two');
+  // The durable capture still runs: a lead recorded is better than a lead recorded nowhere.
+  assert.equal(failed.leadStatus, 'recorded', 'the CRM hop is independent of the mail outcome');
+
+  globalThis.fetch = realFetch;
+}
+
+// ── 7. An absent applicant address is not a delivery failure ────────────────────────────────────
+{
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async () => ({ ok: true, status: 200, text: async () => '{}' });
+  const noEmail = await handleBrandSubmission({
+    ...fixture, contactEmail: '', brandName: BRAND, brandKey: BRAND_KEY, siteUrl: SITE, privacyUrl: PRIVACY,
+    env: { RESEND_API_KEY: 'test-key' },
+  });
+  assert.equal(noEmail.confirmation.required, false, 'nothing was asked to be sent to an absent address');
+  assert.equal(noEmail.ok, true, 'a good submission is not failed by an address that was never given');
+  globalThis.fetch = realFetch;
+}
+
+// ── 8. The caller's brand name wins over the environment ────────────────────────────────────────
+{
+  const resolved = resolveBrandMail({ brandName: BRAND, siteUrl: SITE, env: { BRAND_NAME: 'Someone Else' } });
+  assert.equal(resolved.brandName, BRAND, 'an accidentally-set BRAND_NAME cannot rebrand this property');
+  const fallback = resolveBrandMail({ siteUrl: SITE, env: { BRAND_NAME: 'Env Brand' } });
+  assert.equal(fallback.brandName, 'Env Brand', 'env still answers when the caller supplies nothing');
 }
 
 console.log(`test-brand-mail (${BRAND}): ok`);

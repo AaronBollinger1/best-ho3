@@ -1,5 +1,7 @@
 import { PDFDocument, StandardFonts, rgb, PDFName, PDFString } from "pdf-lib";
 import { Resend } from "resend";
+// ONE SENDER, ONE ENV CONTRACT, ONE APPLICANT CONFIRMATION - see api/lib/brand-mail.js.
+import { resolveBrandMail, renderApplicantConfirmation, postLeadToBestAMS } from "./lib/brand-mail.js";
 import crypto from "crypto";
 import fs from "fs";
 import path from "path";
@@ -518,15 +520,76 @@ export default async function handler(req, res) {
       const resend = new Resend(process.env.RESEND_API_KEY);
       const pdfAttachment = { filename, content: buffer.toString("base64") };
       const auditAttachment = { filename: "HO-E-Sign-Audit-" + audit.audit_id + ".txt", content: Buffer.from(auditText(audit), "utf8").toString("base64") };
+      // THE BROKER PACKET. No CC: the applicant used to be copied on a message addressed to
+      // someone else and written for a broker. They get their own confirmation below.
+      // THE LINE COMES FROM THE SUBMISSION, NOT FROM THE REPOSITORY. This endpoint serves the
+      // owner (HO-3/HO-5) and landlord (DP-3) paths of the same wizard, so a hardcoded line would
+      // tell an owner their request was for landlord cover — contradicting the packet the broker
+      // receives.
+      const brandMail = resolveBrandMail({ brandName: "Best HO-3", siteUrl: "https://www.bestho3.com" });
+      const applicantEmail = clean(fields.applicant_email, 254);
+      const lineOfBusiness = clean(fields.pathway) === "landlord"
+        ? "Landlord / dwelling fire (DP-3)"
+        : (clean(fields.policy_form).toUpperCase() === "HO5" ? "Homeowners (HO-5)" : "Homeowners (HO-3)");
+
       await resend.emails.send({
-        from: FROM_ADDRESS,
-        to: [NOTIFY_EMAIL],
-        cc: clean(fields.applicant_email, 254) ? [clean(fields.applicant_email, 254)] : undefined,
-        reply_to: clean(fields.applicant_email, 254),
+        from: brandMail.from,
+        to: brandMail.notifyTo,
+        reply_to: applicantEmail,
         subject: `Homeowner application (${POLICY_FORM_CODE[clean(fields.policy_form).toUpperCase()] || "HO 00 03"}) - ` + clean(fields.applicant_full_name, 120),
         text: `Signed homeowner application submitted.\nApplicant: ${clean(fields.applicant_full_name)}\nProperty: ${audit.property}\nPolicy form: ${audit.policy_form}\nCoverage A: ${audit.coverage_a}\nIndication: ${audit.indication}\nAudit ID: ${audit.audit_id}`,
         attachments: [pdfAttachment, auditAttachment]
       });
+
+      // THE APPLICANT CONFIRMATION, which this path never sent.
+      if (applicantEmail) {
+        const confirmation = renderApplicantConfirmation({
+          brandName: brandMail.brandName,
+          siteUrl: brandMail.siteUrl,
+          privacyUrl: "https://www.bestho3.com/privacy",
+          contactName: clean(fields.applicant_full_name, 120),
+          lineOfBusiness,
+          facts: [
+            { label: "Property", value: audit.property },
+            { label: "Policy form", value: audit.policy_form },
+          ],
+        });
+        try {
+          await resend.emails.send({
+            from: brandMail.from,
+            to: [applicantEmail],
+            reply_to: brandMail.replyTo,
+            subject: confirmation.subject,
+            html: confirmation.html,
+            text: confirmation.text
+          });
+        } catch (confirmErr) {
+          console.error("[ho-application] applicant confirmation failed:", confirmErr?.message || confirmErr);
+        }
+      }
+
+      // Fail-open, and keyed on the e-sign audit id so a retry of THIS submission dedupes while
+      // two genuine requests from one applicant never collapse into one.
+      const leadStatus = await postLeadToBestAMS(brandMail, {
+        brand_key: "best-ho3",
+        sourceDomain: "bestho3.com",
+        submissionKind: "initial",
+        submission_id: audit.audit_id,
+        contactName: clean(fields.applicant_full_name, 120),
+        contactEmail: applicantEmail,
+        contactPhone: clean(fields.applicant_phone, 40),
+        insuranceType: clean(fields.pathway) === "landlord" ? "landlord" : "home",
+        lineOfBusiness,
+        notes: audit.property,
+        details: {
+          brand_key: "best-ho3",
+          submission_id: audit.audit_id,
+          policy_form: String(audit.policy_form || ""),
+          coverage_a: String(audit.coverage_a || ""),
+          audit_id: String(audit.audit_id || ""),
+        },
+      }, String(audit.audit_id));
+      if (leadStatus === "failed") console.error("[ho-application] BestAMS website-lead intake failed; the emails were sent.");
       emailed = true;
     }
     return res.status(200).json({ ok: true, emailed, auditId: audit.audit_id, filename, pdfBase64: emailed ? undefined : buffer.toString("base64") });

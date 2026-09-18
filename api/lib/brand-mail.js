@@ -95,13 +95,16 @@ function uniqueEmails(list) {
 /**
  * The whole mail/intake configuration for one brand, resolved once.
  *
- * `brandName` and `siteUrl` are passed by the caller rather than read from env, because they are
+ * `brandName` and `siteUrl` are passed by the CALLER and the caller wins, because they are
  * properties of the repository and not of the deployment — a brand site that renamed itself by
- * changing an env var would send mail that disagrees with its own pages.
+ * changing an env var would send mail that disagrees with its own pages. `BRAND_NAME` is read
+ * only when the caller supplied nothing, which is the case this contract keeps for a deployment
+ * that has no repo-level brand to offer. The first version had this backwards and let an
+ * accidentally-set `BRAND_NAME` silently rebrand a property's mail.
  */
 export function resolveBrandMail({ brandName, siteUrl, env = process.env } = {}) {
   const deprecations = [];
-  const brand = readEnv('BRAND_NAME', env) || brandName || 'Bollinsure';
+  const brand = String(brandName || '').trim() || readEnv('BRAND_NAME', env) || 'Bollinsure';
   const from = resolveName('FROM_EMAIL', env, deprecations)
     || `${brand} — Bollinsure Insurance Services <${BOLLINSURE_QUOTES_MAILBOX}>`;
   const notifyTo = uniqueEmails(splitEmails(resolveName('NOTIFY_TO', env, deprecations) || BOLLINSURE_QUOTES_MAILBOX));
@@ -386,6 +389,9 @@ function hex(buffer) {
   return [...new Uint8Array(buffer)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
+/** A stalled CRM must not hold a visitor's request open until the function times out. */
+const BESTAMS_TIMEOUT_MS = 4000;
+
 export async function postLeadToBestAMS(config, lead, idempotencyKey) {
   if (!config.leadUrl) {
     console.warn(JSON.stringify({ event: 'bestos_lead_intake_skipped', reason: 'url_not_set' }));
@@ -403,15 +409,26 @@ export async function postLeadToBestAMS(config, lead, idempotencyKey) {
     });
     const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(config.leadSecret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
     const signature = `sha256=${hex(await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(raw)))}`;
-    const res = await fetch(config.leadUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-bestos-signature': signature,
-        ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {}),
-      },
-      body: raw,
-    });
+    // FAIL-OPEN MEANS BOUNDED, NOT MERELY CAUGHT. Without a deadline a CRM that accepts the
+    // connection and then stalls holds the visitor's submission open until the serverless function
+    // is killed — which is the opposite of the fail-open behaviour this function promises.
+    const abort = new AbortController();
+    const timer = setTimeout(() => abort.abort(), BESTAMS_TIMEOUT_MS);
+    let res;
+    try {
+      res = await fetch(config.leadUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-bestos-signature': signature,
+          ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {}),
+        },
+        body: raw,
+        signal: abort.signal,
+      });
+    } finally {
+      clearTimeout(timer);
+    }
     if (!res.ok) {
       const detail = await res.text().catch(() => '');
       console.error(JSON.stringify({ event: 'bestos_lead_intake_failed', status: res.status, detail: detail.slice(0, 300) }));
@@ -427,9 +444,14 @@ export async function postLeadToBestAMS(config, lead, idempotencyKey) {
 /**
  * One submission → one internal notification, one applicant confirmation, one signed BestAMS post.
  *
- * ORDER IS LOAD-BEARING. The broker notification goes first: if only one message can get out, the
- * one that reaches a human who can act is worth more than the one that reassures. The applicant
- * confirmation follows, and the CRM hop is last and fail-open.
+ * ORDER IS LOAD-BEARING, AND SO IS STOPPING. The broker notification goes first, and if it fails
+ * the applicant confirmation is NOT sent: a receipt saying "a licensed broker reviews your details
+ * and replies within one business day" is a promise nobody has been put in a position to keep, and
+ * it is worse than silence because it stops the visitor retrying. The caller gets `ok: false` and
+ * is expected to answer the browser with a retry state rather than a 200.
+ *
+ * The CRM hop still runs either way and is fail-open: it is the durable capture, it is bounded by
+ * its own timeout, and a lead recorded there is strictly better than one recorded nowhere.
  */
 export async function handleBrandSubmission({
   brandName,
@@ -459,7 +481,14 @@ export async function handleBrandSubmission({
   env = process.env,
 }) {
   const config = resolveBrandMail({ brandName, siteUrl, env });
-  const id = submissionId || `${brandKey}-${Date.now()}`;
+  // ONE IDENTIFIER PER SUBMISSION, and it travels in the signed body as well as the header.
+  //
+  // The first version keyed idempotency on applicant email + calendar date, which collapsed two
+  // genuine requests from the same person on the same day into one — the second was silently
+  // discardable by the receiver. A caller that already mints a per-submission id (an e-sign audit
+  // id, say) should pass it so the CRM row is traceable back to that record; otherwise a UUID is
+  // generated here.
+  const id = String(submissionId || '').trim() || crypto.randomUUID();
 
   const generatedInternal = renderInternalNotification({
     brandName: config.brandName,
@@ -490,17 +519,22 @@ export async function handleBrandSubmission({
     contactName, lineOfBusiness,
     facts: applicantFacts,
   });
-  const confirmationResult = contactEmail
-    ? await sendOne(config, {
-        to: contactEmail,
-        subject: confirmation.subject,
-        html: confirmation.html,
-        text: confirmation.text,
-        // Reply-To the monitored quotes box, so a client reply reaches the agency.
-        replyTo: config.replyTo,
-        idempotencyKey: `${id}:confirmation`,
-      })
-    : { ok: false, reason: 'no_applicant_email' };
+  // NO CONFIRMATION OVER A FAILED NOTIFICATION. `required: false` distinguishes "there was no
+  // applicant address to write to" from "we tried and could not" — the first is not a delivery
+  // failure and must not turn a good submission into a 502.
+  const confirmationResult = !internalResult.ok
+    ? { ok: false, required: true, reason: 'internal_notification_failed' }
+    : contactEmail
+      ? await sendOne(config, {
+          to: contactEmail,
+          subject: confirmation.subject,
+          html: confirmation.html,
+          text: confirmation.text,
+          // Reply-To the monitored quotes box, so a client reply reaches the agency.
+          replyTo: config.replyTo,
+          idempotencyKey: `${id}:confirmation`,
+        })
+      : { ok: false, required: false, reason: 'no_applicant_email' };
 
   const leadStatus = await postLeadToBestAMS(config, {
     brand_key: brandKey,
@@ -514,11 +548,24 @@ export async function handleBrandSubmission({
     insuranceType: insuranceType || lineOfBusiness || '',
     lineOfBusiness: lineOfBusiness || '',
     notes: notes || '',
-    details: { ...details, brand_key: brandKey, website_workflow: 'brand_site_submission_v1' },
+    details: { ...details, brand_key: brandKey, submission_id: id, website_workflow: 'brand_site_submission_v1' },
     ...(consent ? { consent } : {}),
-  }, `${id}:lead`);
+  }, id);
 
-  return { config, internal: internalResult, confirmation: confirmationResult, leadStatus, confirmationRender: confirmation, internalRender: internal };
+  // `ok` is what the caller answers the browser with. Both messages must have gone out, except
+  // that an absent applicant address was never a message we were asked to send.
+  const ok = internalResult.ok && (confirmationResult.ok || confirmationResult.required === false);
+
+  return {
+    ok,
+    submissionId: id,
+    config,
+    internal: internalResult,
+    confirmation: confirmationResult,
+    leadStatus,
+    confirmationRender: confirmation,
+    internalRender: internal,
+  };
 }
 
 export const BRAND_MAIL_CONSTANTS = {

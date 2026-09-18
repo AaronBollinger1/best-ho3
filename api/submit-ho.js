@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { Resend } from "resend";
 // ONE SENDER, ONE ENV CONTRACT, ONE APPLICANT CONFIRMATION - see api/lib/brand-mail.js.
 import { resolveBrandMail, renderApplicantConfirmation, postLeadToBestAMS } from "./lib/brand-mail.js";
@@ -140,6 +141,12 @@ export default async function handler(req, res) {
       console.error("[submit-ho] RESEND_API_KEY missing in production — submission NOT delivered:", clean(f.applicant_full_name));
       return res.status(500).json({ error: "Submission could not be delivered. Please call 562-268-9355 or email quotes@bollinsure.com." });
     }
+    // THE LINE COMES FROM THE SUBMISSION, NOT FROM THE REPOSITORY. This endpoint accepts the
+    // wizard's owner (HO-3/HO-5) and landlord (DP-3) paths alike, so a hardcoded line told an
+    // owner their receipt was for landlord cover while the broker packet said otherwise.
+    const lineOfBusiness = clean(f.pathway) === "landlord"
+      ? "Landlord / dwelling fire (DP-3)"
+      : (clean(f.policy_form).toUpperCase() === "HO5" ? "Homeowners (HO-5)" : "Homeowners (HO-3)");
     const brandMail = resolveBrandMail({ brandName: "Best HO-3", siteUrl: "https://www.bestho3.com" });
     const applicantEmail = clean(f.applicant_email, 254);
 
@@ -164,9 +171,9 @@ export default async function handler(req, res) {
           siteUrl: brandMail.siteUrl,
           privacyUrl: "https://www.bestho3.com/privacy",
           contactName: clean(f.applicant_full_name, 120),
-          lineOfBusiness: "Homeowners (HO-3)",
+          lineOfBusiness,
           facts: [
-            { label: "Property", value: [clean(f.risk_street, 120), clean(f.risk_city, 60), clean(f.risk_state, 20), clean(f.risk_zip, 20)].filter(Boolean).join(", ") },
+            { label: "Property", value: [clean(f.risk_address, 120), clean(f.risk_city, 60), clean(f.risk_state, 20), clean(f.risk_zip, 20)].filter(Boolean).join(", ") },
             { label: "Requested effective date", value: clean(f.effective_date, 40) },
           ],
         });
@@ -187,18 +194,23 @@ export default async function handler(req, res) {
     }
 
     // Fail-open: the applicant has already been told we have the request, and that is true.
+    // ONE IDENTIFIER PER SUBMISSION. The key used to be applicant email + calendar date, so two
+    // genuine requests from one person on one day carried the same key and the second was
+    // discardable by the receiver.
+    const submissionId = randomUUID();
     const leadStatus = await postLeadToBestAMS(brandMail, {
       brand_key: "best-ho3",
+      submission_id: submissionId,
       sourceDomain: "bestho3.com",
       submissionKind: "initial",
       contactName: clean(f.applicant_full_name, 120),
       contactEmail: applicantEmail,
       contactPhone: clean(f.applicant_phone, 40),
-      insuranceType: "home",
-      lineOfBusiness: "Homeowners (HO-3)",
-      notes: [clean(f.risk_street, 120), clean(f.risk_city, 60), clean(f.risk_state, 20), clean(f.risk_zip, 20)].filter(Boolean).join(", "),
-      details: { brand_key: "best-ho3", risk_city: clean(f.risk_city, 60), risk_zip: clean(f.risk_zip, 20) },
-    }, "best-ho3:" + applicantEmail + ":" + new Date().toISOString().slice(0, 10));
+      insuranceType: clean(f.pathway) === "landlord" ? "landlord" : "home",
+      lineOfBusiness,
+      notes: [clean(f.risk_address, 120), clean(f.risk_city, 60), clean(f.risk_state, 20), clean(f.risk_zip, 20)].filter(Boolean).join(", "),
+      details: { brand_key: "best-ho3", submission_id: submissionId, risk_city: clean(f.risk_city, 60), risk_zip: clean(f.risk_zip, 20) },
+    }, submissionId);
     if (leadStatus === "failed") console.error("[submit-ho] BestAMS website-lead intake failed; the emails were sent.");
 
     return res.status(200).json({ ok: true });
