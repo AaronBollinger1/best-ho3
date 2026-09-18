@@ -21,7 +21,12 @@ const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 for (const phrase of [
   "/assets/app.js",
   "/assets/seo.js",
-  "CA DOI Lic. #0D94699",
+  // ⚠️ WAS "CA DOI Lic. #0D94699", WHICH ASSERTED THE ERROR. `0D94699` is Brian Bollinger's
+  // individual producer licence; the agency — WJB Services, Inc. dba Bollinsure Insurance
+  // Services — is `6013787`, which is what index.html carries. scripts/social-proof.test.mjs
+  // states the same split and calls this "the error that shipped on 291 pages across three
+  // spokes"; this guard was one of the places still holding it. Confirmed by Aaron 2026-09-18.
+  "CA DOI Lic. #6013787",
   "Licensed in all 50 states"
 ]) {
   assert.ok(index.includes(phrase), `index.html should include: ${phrase}`);
