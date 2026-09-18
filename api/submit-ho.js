@@ -1,4 +1,6 @@
 import { Resend } from "resend";
+// ONE SENDER, ONE ENV CONTRACT, ONE APPLICANT CONFIRMATION - see api/lib/brand-mail.js.
+import { resolveBrandMail, renderApplicantConfirmation, postLeadToBestAMS } from "./lib/brand-mail.js";
 import { guardRequest, clientIp } from "./lib/request-guard.js";
 
 /* Legacy / fallback intake: full wizard answers by email, no PDF generation.
@@ -136,22 +138,72 @@ export default async function handler(req, res) {
 
     if (!process.env.RESEND_API_KEY && process.env.VERCEL_ENV === "production") {
       console.error("[submit-ho] RESEND_API_KEY missing in production — submission NOT delivered:", clean(f.applicant_full_name));
-      return res.status(500).json({ error: "Submission could not be delivered. Please call 562-COVWELL or email reviews@bollinsure.com." });
+      return res.status(500).json({ error: "Submission could not be delivered. Please call 562-268-9355 or email quotes@bollinsure.com." });
     }
+    const brandMail = resolveBrandMail({ brandName: "Best HO-3", siteUrl: "https://www.bestho3.com" });
+    const applicantEmail = clean(f.applicant_email, 254);
+
     if (process.env.RESEND_API_KEY) {
       const resend = new Resend(process.env.RESEND_API_KEY);
+      // THE BROKER NOTIFICATION FIRST. If only one message gets out, the one that reaches a human
+      // who can act is worth more than the one that reassures.
       await resend.emails.send({
-        from: FROM_ADDRESS,
-        to: [NOTIFY_EMAIL],
-        cc: clean(f.applicant_email, 254) ? [clean(f.applicant_email, 254)] : undefined,
-        reply_to: clean(f.applicant_email, 254),
+        from: brandMail.from,
+        to: brandMail.notifyTo,
+        reply_to: applicantEmail,
         subject: "Homeowner quote request - " + clean(f.applicant_full_name, 120) + " - " + clean(f.risk_city, 60),
         text: lines.join("\n")
       });
+
+      // THE APPLICANT CONFIRMATION, which this property did not send at all. The applicant used to
+      // be CC'd on the broker packet instead - a message addressed to someone else, written for a
+      // broker, with the submitter's own IP printed at the bottom of it.
+      if (applicantEmail) {
+        const confirmation = renderApplicantConfirmation({
+          brandName: brandMail.brandName,
+          siteUrl: brandMail.siteUrl,
+          privacyUrl: "https://www.bestho3.com/privacy",
+          contactName: clean(f.applicant_full_name, 120),
+          lineOfBusiness: "Homeowners (HO-3)",
+          facts: [
+            { label: "Property", value: [clean(f.risk_street, 120), clean(f.risk_city, 60), clean(f.risk_state, 20), clean(f.risk_zip, 20)].filter(Boolean).join(", ") },
+            { label: "Requested effective date", value: clean(f.effective_date, 40) },
+          ],
+        });
+        try {
+          await resend.emails.send({
+            from: brandMail.from,
+            to: [applicantEmail],
+            reply_to: brandMail.replyTo,
+            subject: confirmation.subject,
+            html: confirmation.html,
+            text: confirmation.text
+          });
+        } catch (confirmErr) {
+          // The broker has the request either way; a failed receipt is not a failed submission.
+          console.error("[submit-ho] applicant confirmation failed:", confirmErr?.message || confirmErr);
+        }
+      }
     }
+
+    // Fail-open: the applicant has already been told we have the request, and that is true.
+    const leadStatus = await postLeadToBestAMS(brandMail, {
+      brand_key: "best-ho3",
+      sourceDomain: "bestho3.com",
+      submissionKind: "initial",
+      contactName: clean(f.applicant_full_name, 120),
+      contactEmail: applicantEmail,
+      contactPhone: clean(f.applicant_phone, 40),
+      insuranceType: "home",
+      lineOfBusiness: "Homeowners (HO-3)",
+      notes: [clean(f.risk_street, 120), clean(f.risk_city, 60), clean(f.risk_state, 20), clean(f.risk_zip, 20)].filter(Boolean).join(", "),
+      details: { brand_key: "best-ho3", risk_city: clean(f.risk_city, 60), risk_zip: clean(f.risk_zip, 20) },
+    }, "best-ho3:" + applicantEmail + ":" + new Date().toISOString().slice(0, 10));
+    if (leadStatus === "failed") console.error("[submit-ho] BestAMS website-lead intake failed; the emails were sent.");
+
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ error: "Unable to submit. Please call 562-COVWELL." });
+    return res.status(500).json({ error: "Unable to submit. Please call 562-268-9355." });
   }
 }
