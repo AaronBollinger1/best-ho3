@@ -16,7 +16,7 @@
     key: 'dp3',
     name: 'BestDP3',
     line: 'dwelling-fire',
-    phone: '562-COVWELL',
+    phone: '562-268-9355',
     ctaLabel: 'Start your landlord application',
 
     /* Line-neutral namespaces (no "bestho3" strings leak in). */

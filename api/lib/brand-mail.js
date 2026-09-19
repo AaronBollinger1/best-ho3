@@ -188,7 +188,7 @@ function firstNameFrom(name) {
 // ── THE APPLICANT CONFIRMATION ──────────────────────────────────────────────────────────────────
 //
 // Structure is production's (greeting, numbered what-happens-now, the compensation disclosure, the
-// licence line). The phone is DIGITS: production printed `562-COVWELL`, which is the same number
+// licence line). The phone is DIGITS: production printed `562-268-9355`, which is the same number
 // but unreadable to a screen reader, undiallable by a non-US keypad and unsearchable. Aaron's
 // standing rule is digits only, never letters.
 

@@ -16,7 +16,7 @@
   var PDF_WORKER_URL = "/assets/vendor/pdfjs/pdf.worker.min.js";
 
   var CONSENT_VERSION = "2026-07-16.bestho3.1";
-  var CONSENT_TEXT = "I agree to conduct this application electronically. I can access, view, download, print, and keep the completed PDF. By selecting this box and clicking Sign & Submit, I intend my electronic signature, typed name, date/time, email address, IP address, browser/device information, and related audit data to be attached to and logically associated with this ACORD 80 homeowner application and to have the same legal effect as a handwritten signature to the fullest extent allowed by applicable law. I may request a paper copy or withdraw consent before submission by emailing reviews@bollinsure.com.";
+  var CONSENT_TEXT = "I agree to conduct this application electronically. I can access, view, download, print, and keep the completed PDF. By selecting this box and clicking Sign & Submit, I intend my electronic signature, typed name, date/time, email address, IP address, browser/device information, and related audit data to be attached to and logically associated with this ACORD 80 homeowner application and to have the same legal effect as a handwritten signature to the fullest extent allowed by applicable law. I may request a paper copy or withdraw consent before submission by emailing quotes@bollinsure.com.";
 
   var STYLES = [
     { id: "dancing", font: '"Dancing Script", cursive',   label: "Cursive" },
@@ -394,7 +394,7 @@
       }
       if (window.__ho && window.__ho.onSigned) window.__ho.onSigned(data);
     } catch (e2) {
-      showError((e2 && e2.message ? e2.message : "Submission failed.") + " You can retry, or call 562-COVWELL.");
+      showError((e2 && e2.message ? e2.message : "Submission failed.") + " You can retry, or call 562-268-9355.");
       if (btn) { btn.textContent = "Sign & Submit Application →"; updateSubmitState(); }
     }
   }

@@ -63,7 +63,7 @@ cleanUrls handles the rest.
 4. Never promise coverage, savings, or placement. Never disparage a named
    carrier. Never give legal or tax advice ("talk to your broker" instead).
 5. Company facts: independent brokerage; no broker fee on standard homeowners
-   placements (carrier pays commission); quotes@bollinsure.com / 562-COVWELL;
+   placements (carrier pays commission); quotes@bollinsure.com / 562-268-9355;
    CA DOI Lic. #6013787; licensed in all 50 states. Do NOT mention any
    surplus-lines license number.
 6. HO-5 upsell: where genuinely relevant, mention the HO-5 comprehensive form

@@ -24,10 +24,10 @@
     name: "Bollinsure Insurance Services",
     legalName: "WJB Services, Inc. dba Bollinsure Insurance Services",
     // Dialable, not the vanity spelling. schema.org telephone is machine-read;
-    // "+1-562-COVWELL" is not a number. 562-COVWELL stays as display text
+    // "+1-562-268-9355" is not a number. 562-268-9355 stays as display text
     // everywhere a human reads it.
     telephone: "+15622689355",
-    email: "reviews@bollinsure.com",
+    email: "quotes@bollinsure.com",
     license: "6013787",
     areaServed: "US",
     // The agency is in Westlake Village. This said Los Angeles — the assumption

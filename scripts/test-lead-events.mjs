@@ -88,7 +88,7 @@ function load({ brandKey = "bestho3" } = {}) {
     },
   });
   fire("click", anchor("tel:+15622689355"));
-  fire("click", anchor("mailto:reviews@bollinsure.com"));
+  fire("click", anchor("mailto:quotes@bollinsure.com"));
   fire("click", anchor("/quote"));
   const events = win.dataLayer.map((e) => e.event);
   for (const e of ["phone_click", "email_click", "quote_click"]) {
