@@ -12,7 +12,7 @@
 //
 // Deliberately not a second copy of the graph: the values live in seo.js and are
 // read out of it, so the two cannot drift. A duplicated literal here is exactly
-// how "+1-562-COVWELL" survived a fix that touched 200 other files.
+// how "+1-562-268-9355" survived a fix that touched 200 other files.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";

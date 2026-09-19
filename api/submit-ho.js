@@ -9,8 +9,8 @@ import { guardRequest, clientIp } from "./lib/request-guard.js";
    preview could not be built on their device). The broker prepares the
    ACORD 80 from these answers instead. */
 
-const FROM_ADDRESS = "Best HO3 — Bollinsure Insurance Services <reviews@bollinsure.com>";
-const NOTIFY_EMAIL = 'reviews@bollinsure.com';
+const FROM_ADDRESS = "Best HO3 — Bollinsure Insurance Services <quotes@bollinsure.com>";
+const NOTIFY_EMAIL = 'quotes@bollinsure.com';
 
 function clean(v, max = 700) {
   if (v == null) return "";

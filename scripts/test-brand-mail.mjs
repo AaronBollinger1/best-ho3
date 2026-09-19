@@ -93,9 +93,9 @@ const fixture = {
     'the same questions line in HTML, linked');
 
   for (const body of [mail.html, mail.text]) {
-    // Phone: digits only, never letters. Production printed `562-COVWELL`.
+    // Phone: digits only, never letters. Production printed `562-268-9355`.
     assert.ok(body.includes('562-268-9355'), 'phone is printed as digits');
-    assert.ok(!/562-[A-Za-z]/.test(body), 'no letter phone (562-COVWELL) anywhere');
+    assert.ok(!/562-[A-Za-z]/.test(body), 'no letter phone (562-268-9355) anywhere');
     // Footer.
     assert.ok(body.includes(`Bollinsure Insurance Services · CA DOI Lic. 6013787 · ${SITE}`), 'exact footer');
     // What happens next.
